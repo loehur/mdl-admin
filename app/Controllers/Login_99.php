@@ -3,6 +3,9 @@ class Login_99 extends Controller
 {
    public function index($hp = "NULL")
    {
+      if ($hp == "") {
+         $hp = "NULL";
+      }
       if (isset($_SESSION['pre_log'])) {
          if ($_SESSION['pre_log'] == true && isset($hp)) {
             if (isset($_SESSION['login_orins'])) {
