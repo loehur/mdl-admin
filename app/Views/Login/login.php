@@ -1,86 +1,111 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Orins Login</title>
-
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Orins | LOGIN</title>
+    <link href="<?= $this->ASSETS_URL ?>css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="<?= $this->ASSETS_URL ?>assets/img/favicon.png" />
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
-    <link rel="stylesheet" href="<?= $this->ASSETS_URL ?>plugins/bootstrap-4.6/bootstrap.min.css">
-    <link rel="stylesheet" href="<?= $this->ASSETS_URL ?>css/ionicons.min.css">
-    <link rel="stylesheet" href="<?= $this->ASSETS_URL ?>css/style.css">
+    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="<?= $this->ASSETS_URL ?>plugins/fontawesome-free-6.4.0-web/css/all.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?= $this->ASSETS_URL ?>plugins/adminLTE-3.1.0/css/adminlte.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
+    <!-- FONT -->
+
+    <?php $fontStyle = "'Titillium Web', sans-serif;" ?>
+
     <style>
+        html .table {
+            font-family: <?= $fontStyle ?>;
+        }
+
+        html .content {
+            font-family: <?= $fontStyle ?>;
+        }
+
+        html body {
+            font-family: <?= $fontStyle ?>;
+        }
+
+        @media print {
+            p div {
+                font-family: <?= $fontStyle ?>;
+                font-size: 14px;
+            }
+        }
+
+        html {
+            height: 100%;
+            background-color: #F4F4F4;
+        }
+
         body {
-            font-family: 'Titillium Web',
-                sans-serif;
+            min-height: 100%;
         }
     </style>
 
-
 </head>
+<?php
+$failed = "";
+$user = "";
+if (is_array($data)) {
+    $user = $data['user'];
+    if (isset($data['failed'])) {
+        $failed = $data['failed'];
+    }
+}
+?>
 
-<body class="login-page small" style="min-height: 496.781px;">
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="#">Orins | <b><span class="text-success">Login</span></b></a><br>
-        </div>
-        <!-- /.login-logo -->
-        <div class="card">
-            <div class="card-body login-card-body">
-                <div class="card">
-                    <div class="card-body">
-                        <div id="info"></div>
+<body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container-xl px-4">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <!-- Basic login form-->
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-body login-card-body">
+                                    <p class="login-box-msg">ORINS LOGIN</p>
+                                    <div id="info" class="text-danger pb-2 float-end"><?= $failed ?></div>
+                                    <form action="<?= $this->BASE_URL ?>Login_99/cek_login" method="post">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+                                            <input type="text" name="HP" readonly value="<?= $user ?>" class="form-control" placeholder="User Login" required autocomplete="off">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
+                                            <input type="password" name="PASS" class="form-control" placeholder="Password" required autocomplete="off">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="c_" class="form-control" placeholder="Captcha Code" required autocomplete="off">
+                                            <span class="input-group-text" id="basic-addon2"> <img class="rounded" src="<?= $this->BASE_URL ?>Login/captcha" alt="captcha" /></span>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <span id="span_loader" class="loader d-none"></span>
+                                                <button type="submit" id="btnSubmit" onclick="hide()" class="btn btn-success btn-block">Log In</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <form action="<?= $this->BASE_URL ?>Login_99/cek_login" method="post">
-                            <div class="input-group mb-3">
-                                <input type="text" name="HP" readonly value="<?= $data ?>" class="form-control" placeholder="No. Handphone / ID" required autocomplete="off">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span<i class="fas fa-mobile-alt"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-group mb-3">
-                                <input type="password" name="PASS" class="form-control" placeholder="Password" required autocomplete="off">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span><i class="fa-solid fa-lock"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-group mb-3">
-                                <input type="text" name="c_" class="form-control" placeholder="Captcha Code" required autocomplete="off">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <img src="<?= $this->BASE_URL ?>Login/captcha" alt="captcha" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-4">
-                                    <span id="span_loader" class="loader d-none"></span>
-                                    <button type="submit" id="btnSubmit" onclick="hide()" class="btn btn-success btn-block">Sign In</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <p class="mb-0">
-                    <!-- <a href="< //$this->BASE_URL ?>Register" class="text-center">Daftar Baru</a> -->
-                    <a href="<?= $this->BASE_URL ?>Register/reset_pass" class="text-center text-info float-right mt-1">Lupa Password</a>
-                </p>
-            </div>
+            </main>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="<?= $this->ASSETS_URL ?>js/scripts.js"></script>
 </body>
 
 </html>

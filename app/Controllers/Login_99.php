@@ -9,10 +9,10 @@ class Login_99 extends Controller
                if ($_SESSION['login_orins'] == TRUE) {
                   header('Location: ' . $this->BASE_URL . "Home");
                } else {
-                  $this->view('Login/login', $hp);
+                  $this->view('Login/login', ['user' => $hp]);
                }
             } else {
-               $this->view('Login/login', $hp);
+               $this->view('Login/login', ['user' => $hp]);
             }
          } else {
             $this->view('Pre_login/login');
@@ -28,7 +28,7 @@ class Login_99 extends Controller
       $c = $_POST['c_'];
       if ($c <> $_SESSION['captcha']) {
          $this->model('Log')->write($hp . " Login Failed, Invalid Captcha");
-         $this->view('Login/failed', 'Login Failed, Invalid Captcha');
+         $this->view('Login/login', ['user' => $hp, "failed" => "INVALID CAPTCHA"]);
          exit();
       }
 
@@ -47,7 +47,7 @@ class Login_99 extends Controller
       $pass = $this->model('Enc')->enc($_POST["PASS"]);
       if (strlen($hp) < 5 || strlen($pass) < 6) {
          $this->model('Log')->write($hp . " Login Failed, Validate");
-         $this->view('Login/failed', 'Authentication Error');
+         $this->view('Login/login',  ['user' => $hp, "failed" => 'Authentication Error']);
          exit();
       }
 
@@ -55,7 +55,7 @@ class Login_99 extends Controller
       $userData = $this->model('M_DB_1')->get_where_row('user', $where);
 
       if (empty($userData)) {
-         $this->view('Login/failed', 'Authentication Error');
+         $this->view('Login/login',  ['user' => $hp, "failed" => 'Authentication Error']);
          $this->model('Log')->write($hp . " Login Failed, Auth");
          exit();
       } else {

@@ -16,17 +16,8 @@ class Login extends Controller
 
     public function cek_login()
     {
-        if (!$_SESSION['submit']) {
-            $this->index();
-        } else {
-            if ($_SESSION['submit'] == false) {
-                $this->index();
-            }
-        }
-
         $_SESSION['pre_log'] = false;
 
-        $cek = "";
         $hp = $_POST['HP'];
         $c = $_POST['c_'];
         $token = $_POST['token_'];
@@ -48,7 +39,6 @@ class Login extends Controller
                 $this->view('Pre_login/login', "INVALID SECRET KEY");
                 exit();
             } else {
-                $_SESSION['submit'] = false;
                 $_SESSION['pre_log'] = true;
                 $this->model('Log')->write($hp . " PRE Login Success");
                 echo "<script>window.location.href = '" . $this->BASE_URL . "Login_99/index/" . $hp . "';</script>";
