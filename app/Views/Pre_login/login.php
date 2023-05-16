@@ -54,6 +54,7 @@
 </head>
 
 <?php
+$_SESSION['pre_log'] == false;
 $failed = "";
 if (!is_array($data)) {
     $failed = $data;
