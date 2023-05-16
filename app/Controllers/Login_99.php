@@ -1,7 +1,7 @@
 <?php
 class Login_99 extends Controller
 {
-   public function index($hp)
+   public function index($hp = "NULL")
    {
       if (isset($_SESSION['pre_log'])) {
          if ($_SESSION['pre_log'] == true && isset($hp)) {
