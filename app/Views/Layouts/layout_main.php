@@ -141,17 +141,17 @@
 								<a class="nav-link" href="#">Tidak Aktif</a>
 							</nav>
 						</div>
-						<a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows2" aria-expanded="false" aria-controls="collapseFlows">
+						<a class="nav-link <?= (str_contains($t, "Produksi")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows2" aria-expanded="false" aria-controls="collapseFlows">
 							<div class="nav-link-icon"><i data-feather="database"></i></div>
 							Pengaturan Produksi
 							<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 						</a>
-						<div class="collapse" id="collapseFlows2" data-bs-parent="#accordionSidenav">
+						<div class="collapse <?= (str_contains($t, "Produksi")) ? 'show' : '' ?>" id="collapseFlows2" data-bs-parent="#accordionSidenav">
 							<nav class="sidenav-menu-nested nav">
-								<a class="nav-link" href="#">Divisi</a>
-								<a class="nav-link" href="#">Kelompok Detail</a>
+								<a class="nav-link <?= ($t == "Produksi - Divisi") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Divisi">Divisi</a>
+								<a class="nav-link <?= ($t == "Produksi - Group Detail") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Group_Detail">Kelompok Detail</a>
 								<a class="nav-link" href="#">Jenis Item</a>
-								<a class="nav-link" href="#">Jenis Order</a>
+								<a class="nav-link" href="#">Jenis Produk</a>
 							</nav>
 						</div>
 
@@ -184,17 +184,8 @@
 		</div>
 		<div id="layoutSidenav_content">
 			<main>
-				<div id="content">
-
-				</div>
+				<div id="content"></div>
 			</main>
-			<footer class="footer-admin mt-auto footer-light">
-				<div class="container-xl px-4">
-					<div class="row">
-						<div class="col-md-6 small">Copyright &copy; LG</div>
-					</div>
-				</div>
-			</footer>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

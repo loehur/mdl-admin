@@ -1,6 +1,6 @@
 <?php
 
-class Toko_Admin extends Controller
+class Divisi extends Controller
 {
    public $page = __CLASS__;
 
@@ -10,7 +10,7 @@ class Toko_Admin extends Controller
 
       $this->data();
 
-      if ($this->userData['user_tipe'] <> 0) {
+      if ($this->userData['user_tipe'] > 1) {
          $this->model('Log')->write($this->userData['user'] . " Force Logout. Hacker!");
          $this->logout();
       }
@@ -24,7 +24,7 @@ class Toko_Admin extends Controller
    {
       $this->view("Layouts/layout_main", [
          "content" => $this->v_content,
-         "title" => "Admin Orins Toko"
+         "title" => "Produksi - Divisi"
       ]);
 
       $this->viewer();
@@ -38,8 +38,8 @@ class Toko_Admin extends Controller
    public function content()
    {
 
-      $where = "user_tipe = 1 AND id_toko = " . $this->userData['id_toko'];
-      $data = $this->model('M_DB_1')->get_where('user', $where);
+      $where = "id_toko = " . $this->userData['id_toko'];
+      $data = $this->model('M_DB_1')->get_where('divisi', $where);
       $this->view($this->v_content, $data);
    }
 
@@ -50,23 +50,22 @@ class Toko_Admin extends Controller
 
    function add()
    {
-      $no = $_POST['hp'];
-      $pass = $this->model('Enc')->enc("123");
-      $cols = 'id_toko, nama, user, password, user_tipe';
-      $vals = "'" . $this->userData['id_toko'] . "','Admin','" . $no . "','" . $pass . "',1";
+      $dvs = $_POST['dvs'];
+      $cols = 'id_toko, divisi';
+      $vals = "'" . $this->userData['id_toko'] . "','" . $dvs . "'";
 
-      $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND user_tipe = 1";
-      $dataCount = $this->model('M_DB_1')->count_where('user', $whereCount);
+      $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND divisi = '" . $dvs . "'";
+      $dataCount = $this->model('M_DB_1')->count_where('divisi', $whereCount);
       if ($dataCount <> 1) {
-         $do = $this->model('M_DB_1')->insertCols('user', $cols, $vals);
+         $do = $this->model('M_DB_1')->insertCols('divisi', $cols, $vals);
          if ($do['errno'] == 0) {
-            $this->model('Log')->write($this->userData['user'] . " Add Admin Success!");
+            $this->model('Log')->write($this->userData['user'] . " Add Divisi Success!");
             echo $do['errno'];
          } else {
             print_r($do['error']);
          }
       } else {
-         $this->model('Log')->write($this->userData['user'] . " Add Admin Failed, Double Admin Forbidden!");
+         $this->model('Log')->write($this->userData['user'] . " Add Divisi Failed, Double Forbidden!");
          echo "Double Entry!";
       }
       $this->index();

@@ -12,22 +12,28 @@
     <!-- Main page content-->
     <div class="container-xl px-4">
         <div class="card mt-n10" style="max-width: 500px;">
-            <div class="card-header ">Admin Orins Toko
-                <?php if (count($data) == 0) { ?>
-                    <button type="button" class="float-end btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
-                <?php } ?>
+            <div class="card-header ">Divisi Produksi
+                <button type="button" class="float-end btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
             </div>
             <div class="card-body">
-
-                <?php
-                foreach ($data as $a) { ?>
-                    <?= $this->userData['nama_toko'] ?><br>
-                    <?= $a['nama'] ?> ID : [ <?= $a['id_user'] ?> ]<br>
-                    No. HP : <?= $a['user'] ?>
-                    <button type="button" class="float-end btn btn-sm btn-outline-primary">Reset Password</button> <br>
-                    <small>Default Password : 123</small>
-                <?php }
-                ?>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Divisi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($data as $a) { ?>
+                            <tr>
+                                <td><?= $a['id_divisi'] ?></td>
+                                <td><?= $a['divisi'] ?></td>
+                            </tr>
+                        <?php }
+                        ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -37,14 +43,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Menambah Admin Orins Toko</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Menambah Divisi Produksi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="<?= $this->BASE_URL ?>Toko_Admin/add" method="POST">
+            <form action="<?= $this->BASE_URL ?>Divisi/add" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" required>No. Handphone</label>
-                        <input type="text" name="hp" class="form-control">
+                        <label for="exampleInputEmail1" class="form-label">Divisi</label>
+                        <input type="text" name="dvs" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">
