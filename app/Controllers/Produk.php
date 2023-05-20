@@ -1,6 +1,6 @@
 <?php
 
-class Group_Detail extends Controller
+class Produk extends Controller
 {
    public $page = __CLASS__;
 
@@ -23,7 +23,7 @@ class Group_Detail extends Controller
    {
       $this->view("Layouts/layout_main", [
          "content" => $this->v_content,
-         "title" => "Produksi - Group Detail"
+         "title" => "Produksi - Produk"
       ]);
 
       $this->viewer();
@@ -37,36 +37,34 @@ class Group_Detail extends Controller
    public function content()
    {
 
-      $where = "id_toko = " . $this->userData['id_toko'] . " ORDER BY detail_group ASC";
-      $data = $this->model('M_DB_1')->get_where('detail_group', $where);
-
-      foreach ($data as $key => $d) {
-         $where = "id_detail_group = " . $d['id_detail_group'] . " ORDER BY item_name ASC";
-         $data_item = $this->model('M_DB_1')->get_where('detail_item', $where);
-         $data[$key]['item'] = $data_item;
-      }
-
+      $where = "id_toko = " . $this->userData['id_toko'];
+      $data['produk'] = $this->model('M_DB_1')->get_where('produk', $where);
+      $data['detail'] = $this->model('M_DB_1')->get_where('detail_group', $where . " ORDER BY sort ASC");
+      $data['divisi'] = $this->model('M_DB_1')->get_where('divisi', $where . " ORDER BY sort ASC");
       $this->view($this->v_content, $data);
    }
 
    function add()
    {
-      $group = $_POST['group'];
-      $cols = 'id_toko, detail_group';
-      $vals = "'" . $this->userData['id_toko'] . "','" . $group . "'";
+      $produk = $_POST['produk'];
+      $detail = serialize($_POST['detail']);
+      $divisi = serialize($_POST['divisi']);
 
-      $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND detail_group = '" . $group . "'";
-      $dataCount = $this->model('M_DB_1')->count_where('detail_group', $whereCount);
-      if ($dataCount <> 1) {
-         $do = $this->model('M_DB_1')->insertCols('detail_group', $cols, $vals);
+      $cols = 'id_toko, produk, produk_detail, divisi';
+      $vals = "'" . $this->userData['id_toko'] . "','" . $produk . "','" . $detail . "','" . $divisi . "'";
+
+      $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND UPPER(produk) = '" . strtoupper($produk) . "' AND produk_detail = '" . $detail . "' AND divisi = '" . $divisi . "'";
+      $dataCount = $this->model('M_DB_1')->count_where('produk', $whereCount);
+      if ($dataCount == 0) {
+         $do = $this->model('M_DB_1')->insertCols('produk', $cols, $vals);
          if ($do['errno'] == 0) {
-            $this->model('Log')->write($this->userData['user'] . " Add Detail Group Success!");
+            $this->model('Log')->write($this->userData['user'] . " Add Produk Success!");
             echo $do['errno'];
          } else {
             print_r($do['error']);
          }
       } else {
-         $this->model('Log')->write($this->userData['user'] . " Add Detail Group Failed, Double Forbidden!");
+         $this->model('Log')->write($this->userData['user'] . " Add Produk Failed, Double Forbidden!");
          echo "Double Entry!";
       }
    }

@@ -9,6 +9,7 @@
 	<meta name="author" content="" />
 	<title>Orins | <?= $data['title'] ?></title>
 	<link href="<?= $this->ASSETS_URL ?>css/styles.css" rel="stylesheet" />
+	<link rel="stylesheet" href="<?= $this->ASSETS_URL ?>plugins/select2/select2.min.css" rel="stylesheet" />
 	<link rel="icon" type="image/x-icon" href="<?= $this->ASSETS_URL ?>assets/img/favicon.png" />
 	<script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
@@ -108,7 +109,7 @@
 						<!-- Sidenav Accordion (Dashboard)-->
 						<a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseDashboards" aria-expanded="true" aria-controls="collapseDashboards">
 							<div class="nav-link-icon"><i data-feather="plus-square"></i></div>
-							SPK
+							Order
 							<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 						</a>
 						<div class="collapse" id="collapseDashboards" data-bs-parent="#accordionSidenav">
@@ -150,8 +151,7 @@
 							<nav class="sidenav-menu-nested nav">
 								<a class="nav-link <?= ($t == "Produksi - Divisi") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Divisi">Divisi</a>
 								<a class="nav-link <?= ($t == "Produksi - Group Detail") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Group_Detail">Kelompok Detail</a>
-								<a class="nav-link" href="#">Jenis Item</a>
-								<a class="nav-link" href="#">Jenis Produk</a>
+								<a class="nav-link <?= ($t == "Produksi - Produk") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Produk">Produk</a>
 							</nav>
 						</div>
 

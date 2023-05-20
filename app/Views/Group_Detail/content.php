@@ -71,7 +71,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Tambah</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Tambah</button>
                 </div>
             </form>
         </div>
@@ -94,13 +94,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Bantuan Varian - <small>Pisahkan dengan Koma ( , )</small></label>
+                        <label for="exampleInputEmail1" class="form-label">Varian - <small>Pisahkan dengan Koma ( , )</small></label>
                         <input type="text" name="varian" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Tambah</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Tambah</button>
                 </div>
             </form>
         </div>
@@ -123,7 +123,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Tambah</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Tambah</button>
                 </div>
             </form>
         </div>
@@ -147,4 +147,16 @@
         $('form#addItemMulti').attr('action', newAction);
         $('span.groupDetail').html(group);
     }
+
+    $("form").on("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            type: $(this).attr("method"),
+            success: function(result) {
+                content();
+            },
+        });
+    });
 </script>

@@ -43,11 +43,6 @@ class Divisi extends Controller
       $this->view($this->v_content, $data);
    }
 
-   public function load()
-   {
-      $this->view($this->v_load);
-   }
-
    function add()
    {
       $dvs = $_POST['dvs'];
@@ -68,6 +63,5 @@ class Divisi extends Controller
          $this->model('Log')->write($this->userData['user'] . " Add Divisi Failed, Double Forbidden!");
          echo "Double Entry!";
       }
-      $this->index();
    }
 }

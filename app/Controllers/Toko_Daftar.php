@@ -40,9 +40,4 @@ class Toko_Daftar extends Controller
       $data = $this->model('M_DB_1')->get('toko');
       $this->view($this->v_content, $data);
    }
-
-   public function load()
-   {
-      $this->view($this->v_load);
-   }
 }

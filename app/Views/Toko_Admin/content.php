@@ -49,7 +49,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Tambah</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Tambah</button>
                 </div>
             </form>
         </div>
@@ -57,3 +57,17 @@
 </div>
 
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
+
+<script>
+    $("form").on("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            type: $(this).attr("method"),
+            success: function(result) {
+                content();
+            },
+        });
+    });
+</script>

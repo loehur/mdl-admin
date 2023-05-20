@@ -43,11 +43,6 @@ class Toko_Admin extends Controller
       $this->view($this->v_content, $data);
    }
 
-   public function load()
-   {
-      $this->view($this->v_load);
-   }
-
    function add()
    {
       $no = $_POST['hp'];
@@ -69,6 +64,5 @@ class Toko_Admin extends Controller
          $this->model('Log')->write($this->userData['user'] . " Add Admin Failed, Double Admin Forbidden!");
          echo "Double Entry!";
       }
-      $this->index();
    }
 }

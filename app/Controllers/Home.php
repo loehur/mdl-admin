@@ -32,9 +32,4 @@ class Home extends Controller
    {
       $this->view($this->v_content);
    }
-
-   public function load()
-   {
-      $this->view($this->v_load);
-   }
 }
