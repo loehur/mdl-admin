@@ -40,7 +40,7 @@ class Produk extends Controller
       $where = "id_toko = " . $this->userData['id_toko'];
       $data['produk'] = $this->model('M_DB_1')->get_where('produk', $where);
       $data['detail'] = $this->model('M_DB_1')->get_where('detail_group', $where . " ORDER BY sort ASC");
-      $data['divisi'] = $this->model('M_DB_1')->get_where('divisi', $where . " ORDER BY sort ASC");
+      $data['divisi'] = $this->dDvs;
       $this->view($this->v_content, $data);
    }
 

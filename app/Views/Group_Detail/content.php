@@ -38,7 +38,7 @@
                                             <small>
                                                 <?php
                                                 foreach ($data[$k]['item'] as $di) { ?>
-                                                    <span class="border px-1 text-nowrap"><?= strtoupper($di['item_name']) ?></span>
+                                                    <span class="border px-1 text-nowrap"><?= strtoupper($di['detail_item']) ?></span>
                                                 <?php }
                                                 ?>
                                             </small>

@@ -15,7 +15,6 @@ class Toko_Admin extends Controller
          $this->logout();
       }
 
-      $this->v_load = $this->page . "/load";
       $this->v_content = $this->page . "/content";
       $this->v_viewer = $this->page . "/viewer";
    }

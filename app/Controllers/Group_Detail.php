@@ -41,7 +41,7 @@ class Group_Detail extends Controller
       $data = $this->model('M_DB_1')->get_where('detail_group', $where);
 
       foreach ($data as $key => $d) {
-         $where = "id_detail_group = " . $d['id_detail_group'] . " ORDER BY item_name ASC";
+         $where = "id_detail_group = " . $d['id_detail_group'] . " ORDER BY detail_item ASC";
          $data_item = $this->model('M_DB_1')->get_where('detail_item', $where);
          $data[$key]['item'] = $data_item;
       }
@@ -75,14 +75,14 @@ class Group_Detail extends Controller
    {
       $item_post = $_POST['item'];
       $varian = $_POST['varian'];
-      $cols = 'id_toko, id_detail_group, item_name';
+      $cols = 'id_toko, id_detail_group, detail_item';
 
       if (strlen($varian) > 0) {
          $varian = explode(",", $varian);
          foreach ($varian as $v) {
             $item = $item_post . " " . $v;
             $vals = "'" . $this->userData['id_toko'] . "','" . $id_detail_group . "','" . $item . "'";
-            $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_detail_group = '" . $id_detail_group . "' AND item_name = '" . $item . "'";
+            $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_detail_group = '" . $id_detail_group . "' AND detail_item = '" . $item . "'";
             $dataCount = $this->model('M_DB_1')->count_where('detail_item', $whereCount);
             if ($dataCount == 0) {
                $do = $this->model('M_DB_1')->insertCols('detail_item', $cols, $vals);
@@ -100,7 +100,7 @@ class Group_Detail extends Controller
       } else {
          $item = $item_post;
          $vals = "'" . $this->userData['id_toko'] . "','" . $id_detail_group . "','" . $item . "'";
-         $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_detail_group = '" . $id_detail_group . "' AND item_name = '" . $item . "'";
+         $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_detail_group = '" . $id_detail_group . "' AND detail_item = '" . $item . "'";
          $dataCount = $this->model('M_DB_1')->count_where('detail_item', $whereCount);
          if ($dataCount == 0) {
             $do = $this->model('M_DB_1')->insertCols('detail_item', $cols, $vals);
@@ -120,13 +120,13 @@ class Group_Detail extends Controller
    function add_item_multi($id_detail_group)
    {
       $item_post = $_POST['item'];
-      $cols = 'id_toko, id_detail_group, item_name';
+      $cols = 'id_toko, id_detail_group, detail_item';
 
       if (strlen($item_post) > 0) {
          $item = explode(",", $item_post);
          foreach ($item as $i) {
             $vals = "'" . $this->userData['id_toko'] . "','" . $id_detail_group . "','" . $i . "'";
-            $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_detail_group = '" . $id_detail_group . "' AND item_name = '" . $i . "'";
+            $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_detail_group = '" . $id_detail_group . "' AND detail_item = '" . $i . "'";
             $dataCount = $this->model('M_DB_1')->count_where('detail_item', $whereCount);
             if ($dataCount == 0) {
                $do = $this->model('M_DB_1')->insertCols('detail_item', $cols, $vals);
@@ -144,7 +144,7 @@ class Group_Detail extends Controller
       } else {
          $item = $item_post;
          $vals = "'" . $this->userData['id_toko'] . "','" . $id_detail_group . "','" . $item . "'";
-         $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_detail_group = '" . $id_detail_group . "' AND item_name = '" . $item . "'";
+         $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_detail_group = '" . $id_detail_group . "' AND detail_item = '" . $item . "'";
          $dataCount = $this->model('M_DB_1')->count_where('detail_item', $whereCount);
          if ($dataCount == 0) {
             $do = $this->model('M_DB_1')->insertCols('detail_item', $cols, $vals);

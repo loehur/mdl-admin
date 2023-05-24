@@ -76,7 +76,8 @@ class Login_99 extends Controller
 
       $_SESSION['login_orins'] = TRUE;
       $_SESSION['user_data'] = $userData;
-      $_SESSION['data_toko'] = $this->model('M_DB_1')->get('toko');
+      $this->userData = $_SESSION['user_data'];
+      $this->dataSynchrone();
 
       $this->index($userData['user']);
    }
