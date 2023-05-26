@@ -76,8 +76,8 @@
 		<ul class="navbar-nav align-items-center ms-auto">
 			<!-- User Dropdown-->
 			<li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
-				<a class="btn btn-icon btn-transparent-dark dropdown-toggle border" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<b><?= strtoupper(substr($this->userData['nama'], 0, 2)) ?></b>
+				<a class="btn rounded btn-transparent-dark dropdown-toggle border" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<b><?= strtoupper($this->userData['nama']) ?></b>
 				</a>
 				<div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
 					<h6 class="dropdown-header d-flex align-items-center">

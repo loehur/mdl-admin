@@ -53,7 +53,7 @@ class Controller extends Public_Variables
 
     public function dataSynchrone()
     {
-        $where = "user = '" . $this->userData["user"] . "'";
+        $where = "id_user = '" . $this->userData["id_user"] . "'";
 
         unset($_SESSION['user_data']);
         $_SESSION['user_data'] = $this->model('M_DB_1')->get_where_row('user', $where);

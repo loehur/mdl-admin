@@ -9,6 +9,10 @@
         </select>
     </div>
 <?php  } ?>
+<div class="mb-3">
+    <label class="form-label" required>Jumlah</label>
+    <input type="number" min="1" value="1" name="jumlah" class="form-control" required>
+</div>
 
 <script>
     $(document).ready(function() {
