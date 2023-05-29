@@ -84,10 +84,6 @@ if (is_array($data)) {
                                             <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
                                             <input type="password" name="PASS" class="form-control" placeholder="Password" required autocomplete="off">
                                         </div>
-                                        <div class="input-group mb-3">
-                                            <input type="text" name="c_" class="form-control" placeholder="Captcha Code" required autocomplete="off">
-                                            <span class="input-group-text" id="basic-addon2"> <img class="rounded" src="<?= $this->BASE_URL ?>Login/captcha" alt="captcha" /></span>
-                                        </div>
 
                                         <div class="row">
                                             <div class="col">

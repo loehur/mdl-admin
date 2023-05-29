@@ -23,7 +23,7 @@ class Group_Detail extends Controller
    {
       $this->view("Layouts/layout_main", [
          "content" => $this->v_content,
-         "title" => "Produksi - Group Detail"
+         "title" => "Set Produksi - Group Detail"
       ]);
 
       $this->viewer();
@@ -80,7 +80,7 @@ class Group_Detail extends Controller
       if (strlen($varian) > 0) {
          $varian = explode(",", $varian);
          foreach ($varian as $v) {
-            $item = $item_post . " " . $v;
+            $item = $item_post . "-" . $v;
             $vals = "'" . $this->userData['id_toko'] . "','" . $id_detail_group . "','" . $item . "'";
             $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_detail_group = '" . $id_detail_group . "' AND detail_item = '" . $item . "'";
             $dataCount = $this->model('M_DB_1')->count_where('detail_item', $whereCount);

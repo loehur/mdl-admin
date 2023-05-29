@@ -19,7 +19,8 @@
                 <table class="table table-hover">
                     <tbody>
                         <?php
-                        foreach ($data as $k => $a) { ?>
+                        foreach ($data as $k => $a) {
+                        ?>
                             <tr>
                                 <td>
                                     <div class="row">
@@ -65,8 +66,8 @@
             <form action="<?= $this->BASE_URL ?>Group_Detail/add" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Kelompok Detail</label>
-                        <input type="text" name="group" class="form-control">
+                        <label class="form-label">Kelompok Detail</label>
+                        <input type="text" name="group" required class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -155,7 +156,11 @@
             data: $(this).serialize(),
             type: $(this).attr("method"),
             success: function(result) {
-                content();
+                if (result == 0) {
+                    content();
+                } else {
+                    alert(result);
+                }
             },
         });
     });

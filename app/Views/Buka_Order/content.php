@@ -62,8 +62,8 @@ if ($id_pelanggan_jenis == 1) {
                             <button type="submit" class="btn btn-primary">Proses</button>
                         </div>
                     </div>
+                </form>
             </div>
-            </form>
             <table class="table table-sm table-hover">
                 <thead>
                     <tr>
@@ -82,10 +82,10 @@ if ($id_pelanggan_jenis == 1) {
                         $no++;
                         $id_order_data = $do['id_order_data'];
                         $id_produk = $do['id_produk'];
-                        $detail_arr = unserialize($do['detail_produk']);
+                        $detail_arr = unserialize($do['produk_detail']);
                         $detail = "";
                         foreach ($detail_arr as $da) {
-                            $detail .= $da . ", ";
+                            $detail .= $da['detail_name'] . ", ";
                         }
 
                         foreach ($this->dProduk as $dp) {
@@ -109,7 +109,6 @@ if ($id_pelanggan_jenis == 1) {
                 </tbody>
             </table>
         </div>
-    </div>
     </div>
 </main>
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

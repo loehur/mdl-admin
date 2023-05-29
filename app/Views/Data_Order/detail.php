@@ -13,10 +13,6 @@
     <label class="form-label" required>Jumlah</label>
     <input type="number" min="1" value="1" name="jumlah" class="form-control" required>
 </div>
-<div class="mb-3">
-    <label class="form-label" required>Catatan</label>
-    <input type="text" name="note" class="form-control">
-</div>
 
 <script>
     $(document).ready(function() {

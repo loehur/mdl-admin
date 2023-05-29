@@ -28,7 +28,12 @@ class User extends Controller
       } elseif ($user_tipe == 3) {
          $this->view("Layouts/layout_main", [
             "content" => $this->v_content,
-            "title" => "User Oprasional"
+            "title" => "User CS"
+         ]);
+      } elseif ($user_tipe == 4) {
+         $this->view("Layouts/layout_main", [
+            "content" => $this->v_content,
+            "title" => "User Produksi"
          ]);
       }
       $this->viewer($user_tipe);

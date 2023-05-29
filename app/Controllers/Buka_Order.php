@@ -40,10 +40,9 @@ class Buka_Order extends Controller
       $where = "id_toko = " . $this->userData['id_toko'] . " AND id_user = " . $this->userData['id_user'] . " AND id_pelanggan = 0";
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
-      $cs = '"7"';
       $wherePelanggan =  "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan_jenis = " . $parse;
       $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
-      $whereKarywan = "id_toko = " . $this->userData['id_toko'] . " AND divisi LIKE '%" . $cs . "%'";
+      $whereKarywan = "id_toko = " . $this->userData['id_toko'];
       $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
 
       $this->view($this->v_content, $data);
@@ -53,21 +52,19 @@ class Buka_Order extends Controller
    {
       $id_produk = $_POST['id_produk'];
       $jumlah = $_POST['jumlah'];
+      $note = $_POST['note'];
 
       $data = [];
+
       foreach ($this->dProduk as $dp) {
          if ($dp['id_produk'] == $id_produk) {
             $data = unserialize($dp['produk_detail']);
-            $divisi = $dp['divisi'];
          }
       }
 
-      $data_code = [];
-      $data_ = [];
       $produk_code = "";
-
       $detail_sum_code = 0;
-      foreach ($data as $key => $d) {
+      foreach ($data as $d) {
 
          $id_detail_item = $_POST['f-' . $d];
 
@@ -85,14 +82,17 @@ class Buka_Order extends Controller
             }
          }
 
-         $data_code[$d] = $id_detail_item;
-         $data_[$groupName] = $detail_item;
+         $produk_detail_[$d] = array(
+            "group_name" => $groupName,
+            "detail_id" => $id_detail_item,
+            "detail_name" => $detail_item,
+         );
+
          $detail_sum_code += ($d + $id_detail_item);
       }
 
       $produk_code = $id_produk . "-" . $detail_sum_code;
-      $detail_produk = serialize($data_);
-      $detail_produk_code = serialize($data_code);
+      $produk_detail = serialize($produk_detail_);
 
       $whereToko = "id_toko = " . $this->userData['id_toko'];
       $data_harga = $this->model('M_DB_1')->get_where('produk_harga', $whereToko);
@@ -105,8 +105,36 @@ class Buka_Order extends Controller
          }
       }
 
-      $cols = 'id_toko, id_produk, produk_code, detail_produk_code, detail_produk, divisi, jumlah, harga, id_user';
-      $vals = $this->userData['id_toko'] . "," . $id_produk . ",'" . $produk_code . "','" . $detail_produk_code . "','" . $detail_produk . "','" . $divisi . "'," . $jumlah . "," . $harga . ",'" . $this->userData['id_user'] . "'";
+      $dvsNeed = [];
+      $spkDVS = [];
+
+      foreach ($this->dSPK as $ds) {
+         $detailNeed = [];
+         $dgr = unserialize($ds['detail_groups']);
+
+         foreach ($dgr as $key => $dgr_) {
+            foreach ($produk_detail_ as $key => $pd) {
+               if ($dgr_ == $key) {
+                  $detailNeed[$pd['detail_id']] = $pd['detail_name'];
+               }
+            }
+         }
+
+         if ($ds['id_produk'] == $id_produk) {
+            $spkDVS[$ds['id_divisi']]['spk'] = $detailNeed;
+            foreach ($this->dDvs as $dv) {
+               if ($dv['id_divisi'] == $ds['id_divisi']) {
+                  $dvsNeed[$dv['id_divisi']] = $dv['divisi'];
+               }
+            }
+         }
+      }
+
+      $spkDVS_ = serialize($spkDVS);
+      $dvsNeed_ = serialize($dvsNeed);
+
+      $cols = 'id_toko, id_produk, produk_code, produk_detail, divisi, spk_dvs, jumlah, harga, id_user, note';
+      $vals = $this->userData['id_toko'] . "," . $id_produk . ",'" . $produk_code . "','" . $produk_detail . "','" . $dvsNeed_ . "','" . $spkDVS_ . "'," . $jumlah . "," . $harga . "," . $this->userData['id_user'] . ",'" . $note . "'";
 
       $do = $this->model('M_DB_1')->insertCols('order_data', $cols, $vals);
       if ($do['errno'] == 0) {
@@ -208,7 +236,7 @@ class Buka_Order extends Controller
       $id_karyawan = $_POST['id_karyawan'];
       $ref = date("Ymdhis");
 
-      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_user = " . $this->userData['id_user'];
+      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_user = " . $this->userData['id_user'] . " AND id_pelanggan = 0";
       $set = "id_penerima = " . $id_karyawan . ", id_pelanggan = " . $id_pelanggan . ", id_pelanggan_jenis = " . $id_pelanggan_jenis . ", ref = '" . $ref . "'";
       $do = $this->model('M_DB_1')->update("order_data", $set, $where);
       if ($do['errno'] == 0) {

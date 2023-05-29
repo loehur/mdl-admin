@@ -5,7 +5,7 @@ require 'app/Config/Public_Variables.php';
 class Controller extends Public_Variables
 {
 
-    public $userData, $dToko, $dDvs, $dProduk, $dDetailGroup, $dDetailItem;
+    public $userData, $dToko, $dDvs, $dProduk, $dDetailGroup, $dDetailItem, $dSPK;
     public $v_viewer, $v_content, $v_load;
 
     public function view($file, $data = [])
@@ -47,6 +47,7 @@ class Controller extends Public_Variables
                 $this->dProduk = $_SESSION['produk'];
                 $this->dDetailGroup = $_SESSION['detail_group'];
                 $this->dDetailItem = $_SESSION['detail_item'];
+                $this->dSPK = $_SESSION['spk_divisi'];
             }
         }
     }
@@ -61,9 +62,10 @@ class Controller extends Public_Variables
         $whereToko = "id_toko = " . $this->userData['id_toko'];
         $_SESSION['data_toko'] = $this->model('M_DB_1')->get('toko');
         $_SESSION['data_divisi'] = $this->model('M_DB_1')->get_where('divisi', $whereToko . " ORDER BY sort ASC");
+        $_SESSION['spk_divisi'] = $this->model('M_DB_1')->get_where('spk_dvs', $whereToko);
         $_SESSION['produk'] = $this->model('M_DB_1')->get_where('produk', $whereToko);
-        $_SESSION['detail_group'] = $this->model('M_DB_1')->get_where('detail_group', $whereToko);
-        $_SESSION['detail_item'] = $this->model('M_DB_1')->get_where('detail_item', $whereToko);
+        $_SESSION['detail_group'] = $this->model('M_DB_1')->get_where('detail_group', $whereToko . " ORDER BY sort ASC");
+        $_SESSION['detail_item'] = $this->model('M_DB_1')->get_where('detail_item', $whereToko . " ORDER BY detail_item ASC");
     }
 
     public function logout()

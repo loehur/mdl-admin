@@ -22,11 +22,7 @@ if ($data['user_tipe'] == 2) {
     <div class="container-xl px-4">
         <div class="card mt-n10" style="max-width: 500px;">
             <div class="card-header ">User <b><?= $user_ ?></b>
-                <?php if (count($data['user']) < 2 && $data['user_tipe'] == 2) { ?>
-                    <button type="button" class="float-end btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
-                <?php } elseif (count($data['user']) == 0 && $data['user_tipe'] == 3) { ?>
-                    <button type="button" class="float-end btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
-                <?php } ?>
+                <button type="button" class="float-end btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
             </div>
             <div class="card-body">
 

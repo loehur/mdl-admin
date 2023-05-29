@@ -44,8 +44,8 @@ class Karyawan extends Controller
    {
       $dvs = serialize($_POST['dvs']);
       $nama = $_POST['nama'];
-      $cols = 'id_toko, nama, divisi';
-      $vals = "'" . $this->userData['id_toko'] . "','" . $nama . "','" . $dvs . "'";
+      $cols = 'id_toko, nama';
+      $vals = "'" . $this->userData['id_toko'] . "','" . $nama . "'";
 
       $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND nama = '" . $nama . "'";
       $dataCount = $this->model('M_DB_1')->count_where('karyawan', $whereCount);

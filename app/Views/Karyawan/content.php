@@ -18,20 +18,8 @@
             <div class="card-body">
 
                 <?php
-                foreach ($data as $a) {
-                    $dvs_arr = unserialize($a['divisi']);
-                    $dvs = "";
-                ?>
+                foreach ($data as $a) { ?>
                     [ <?= $a['id_karyawan'] ?> ] <b><?= $a['nama'] ?></b>
-                    <?php foreach ($this->dDvs as $d) {
-                        foreach ($dvs_arr as $da) {
-                            if ($d['id_divisi'] == $da) {
-                                $dvs .= $d['divisi'] . ", ";
-                            }
-                        }
-                    }
-                    echo $dvs;
-                    ?>
                     <hr>
                 <?php }
                 ?>
@@ -52,15 +40,6 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label" required>Nama</label>
                         <input type="text" name="nama" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" required>Divisi</label>
-                        <select class="form-select" name="dvs[]" multiple="multiple" multiple aria-label="multiple" required>
-                            <?php foreach ($this->dDvs as $d) { ?>
-                                <option value="<?= $d['id_divisi'] ?>"><?= $d['divisi'] ?></option>
-                            <?php  }
-                            ?>
-                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">

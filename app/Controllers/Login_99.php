@@ -28,12 +28,6 @@ class Login_99 extends Controller
    public function cek_login()
    {
       $hp = $_POST["HP"];
-      $c = $_POST['c_'];
-      if ($c <> $_SESSION['captcha']) {
-         $this->model('Log')->write($hp . " Login Failed, Invalid Captcha");
-         $this->view('Login/login', ['user' => $hp, "failed" => "INVALID CAPTCHA"]);
-         exit();
-      }
 
       if (strlen($this->db_pass) == 0) {
          $_SESSION['secure']['db_pass'] = "";

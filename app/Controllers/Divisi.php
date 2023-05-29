@@ -24,7 +24,7 @@ class Divisi extends Controller
    {
       $this->view("Layouts/layout_main", [
          "content" => $this->v_content,
-         "title" => "Produksi - Divisi"
+         "title" => "Set Produksi - Divisi"
       ]);
 
       $this->viewer();

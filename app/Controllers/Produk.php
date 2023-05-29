@@ -23,7 +23,7 @@ class Produk extends Controller
    {
       $this->view("Layouts/layout_main", [
          "content" => $this->v_content,
-         "title" => "Produksi - Produk"
+         "title" => "Set Produksi - Produk"
       ]);
 
       $this->viewer();
@@ -41,6 +41,13 @@ class Produk extends Controller
       $data['produk'] = $this->model('M_DB_1')->get_where('produk', $where);
       $data['detail'] = $this->model('M_DB_1')->get_where('detail_group', $where . " ORDER BY sort ASC");
       $data['divisi'] = $this->dDvs;
+
+      foreach ($data['produk'] as $key => $d) {
+         $where = "id_produk = " . $d['id_produk'];
+         $data_item = $this->model('M_DB_1')->get_where('spk_dvs', $where);
+         $data['produk'][$key]['spk_dvs'] = $data_item;
+      }
+
       $this->view($this->v_content, $data);
    }
 
@@ -48,12 +55,11 @@ class Produk extends Controller
    {
       $produk = $_POST['produk'];
       $detail = serialize($_POST['detail']);
-      $divisi = serialize($_POST['divisi']);
 
-      $cols = 'id_toko, produk, produk_detail, divisi';
-      $vals = "'" . $this->userData['id_toko'] . "','" . $produk . "','" . $detail . "','" . $divisi . "'";
+      $cols = 'id_toko, produk, produk_detail';
+      $vals = "'" . $this->userData['id_toko'] . "','" . $produk . "','" . $detail . "'";
 
-      $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND UPPER(produk) = '" . strtoupper($produk) . "' AND produk_detail = '" . $detail . "' AND divisi = '" . $divisi . "'";
+      $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND UPPER(produk) = '" . strtoupper($produk) . "' AND produk_detail = '" . $detail . "'";
       $dataCount = $this->model('M_DB_1')->count_where('produk', $whereCount);
       if ($dataCount == 0) {
          $do = $this->model('M_DB_1')->insertCols('produk', $cols, $vals);
@@ -69,51 +75,32 @@ class Produk extends Controller
       }
    }
 
-   function add_item($id_detail_group)
+   function add_spk($id_produk)
    {
-      $item_post = $_POST['item'];
-      $varian = $_POST['varian'];
-      $cols = 'id_toko, id_detail_group, item_name';
+      $cols = 'id_toko, id_produk, id_divisi, detail_groups';
+      $divisi = $_POST['divisi'];
+      $detail_groups = serialize($_POST['detail_group']);
 
-      if (strlen($varian) > 0) {
-         $varian = explode(",", $varian);
-         foreach ($varian as $v) {
-            $item = $item_post . " " . $v;
-            $vals = "'" . $this->userData['id_toko'] . "','" . $id_detail_group . "','" . $item . "'";
-            $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_detail_group = '" . $id_detail_group . "' AND item_name = '" . $item . "'";
-            $dataCount = $this->model('M_DB_1')->count_where('detail_item', $whereCount);
-            if ($dataCount == 0) {
-               $do = $this->model('M_DB_1')->insertCols('detail_item', $cols, $vals);
-               if ($do['errno'] == 0) {
-                  $this->model('Log')->write($this->userData['user'] . " Add Detail Item Success!");
-                  echo $do['errno'];
-               } else {
-                  print_r($do['error']);
-               }
-            } else {
-               $this->model('Log')->write($this->userData['user'] . " Add Detail Item Failed, Double Forbidden!");
-               echo "Double Entry!";
-            }
-         }
-      } else {
-         $item = $item_post;
-         $vals = "'" . $this->userData['id_toko'] . "','" . $id_detail_group . "','" . $item . "'";
-         $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_detail_group = '" . $id_detail_group . "' AND item_name = '" . $item . "'";
-         $dataCount = $this->model('M_DB_1')->count_where('detail_item', $whereCount);
+      if (count($_POST['detail_group']) > 0) {
+         $vals = "'" . $this->userData['id_toko'] . "','" . $id_produk . "','" . $divisi . "'";
+         $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_produk = '" . $id_produk . "' AND id_divisi = '" . $divisi . "'";
+         $dataCount = $this->model('M_DB_1')->count_where('spk_dvs', $whereCount);
          if ($dataCount == 0) {
-            $do = $this->model('M_DB_1')->insertCols('detail_item', $cols, $vals);
+            $do = $this->model('M_DB_1')->insertCols('spk_dvs', $cols, $vals);
             if ($do['errno'] == 0) {
-               $this->model('Log')->write($this->userData['user'] . " Add Detail Item Success!");
+               $this->model('Log')->write($this->userData['user'] . " Add spk_dvs Success!");
                echo $do['errno'];
             } else {
                print_r($do['error']);
             }
          } else {
-            $this->model('Log')->write($this->userData['user'] . " Add Detail Item Failed, Double Forbidden!");
+            $this->model('Log')->write($this->userData['user'] . " Add spk_dvs Failed, Double Forbidden!");
             echo "Double Entry!";
          }
       }
    }
+
+
 
    function add_item_multi($id_detail_group)
    {
