@@ -161,7 +161,11 @@
             data: $(this).serialize(),
             type: $(this).attr("method"),
             success: function(res) {
-                content();
+                if (res == 0) {
+                    content();
+                } else {
+                    alert(res);
+                }
             },
         });
     });

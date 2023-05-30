@@ -82,7 +82,7 @@ class Produk extends Controller
       $detail_groups = serialize($_POST['detail_group']);
 
       if (count($_POST['detail_group']) > 0) {
-         $vals = "'" . $this->userData['id_toko'] . "','" . $id_produk . "','" . $divisi . "'";
+         $vals = "'" . $this->userData['id_toko'] . "','" . $id_produk . "','" . $divisi . "','" . $detail_groups . "'";
          $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_produk = '" . $id_produk . "' AND id_divisi = '" . $divisi . "'";
          $dataCount = $this->model('M_DB_1')->count_where('spk_dvs', $whereCount);
          if ($dataCount == 0) {
