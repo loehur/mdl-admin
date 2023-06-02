@@ -135,15 +135,34 @@
                                                             <?php } ?>
                                                         </tr>
                                                     </table>
+                                                    <div class="row">
+                                                        <div class="col-auto">
+                                                            <span class="text-nowrap">
+                                                                <small>Catatan Utama</small><br><span><?= $do['note'] ?></span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <span class="text-nowrap">
+                                                                <small>Catatan Produksi</small><br>
+                                                                <span>
+                                                                    <?php
+                                                                    foreach (unserialize($do['note_spk']) as $ks => $ns) {
+                                                                        echo $this->model('Arr')->get($this->dDvs, "id_divisi", "divisi", $ks) . ": " . $ns . ",";
+                                                                    }
+                                                                    ?>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td><small>
                                                         <?php
                                                         foreach ($divisi as $key => $dvs) {
                                                             if ($divisi_arr[$key]['status'] == 1) {
                                                                 $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $divisi_arr[$key]['user_produksi']);
-                                                                echo '<i class="text-success fa-solid fa-circle-check"></i> ' . $dvs . "<br>";
-                                                                //echo '<i class="text-success fa-solid fa-circle-check"></i> ' . $dvs . " (" . $karyawan . ")<br>";
+                                                                echo '<i class="text-success fa-solid fa-circle-check"></i> ' . $dvs . " (" . $karyawan . ")<br>";
                                                             } else {
+                                                                $spkDone = false;
                                                                 echo '<i class="fa-regular fa-circle"></i> ' . $dvs . "<br>";
                                                             }
                                                         }

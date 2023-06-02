@@ -98,7 +98,40 @@ if ($id_pelanggan_jenis == 1) {
                     ?>
                         <tr>
                             <td class="text-end"><?= $no  ?></td>
-                            <td><small><span class="text-nowrap"><?= strtoupper($produk) ?></span><br><span><?= strtoupper($detail) ?></span></small></td>
+                            <td>
+                                <table class="border-bottom">
+                                    <tr>
+                                        <td colspan="10"><span class="text-nowrap text-success"><small><?= ucwords($produk) ?></small></span><br>
+                                    <tr>
+                                    <tr>
+                                        <?php
+                                        foreach ($detail_arr as $da) { ?>
+                                            <td class="pe-1" nowrap>
+                                                <?= "<small>" . $da['group_name'] . "</small> <br>" . strtoupper($da['detail_name']) ?>
+                                            </td>
+                                        <?php } ?>
+                                    </tr>
+                                </table>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <span class="text-nowrap">
+                                            <small>Catatan Utama</small><br><span class="text-danger"><?= $do['note'] ?></span>
+                                        </span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <span class="text-nowrap">
+                                            <small>Catatan Produksi</small><br>
+                                            <span>
+                                                <?php
+                                                foreach (unserialize($do['note_spk']) as $ks => $ns) {
+                                                    echo $this->model('Arr')->get($this->dDvs, "id_divisi", "divisi", $ks) . ": " . $ns . ",";
+                                                }
+                                                ?>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
                             <td class="text-end"><?= ($do['harga'] == 0) ? $btnSetHarga : number_format($do['harga'])  ?></td>
                             <td class="text-end"><?= number_format($do['jumlah']) ?></td>
                             <td class="text-end"><?= number_format($do['harga'] * $do['jumlah']) ?></td>

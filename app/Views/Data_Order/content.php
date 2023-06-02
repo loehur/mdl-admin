@@ -52,6 +52,7 @@
                                             }
 
                                             if ($no == 1) {
+                                                $spkDone = true;
                                                 foreach ($data['pelanggan'] as $dp) {
                                                     if ($dp['id_pelanggan'] == $do['id_pelanggan']) {
                                                         $pelanggan = $dp['nama'];
@@ -86,7 +87,7 @@
                                             ?>
                                             <tr>
                                                 <td>
-                                                    <table>
+                                                    <table class="border-bottom">
                                                         <tr>
                                                             <td colspan="10"><span class="text-nowrap text-success"><small><?= ucwords($produk) ?></small></span><br>
                                                         <tr>
@@ -99,15 +100,34 @@
                                                             <?php } ?>
                                                         </tr>
                                                     </table>
+                                                    <div class="row">
+                                                        <div class="col-auto">
+                                                            <span class="text-nowrap">
+                                                                <small>Catatan Utama</small><br><span><?= $do['note'] ?></span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <span class="text-nowrap">
+                                                                <small>Catatan Produksi</small><br>
+                                                                <span>
+                                                                    <?php
+                                                                    foreach (unserialize($do['note_spk']) as $ks => $ns) {
+                                                                        echo $this->model('Arr')->get($this->dDvs, "id_divisi", "divisi", $ks) . ": " . $ns . ",";
+                                                                    }
+                                                                    ?>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td><small>
                                                         <?php
                                                         foreach ($divisi as $key => $dvs) {
                                                             if ($divisi_arr[$key]['status'] == 1) {
                                                                 $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $divisi_arr[$key]['user_produksi']);
-                                                                echo '<i class="text-success fa-solid fa-circle-check"></i> ' . $dvs . "<br>";
-                                                                //echo '<i class="text-success fa-solid fa-circle-check"></i> ' . $dvs . " (" . $karyawan . ")<br>";
+                                                                echo '<i class="text-success fa-solid fa-circle-check"></i> ' . $dvs . " (" . $karyawan . ")<br>";
                                                             } else {
+                                                                $spkDone = false;
                                                                 echo '<i class="fa-regular fa-circle"></i> ' . $dvs . "<br>";
                                                             }
                                                         }
@@ -121,8 +141,11 @@
                                         ?>
                                         <tr class="border-top">
                                             <td class="text-end text" colspan="3">
-                                                <table class="w-100">
+                                                <table>
                                                     <tr>
+                                                        <?php if ($spkDone == true && $do['selesai'] == 0) { ?>
+                                                            <td class="text-end"><small><span class="border btn btn-sm py-1 px-1" data-ref="<?= $do['ref'] ?>">Selesai</span></small></td>
+                                                        <?php } ?>
                                                         <?php if ($this->userData['user_tipe'] <= 2 && $do['id_cashier'] == 0) { ?>
                                                             <td class="text-end"><small><span class="kasVerify border btn btn-sm py-1 px-1" data-ref="<?= $do['ref'] ?>">Verifikasi</span></small></td>
                                                         <?php } ?>

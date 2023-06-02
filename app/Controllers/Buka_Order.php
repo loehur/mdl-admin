@@ -54,6 +54,13 @@ class Buka_Order extends Controller
       $jumlah = $_POST['jumlah'];
       $note = $_POST['note'];
 
+      $spkNote = [];
+      foreach ($this->dSPK as $sd) {
+         if ($sd['id_produk'] == $id_produk) {
+            $spkNote[$sd['id_divisi']] = $_POST['d-' . $sd['id_divisi']];
+         }
+      }
+
       $data = [];
 
       foreach ($this->dProduk as $dp) {
@@ -131,9 +138,10 @@ class Buka_Order extends Controller
       }
 
       $spkDVS_ = serialize($spkDVS);
+      $spkNote_ = serialize($spkNote);
 
-      $cols = 'id_toko, id_produk, produk_code, produk_detail, spk_dvs, jumlah, harga, id_user, note';
-      $vals = $this->userData['id_toko'] . "," . $id_produk . ",'" . $produk_code . "','" . $produk_detail . "','" . $spkDVS_ . "'," . $jumlah . "," . $harga . "," . $this->userData['id_user'] . ",'" . $note . "'";
+      $cols = 'id_toko, id_produk, produk_code, produk_detail, spk_dvs, jumlah, harga, id_user, note, note_spk';
+      $vals = $this->userData['id_toko'] . "," . $id_produk . ",'" . $produk_code . "','" . $produk_detail . "','" . $spkDVS_ . "'," . $jumlah . "," . $harga . "," . $this->userData['id_user'] . ",'" . $note . "','" . $spkNote_ . "'";
 
       $do = $this->model('M_DB_1')->insertCols('order_data', $cols, $vals);
       if ($do['errno'] == 0) {
@@ -152,8 +160,16 @@ class Buka_Order extends Controller
             $data = unserialize($dp['produk_detail']);
          }
       }
+
+      $spkNote = [];
+      foreach ($this->dSPK as $sd) {
+         if ($sd['id_produk'] == $produk) {
+            $spkNote[$sd['id_divisi']] = "";
+         }
+      }
+
       $data_ = [];
-      foreach ($data as $key => $d) {
+      foreach ($data as $d) {
          $where = "id_detail_group = " . $d . " ORDER BY detail_item ASC";
          $data_item = $this->model('M_DB_1')->get_where('detail_item', $where);
 
@@ -166,6 +182,9 @@ class Buka_Order extends Controller
          $data_[$d]['name'] = $groupName;
          $data_[$d]['item'] = $data_item;
       }
+
+      $data_['detail'] = $data_;
+      $data_['spkNote'] = $spkNote;
 
       $this->view($this->page . "/detail", $data_);
    }

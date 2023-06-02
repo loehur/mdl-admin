@@ -48,6 +48,7 @@ class SPK extends Controller
 
       $recap = [];
       $recap_d = [];
+
       foreach ($data['order'] as $do) {
          $spk = unserialize($do['spk_dvs']);
          $spk_code = "";
@@ -62,6 +63,7 @@ class SPK extends Controller
                   }
                }
             }
+
             if (isset($recap[$spk_code])) {
                $recap[$spk_code]['order'] .= "," . $do['id_order_data'];
                $recap[$spk_code]['jumlah'] += $do['jumlah'];
