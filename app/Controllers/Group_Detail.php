@@ -49,11 +49,20 @@ class Group_Detail extends Controller
       $this->view($this->v_content, $data);
    }
 
-   function add()
+   function add($link = 0)
    {
       $group = $_POST['group'];
-      $cols = 'id_toko, detail_group';
-      $vals = "'" . $this->userData['id_toko'] . "','" . $group . "'";
+      $cols = 'id_toko, id_detail_group, detail_group';
+
+      if ($link == 0) {
+         $whereCountIndex = "id_toko = " . $this->userData['id_toko'];
+         $dataCount = $this->model('M_DB_1')->count_where('detail_group', $whereCountIndex);
+         $id_detail_group = $dataCount + 1;
+      } else {
+         $id_detail_group = $_POST['id_detail_group'];
+      }
+
+      $vals = $this->userData['id_toko'] . "," . $id_detail_group . ",'" . $group . "'";
 
       $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND detail_group = '" . $group . "'";
       $dataCount = $this->model('M_DB_1')->count_where('detail_group', $whereCount);

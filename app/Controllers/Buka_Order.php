@@ -105,7 +105,6 @@ class Buka_Order extends Controller
          }
       }
 
-      $dvsNeed = [];
       $spkDVS = [];
 
       foreach ($this->dSPK as $ds) {
@@ -121,20 +120,20 @@ class Buka_Order extends Controller
          }
 
          if ($ds['id_produk'] == $id_produk) {
-            $spkDVS[$ds['id_divisi']]['spk'] = $detailNeed;
-            foreach ($this->dDvs as $dv) {
-               if ($dv['id_divisi'] == $ds['id_divisi']) {
-                  $dvsNeed[$dv['id_divisi']] = $dv['divisi'];
-               }
-            }
+            $spkDVS[$ds['id_divisi']] = array(
+               "divisi_code" => "D-" . $ds['id_divisi'],
+               "spk" => $detailNeed,
+               "status" => 0,
+               "user_produksi" => 0,
+               "update" => ""
+            );
          }
       }
 
       $spkDVS_ = serialize($spkDVS);
-      $dvsNeed_ = serialize($dvsNeed);
 
-      $cols = 'id_toko, id_produk, produk_code, produk_detail, divisi, spk_dvs, jumlah, harga, id_user, note';
-      $vals = $this->userData['id_toko'] . "," . $id_produk . ",'" . $produk_code . "','" . $produk_detail . "','" . $dvsNeed_ . "','" . $spkDVS_ . "'," . $jumlah . "," . $harga . "," . $this->userData['id_user'] . ",'" . $note . "'";
+      $cols = 'id_toko, id_produk, produk_code, produk_detail, spk_dvs, jumlah, harga, id_user, note';
+      $vals = $this->userData['id_toko'] . "," . $id_produk . ",'" . $produk_code . "','" . $produk_detail . "','" . $spkDVS_ . "'," . $jumlah . "," . $harga . "," . $this->userData['id_user'] . ",'" . $note . "'";
 
       $do = $this->model('M_DB_1')->insertCols('order_data', $cols, $vals);
       if ($do['errno'] == 0) {

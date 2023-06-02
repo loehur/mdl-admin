@@ -181,7 +181,7 @@ if ($id_pelanggan_jenis == 1) {
     $("a.deleteItem").click(function() {
         var id = $(this).attr("data-id_order");
         $.ajax({
-            url: "<?= $this->BASE_URL ?>/Buka_Order/deleteOrder",
+            url: "<?= $this->BASE_URL ?>Buka_Order/deleteOrder",
             data: {
                 id_order: id
             },

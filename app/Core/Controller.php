@@ -5,7 +5,7 @@ require 'app/Config/Public_Variables.php';
 class Controller extends Public_Variables
 {
 
-    public $userData, $dToko, $dDvs, $dProduk, $dDetailGroup, $dDetailItem, $dSPK;
+    public $userData, $dToko, $dDvs, $dProduk, $dDetailGroup, $dDetailItem, $dSPK, $dUser;
     public $v_viewer, $v_content, $v_load;
 
     public function view($file, $data = [])
@@ -48,6 +48,7 @@ class Controller extends Public_Variables
                 $this->dDetailGroup = $_SESSION['detail_group'];
                 $this->dDetailItem = $_SESSION['detail_item'];
                 $this->dSPK = $_SESSION['spk_divisi'];
+                $this->dUser = $_SESSION['data_user'];
             }
         }
     }
@@ -66,6 +67,7 @@ class Controller extends Public_Variables
         $_SESSION['produk'] = $this->model('M_DB_1')->get_where('produk', $whereToko);
         $_SESSION['detail_group'] = $this->model('M_DB_1')->get_where('detail_group', $whereToko . " ORDER BY sort ASC");
         $_SESSION['detail_item'] = $this->model('M_DB_1')->get_where('detail_item', $whereToko . " ORDER BY detail_item ASC");
+        $_SESSION['data_user'] = $this->model('M_DB_1')->get('user', $whereToko);
     }
 
     public function logout()

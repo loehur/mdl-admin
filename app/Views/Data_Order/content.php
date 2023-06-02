@@ -16,21 +16,11 @@
     <!-- Main page content-->
     <div class="row me-2">
         <?php
-        for ($x = 1; $x <= 2; $x++) {
-            $c1 = "pe-0";
-            $c2 = "p-0";
-            if ($x == 1) {
-                $c1 = "pe-0";
-                $c2 = "p-0";
-            } else {
-                $c1 = "ps-0";
-                $c2 = "pe-0";
-            }
-        ?>
-            <div class="col <?= $c2 ?>">
+        for ($x = 1; $x <= 2; $x++) { ?>
+            <div class="col px-1 pe-0 ps-0">
                 <?php foreach ($data['order'][$x] as $data['order_']) { ?>
-                    <div class="container-fluid pt-2 <?= $c1 ?>">
-                        <div class="card">
+                    <div class="container-fluid pt-2 pe-0">
+                        <div class="card p-0">
                             <small>
                                 <table class="table table-sm table-hover mb-0">
                                     <tbody>
@@ -44,10 +34,6 @@
                                             $id_order_data = $do['id_order_data'];
                                             $id_produk = $do['id_produk'];
                                             $detail_arr = unserialize($do['produk_detail']);
-                                            $detail = "";
-                                            foreach ($detail_arr as $da) {
-                                                $detail .= $da['detail_name'] . ", ";
-                                            }
 
                                             foreach ($this->dProduk as $dp) {
                                                 if ($dp['id_produk'] == $id_produk) {
@@ -79,31 +65,70 @@
                                                 }
                                         ?>
                                                 <tr>
-                                                    <td colspan="5" class="table-info"><b><?= strtoupper($pelanggan)  ?></b><span class="float-end">CS: <?= $cs  ?> [ <?= $do['insertTime'] ?> ]</span></td>
+                                                    <td colspan="5" class="table-light">
+                                                        <table class="w-100 p-0 m-0">
+                                                            <tr>
+                                                                <td><b><?= strtoupper($pelanggan)  ?></b></td>
+                                                                <td style="width: 180px;" class="text-end"><small><?= $cs  ?> [<?= substr($do['insertTime'], 2, -3) ?>]</span></small></td>
+                                                                <?php
+                                                                if ($do['id_cashier'] > 0) {
+                                                                    $cashier = $this->model('Arr')->get($this->dUser, "id_user", "nama", $do['id_cashier']);
+                                                                ?>
+                                                                    <td style="width: 70px;" class="text-end text-success"><small><i class="fa-sharp fa-regular fa-circle-check"></i> <?= $cashier ?></small></td>
+                                                                <?php } else { ?>
+                                                                    <td style="width: 70px;" class="text-end text-danger"><small><i class="fa-regular fa-circle-exclamation"></i> Verifying</small></td>
+                                                                <?php } ?>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
                                                 </tr>
                                             <?php }
                                             ?>
                                             <tr>
-                                                <td><span class="text-nowrap"><?= ucwords($produk) ?></span><br><span><?= strtoupper($detail) ?></span></td>
                                                 <td>
-                                                    <?php
-                                                    foreach ($divisi as $key => $dvs) {
-                                                        if (isset($divisi_arr[$key]['status'])) {
-                                                            $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $divisi_arr[$key]['user_produksi']);
-                                                            echo '<i class="text-success fa-solid fa-circle-check"></i> ' . $dvs . " (" . $karyawan . ")<br>";
-                                                        } else {
-                                                            echo $dvs . "<br>";
-                                                        }
-                                                    }
-                                                    ?>
+                                                    <table>
+                                                        <tr>
+                                                            <td colspan="10"><span class="text-nowrap text-success"><small><?= ucwords($produk) ?></small></span><br>
+                                                        <tr>
+                                                        <tr>
+                                                            <?php
+                                                            foreach ($detail_arr as $da) { ?>
+                                                                <td class="pe-1" nowrap>
+                                                                    <?= "<small>" . $da['group_name'] . "</small> <br>" . strtoupper($da['detail_name']) ?>
+                                                                </td>
+                                                            <?php } ?>
+                                                        </tr>
+                                                    </table>
                                                 </td>
-                                                <td class="text-end"><?= number_format($do['jumlah']) ?>x <?= number_format($do['harga'])  ?></td>
+                                                <td><small>
+                                                        <?php
+                                                        foreach ($divisi as $key => $dvs) {
+                                                            if ($divisi_arr[$key]['status'] == 1) {
+                                                                $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $divisi_arr[$key]['user_produksi']);
+                                                                echo '<i class="text-success fa-solid fa-circle-check"></i> ' . $dvs . "<br>";
+                                                                //echo '<i class="text-success fa-solid fa-circle-check"></i> ' . $dvs . " (" . $karyawan . ")<br>";
+                                                            } else {
+                                                                echo '<i class="fa-regular fa-circle"></i> ' . $dvs . "<br>";
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </small>
+                                                </td>
+                                                <td class="text-end"><?= number_format($do['jumlah']) ?>x</td>
                                                 <td class="text-end"><?= number_format($jumlah) ?></td>
                                             </tr>
                                         <?php }
                                         ?>
                                         <tr class="border-top">
-                                            <td class="text-end text" colspan="3"><b>Total</b></td>
+                                            <td class="text-end text" colspan="3">
+                                                <table class="w-100">
+                                                    <tr>
+                                                        <?php if ($this->userData['user_tipe'] <= 2 && $do['id_cashier'] == 0) { ?>
+                                                            <td class="text-end"><small><span class="kasVerify border btn btn-sm py-1 px-1" data-ref="<?= $do['ref'] ?>">Verifikasi</span></small></td>
+                                                        <?php } ?>
+                                                    </tr>
+                                                </table>
+                                            </td>
                                             <td class="text-end"><b><?= number_format($total) ?></b></td>
                                         </tr>
                                     </tbody>
@@ -117,3 +142,25 @@
         ?>
     </div>
 </main>
+
+<script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
+
+<script>
+    $("span.kasVerify").click(function() {
+        var ref = $(this).attr("data-ref");
+        $.ajax({
+            url: "<?= $this->BASE_URL ?>Data_Order/cashier_verify",
+            data: {
+                ref: ref
+            },
+            type: "POST",
+            success: function(result) {
+                if (result == 0) {
+                    content();
+                } else {
+                    alert(result);
+                }
+            },
+        });
+    })
+</script>

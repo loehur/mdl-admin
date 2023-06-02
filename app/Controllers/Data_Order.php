@@ -40,7 +40,7 @@ class Data_Order extends Controller
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
       $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
 
-      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = 0 ORDER BY id_order_data ASC";
+      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = 0 ORDER BY ref DESC";
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
       $data_ = [];
@@ -69,5 +69,20 @@ class Data_Order extends Controller
       $data['order'] = $data_fix;
 
       $this->view($this->v_content, $data);
+   }
+
+   function cashier_verify()
+   {
+      $ref = $_POST['ref'];
+      $whereOrder = "ref = '" . $ref . "'";
+      $set = "id_cashier = " . $this->userData['id_user'];
+      $do = $this->model('M_DB_1')->update("order_data", $set, $whereOrder);
+      if ($do['errno'] == 0) {
+         $this->model('Log')->write($this->userData['user'] . " Cashier Verified success!");
+         echo $do['errno'];
+      } else {
+         $this->model('Log')->write($this->userData['user'] . " Cashier Verified " . $do['error']);
+         print_r($do['error']);
+      }
    }
 }
