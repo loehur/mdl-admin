@@ -18,7 +18,11 @@
         <?php
         for ($x = 1; $x <= 2; $x++) { ?>
             <div class="col px-1 pe-0 ps-0">
-                <?php foreach ($data['order'][$x] as $data['order_']) { ?>
+                <?php foreach ($data['order'][$x] as $ref => $data['order_']) {
+                    $bill = 0;
+                    $total = 0;
+                    $ambil = false;
+                ?>
                     <div class="container-fluid pt-2 pe-0">
                         <div class="card p-0">
                             <small>
@@ -26,11 +30,12 @@
                                     <tbody>
                                         <?php
                                         $no = 0;
-                                        $total = 0;
-                                        foreach ($data['order_'] as $key => $do) {
+                                        foreach ($data['order_'] as $do) {
                                             $no++;
+                                            $id = $do['id_order_data'];
                                             $jumlah = $do['harga'] * $do['jumlah'];
                                             $total += $jumlah;
+                                            $bill += $jumlah;
                                             $id_order_data = $do['id_order_data'];
                                             $id_produk = $do['id_produk'];
                                             $detail_arr = unserialize($do['produk_detail']);
@@ -52,7 +57,6 @@
                                             }
 
                                             if ($no == 1) {
-                                                $spkDone = true;
                                                 foreach ($data['pelanggan'] as $dp) {
                                                     if ($dp['id_pelanggan'] == $do['id_pelanggan']) {
                                                         $pelanggan = $dp['nama'];
@@ -71,14 +75,6 @@
                                                             <tr>
                                                                 <td><b><?= strtoupper($pelanggan)  ?></b></td>
                                                                 <td style="width: 180px;" class="text-end"><small><?= $cs  ?> [<?= substr($do['insertTime'], 2, -3) ?>]</span></small></td>
-                                                                <?php
-                                                                if ($do['id_cashier'] > 0) {
-                                                                    $cashier = $this->model('Arr')->get($this->dUser, "id_user", "nama", $do['id_cashier']);
-                                                                ?>
-                                                                    <td style="width: 70px;" class="text-end text-success"><small><i class="fa-sharp fa-regular fa-circle-check"></i> <?= $cashier ?></small></td>
-                                                                <?php } else { ?>
-                                                                    <td style="width: 70px;" class="text-end text-danger"><small><i class="fa-regular fa-circle-exclamation"></i> Verifying</small></td>
-                                                                <?php } ?>
                                                             </tr>
                                                         </table>
                                                     </td>
@@ -112,7 +108,7 @@
                                                                 <span>
                                                                     <?php
                                                                     foreach (unserialize($do['note_spk']) as $ks => $ns) {
-                                                                        echo $this->model('Arr')->get($this->dDvs, "id_divisi", "divisi", $ks) . ": " . $ns . ",";
+                                                                        echo $this->model('Arr')->get($this->dDvs, "id_divisi", "divisi", $ks) . ": " . $ns . ", ";
                                                                     }
                                                                     ?>
                                                                 </span>
@@ -125,34 +121,80 @@
                                                         foreach ($divisi as $key => $dvs) {
                                                             if ($divisi_arr[$key]['status'] == 1) {
                                                                 $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $divisi_arr[$key]['user_produksi']);
-                                                                echo '<i class="text-success fa-solid fa-circle-check"></i> ' . $dvs . " (" . $karyawan . ")<br>";
+                                                                echo '<i class="fa-solid fa-check text-success"></i> ' . $dvs . " (" . $karyawan . ")<br>";
                                                             } else {
-                                                                $spkDone = false;
                                                                 echo '<i class="fa-regular fa-circle"></i> ' . $dvs . "<br>";
+                                                            }
+
+                                                            if ($divisi_arr[$key]['cm'] == 1) {
+                                                                if ($divisi_arr[$key]['cm_status'] == 1) {
+                                                                    $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $divisi_arr[$key]['user_cm']);
+                                                                    echo '<i class="fa-solid text-success fa-check-double"></i> ' . $dvs . " (" . $karyawan . ")<br>";
+                                                                } else {
+                                                                    echo '<i class="fa-regular fa-circle"></i> ' . $dvs . '<br>';
+                                                                }
                                                             }
                                                         }
                                                         ?>
+                                                        <?php
+                                                        $id_ambil = $do['id_ambil'];
+                                                        if ($id_ambil == 0) {
+                                                            $ambil = true;                                                        ?>
+                                                            <span class="text-purple btnAmbil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal4" data-id="<?= $id ?>"><i class="fa-regular fa-circle"></i> Ambil</span>
+                                                        <?php } else {
+                                                            $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $id_ambil);
+                                                            echo '<span class="text-purple"><i class="fa-solid fa-check"></i> Ambil (' . $karyawan . ")</span>";
+                                                        } ?>
                                                     </small>
                                                 </td>
                                                 <td class="text-end"><?= number_format($do['jumlah']) ?>x</td>
-                                                <td class="text-end"><?= number_format($jumlah) ?></td>
+                                                <td class="text-end">Rp<?= number_format($jumlah) ?></td>
                                             </tr>
                                         <?php }
+
+                                        $dibayar = 0;
+                                        $showMutasi = "";
+                                        foreach ($data['kas'] as $dk) {
+                                            if ($dk['ref_transaksi'] == $ref) {
+                                                $dibayar += $dk['jumlah'];
+                                                $showMutasi .= "-Rp" . number_format($dk['jumlah']) . "<br>";
+                                            }
+                                        }
+
+                                        $sisa = $bill - $dibayar;
+
+                                        $lunas = false;
+                                        if ($dibayar >= $bill) {
+                                            $lunas = true;
+                                        }
+
+
+                                        if ($dibayar > 0 && $lunas == false) {
+                                            $showMutasi .= "<span class='text-danger'><b>Sisa Rp" . number_format($sisa) . "</b></span>";
+                                        }
+
                                         ?>
                                         <tr class="border-top">
                                             <td class="text-end text" colspan="3">
                                                 <table>
                                                     <tr>
-                                                        <?php if ($spkDone == true && $do['selesai'] == 0) { ?>
-                                                            <td class="text-end"><small><span class="border btn btn-sm py-1 px-1" data-ref="<?= $do['ref'] ?>">Selesai</span></small></td>
-                                                        <?php } ?>
-                                                        <?php if ($this->userData['user_tipe'] <= 2 && $do['id_cashier'] == 0) { ?>
-                                                            <td class="text-end"><small><span class="kasVerify border btn btn-sm py-1 px-1" data-ref="<?= $do['ref'] ?>">Verifikasi</span></small></td>
+                                                        <td class="text-end pe-1"><small><a href="<?= $this->BASE_URL; ?>Data_Order/print/<?= $ref ?>" target="_blank" class="btnBayar border btn btn-sm py-1 px-1"><i class="fa-solid fa-print"></i></a></small></td>
+                                                        <?php
+                                                        if ($ambil == true) { ?>
+                                                            <td class="text-end pe-1"><small><span data-bs-toggle="modal" data-bs-target="#exampleModal3" class="btnAmbilSemua border border-purple text-purple btn btn-sm py-1 px-1" data-ref="<?= $do['ref'] ?>">Ambil Semua</span></small></td>
+                                                        <?php }
+                                                        if ($this->userData['user_tipe'] <= 2 && $lunas == false) { ?>
+                                                            <td class="text-end pe-1"><small><span data-ref="<?= $ref ?>" data-bill="<?= $sisa ?>" data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btnBayar border border-danger text-danger btn btn-sm py-1 px-1">Bayar</span></small></td>
                                                         <?php } ?>
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td class="text-end"><b><?= number_format($total) ?></b></td>
+                                            <td class="text-end"><?= ($lunas == true) ? '<i class="fa-solid text-success fa-circle-check"></i>' : '' ?> <b>Rp<?= number_format($total) ?></b></td>
+                                        </tr>
+                                        <tr class="border-top">
+                                            <td class="text-end text" colspan="4">
+                                                <?= $showMutasi ?>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -166,24 +208,173 @@
     </div>
 </main>
 
+<form action="<?= $this->BASE_URL; ?>Data_Order/ambil_semua" method="POST">
+    <div class="modal" id="exampleModal3">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pengambilan Semua</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label class="form-label">Karyawan</label>
+                                <input type="hidden" name="ambil_ref">
+                                <select class="form-select tize" name="id_karyawan" required>
+                                    <option></option>
+                                    <?php foreach ($data['karyawan'] as $k) { ?>
+                                        <option value="<?= $k['id_karyawan'] ?>"><?= $k['nama'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <button type="submit" data-bs-dismiss="modal" class="btn btn-primary">Ambil Semua</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+
+<form action="<?= $this->BASE_URL; ?>Data_Order/ambil" method="POST">
+    <div class="modal" id="exampleModal4">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pengambilan</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label class="form-label">Karyawan</label>
+                                <input type="hidden" name="ambil_id">
+                                <select class="form-select tize" name="id_karyawan" required>
+                                    <option></option>
+                                    <?php foreach ($data['karyawan'] as $k) { ?>
+                                        <option value="<?= $k['id_karyawan'] ?>"><?= $k['nama'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <button type="submit" data-bs-dismiss="modal" class="btn btn-primary">Ambil</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+
+<form action="<?= $this->BASE_URL; ?>Data_Order/bayar" method="POST">
+    <div class="modal" id="exampleModal2">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pembayaran</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label class="form-label">Jumlah Bill (Rp)</label>
+                                <input type="number" name="bill" class="form-control bill" readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Metode</label>
+                                <select name="method" class="form-select metodeBayar" required>
+                                    <option value="1">Tunai</option>
+                                    <option value="2">Non Tunai</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label class="form-label">Bayar (Rp) <a class="bayarPas">Bayar Pas (Click)</a></label>
+                                <input type="number" name="jumlah" class="form-control dibayar" required>
+                                <input type="hidden" name="ref" id="refBayar" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Kembalian (Rp)</label>
+                                <input type="number" class="form-control kembalian" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <button type="submit" data-bs-dismiss="modal" class="btn btn-primary">Bayar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
+<script src="<?= $this->ASSETS_URL ?>js/selectize.min.js"></script>
 
 <script>
-    $("span.kasVerify").click(function() {
+    $(document).ready(function() {
+        $('select.tize').selectize();
+    });
+
+    var bill = 0;
+    $("span.btnBayar").click(function() {
+        bill = $(this).attr("data-bill");
+        $("input.bill").val(bill);
         var ref = $(this).attr("data-ref");
+        $("input#refBayar").val(ref);
+    })
+
+    $("span.btnAmbil").click(function() {
+        id = $(this).attr("data-id");
+        $("input[name=ambil_id]").val(id);
+    })
+
+    $("span.btnAmbilSemua").click(function() {
+        ref = $(this).attr("data-ref");
+        $("input[name=ambil_ref]").val(ref);
+    })
+
+    function kembalian() {
+        var kembalian = 0;
+        var dibayar = $("input.dibayar").val();
+        kembalian = dibayar - bill;
+        if (kembalian < 0) {
+            kembalian = 0;
+        }
+        $("input.kembalian").val(kembalian);
+    }
+
+    $("input.dibayar").on("keyup change", function() {
+        kembalian();
+    });
+
+    $("form").on("submit", function(e) {
+        e.preventDefault();
         $.ajax({
-            url: "<?= $this->BASE_URL ?>Data_Order/cashier_verify",
-            data: {
-                ref: ref
-            },
-            type: "POST",
-            success: function(result) {
-                if (result == 0) {
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            type: $(this).attr("method"),
+            success: function(res) {
+                if (res == 0) {
                     content();
                 } else {
-                    alert(result);
+                    alert(res);
                 }
-            },
+            }
         });
-    })
+    });
 </script>

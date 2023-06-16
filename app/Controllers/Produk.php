@@ -73,16 +73,19 @@ class Produk extends Controller
          $this->model('Log')->write($this->userData['user'] . " Add Produk Failed, Double Forbidden!");
          echo "Double Entry!";
       }
+
+      $this->dataSynchrone();
    }
 
    function add_spk($id_produk)
    {
-      $cols = 'id_toko, id_produk, id_divisi, detail_groups';
+      $cols = 'id_toko, id_produk, id_divisi, detail_groups, cm';
       $divisi = $_POST['divisi'];
+      $cm = (isset($_POST['cm'])) ? $_POST['cm'] : 0;
       $detail_groups = serialize($_POST['detail_group']);
 
       if (count($_POST['detail_group']) > 0) {
-         $vals = "'" . $this->userData['id_toko'] . "','" . $id_produk . "','" . $divisi . "','" . $detail_groups . "'";
+         $vals = "'" . $this->userData['id_toko'] . "','" . $id_produk . "','" . $divisi . "','" . $detail_groups . "'," . $cm;
          $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND id_produk = '" . $id_produk . "' AND id_divisi = '" . $divisi . "'";
          $dataCount = $this->model('M_DB_1')->count_where('spk_dvs', $whereCount);
          if ($dataCount == 0) {
@@ -98,6 +101,8 @@ class Produk extends Controller
             echo "Double Entry!";
          }
       }
+
+      $this->dataSynchrone();
    }
 
 

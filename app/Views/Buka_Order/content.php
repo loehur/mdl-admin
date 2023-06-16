@@ -94,7 +94,7 @@ if ($id_pelanggan_jenis == 1) {
                             }
                         }
 
-                        $btnSetHarga = '<a href="#" data-bs-toggle="modal" class="tetapkanHarga" data-produk_code="' . $do['produk_code'] . '" data-produk="' . strtoupper($produk) . ' - ' . strtoupper($detail) . '" data-bs-target="#exampleModal1">Tetapkan</a>';
+                        $btnSetHarga = '<a href="#" data-bs-toggle="modal" class="tetapkanHarga" data-produk_code="' . $do['produk_code'] . '" data-produk="' . strtoupper($detail) . '" data-bs-target="#exampleModal1">Tetapkan</a>';
                     ?>
                         <tr>
                             <td class="text-end"><?= $no  ?></td>
@@ -124,7 +124,7 @@ if ($id_pelanggan_jenis == 1) {
                                             <span>
                                                 <?php
                                                 foreach (unserialize($do['note_spk']) as $ks => $ns) {
-                                                    echo $this->model('Arr')->get($this->dDvs, "id_divisi", "divisi", $ks) . ": " . $ns . ",";
+                                                    echo $this->model('Arr')->get($this->dDvs, "id_divisi", "divisi", $ks) . ": " . $ns . ", ";
                                                 }
                                                 ?>
                                             </span>
@@ -150,7 +150,7 @@ if ($id_pelanggan_jenis == 1) {
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pilih Produk - <b><?= $pelanggan_jenis ?></b></h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="<?= $this->BASE_URL ?>Buka_Order/add/<?= $id_pelanggan_jenis ?>" method="POST">
+            <form action="<?= $this->BASE_URL ?>Buka_Order/add" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Pilih Produk</label>
@@ -238,6 +238,8 @@ if ($id_pelanggan_jenis == 1) {
             success: function(res) {
                 if (res == 0) {
                     content();
+                } else if (res == 1) {
+                    location.href = "<?= $this->BASE_URL ?>Data_Order/index/0";
                 } else {
                     alert(res);
                 }

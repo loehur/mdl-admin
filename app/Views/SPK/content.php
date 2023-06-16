@@ -1,13 +1,13 @@
 <main>
     <!-- Main page content-->
     <div class="row me-2">
-        <div class="col-md-6 p-0 pe-1">
+        <div class="col-md-4 p-0 pe-1">
             <div class="container-fluid pt-2 pe-0">
                 <div class="card">
                     <small>
                         <table class="table table-sm table-hover mb-0">
                             <tr>
-                                <td colspan="5" class="table-danger">Rekap SPK - <b>Dalam Proses</b></td>
+                                <td colspan="5" class="table-danger">Rekap SPK - <b>Tahap I</b></td>
                             </tr>
                             <?php foreach ($data['recap'] as $r) { ?>
                                 <tr>
@@ -22,7 +22,28 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 p-0 pe-1">
+        <div class="col-md-4 p-0 pe-1">
+            <div class="container-fluid pt-2 pe-0">
+                <div class="card">
+                    <small>
+                        <table class="table table-sm table-hover mb-0">
+                            <tr>
+                                <td colspan="5" class="table-warning">Rekap SPK - <b>Tahap II</b></td>
+                            </tr>
+                            <?php foreach ($data['recap_2'] as $r) { ?>
+                                <tr>
+                                    <td><?= strtoupper($r['spk']) ?></td>
+                                    <td><?= $r['jumlah'] ?> Pcs</td>
+                                    <td><span class="border rounded px-1 py-1 btn updateSPK" data-order="<?= $r['order'] ?>" data-bs-toggle="modal" data-bs-target="#updateSPK2">Update</span></td>
+                                </tr>
+                            <?php }
+                            ?>
+                        </table>
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-0 pe-1">
             <div class="container-fluid pt-2 pe-0">
                 <div class="card">
                     <small>
@@ -106,14 +127,6 @@
                                                             <tr>
                                                                 <td><b><?= strtoupper($pelanggan)  ?></b></td>
                                                                 <td style="width: 180px;" class="text-end"><small><?= $cs  ?> [<?= substr($do['insertTime'], 2, -3) ?>]</span></small></td>
-                                                                <?php
-                                                                if ($do['id_cashier'] > 0) {
-                                                                    $cashier = $this->model('Arr')->get($this->dUser, "id_user", "nama", $do['id_cashier']);
-                                                                ?>
-                                                                    <td style="width: 70px;" class="text-end text-success"><small><i class="fa-sharp fa-regular fa-circle-check"></i> <?= $cashier ?></small></td>
-                                                                <?php } else { ?>
-                                                                    <td style="width: 70px;" class="text-end text-danger"><small><i class="fa-regular fa-circle-exclamation"></i> Verifying</small></td>
-                                                                <?php } ?>
                                                             </tr>
                                                         </table>
                                                     </td>
@@ -147,7 +160,7 @@
                                                                 <span>
                                                                     <?php
                                                                     foreach (unserialize($do['note_spk']) as $ks => $ns) {
-                                                                        echo $this->model('Arr')->get($this->dDvs, "id_divisi", "divisi", $ks) . ": " . $ns . ",";
+                                                                        echo $this->model('Arr')->get($this->dDvs, "id_divisi", "divisi", $ks) . ": " . $ns . ", ";
                                                                     }
                                                                     ?>
                                                                 </span>
@@ -160,10 +173,20 @@
                                                         foreach ($divisi as $key => $dvs) {
                                                             if ($divisi_arr[$key]['status'] == 1) {
                                                                 $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $divisi_arr[$key]['user_produksi']);
-                                                                echo '<i class="text-success fa-solid fa-circle-check"></i> ' . $dvs . " (" . $karyawan . ")<br>";
+                                                                echo '<i class="fa-solid fa-check text-success"></i> ' . $dvs . " (" . $karyawan . ")<br>";
                                                             } else {
                                                                 $spkDone = false;
                                                                 echo '<i class="fa-regular fa-circle"></i> ' . $dvs . "<br>";
+                                                            }
+
+                                                            if ($divisi_arr[$key]['cm'] == 1) {
+                                                                if ($divisi_arr[$key]['cm_status'] == 1) {
+                                                                    $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $divisi_arr[$key]['user_cm']);
+                                                                    echo '<i class="fa-solid text-success fa-check-double"></i> ' . $dvs . " (" . $karyawan . ")<br>";
+                                                                } else {
+                                                                    $spkDone = false;
+                                                                    echo '<i class="fa-regular fa-circle"></i> ' . $dvs . '<br>';
+                                                                }
                                                             }
                                                         }
                                                         ?>
@@ -192,7 +215,36 @@
                 <h5 class="modal-title" id="exampleModalLabel">Update SPK</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="<?= $this->BASE_URL ?>SPK/updateSPK/<?= $data['id_divisi'] ?>" method="POST">
+            <form action="<?= $this->BASE_URL ?>SPK/updateSPK/<?= $data['id_divisi'] ?>/1" method="POST">
+                <div class="modal-body">
+                    <div class="col mb-2">
+                        <label class="form-label">User Produksi</label>
+                        <select class="form-select tize" name="id_karyawan" required>
+                            <option></option>
+                            <?php foreach ($data['karyawan'] as $k) { ?>
+                                <option value="<?= $k['id_karyawan'] ?>"><?= $k['nama'] ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col" id="cekUpdate"></div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Selesai</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="updateSPK2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update SPK</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="<?= $this->BASE_URL ?>SPK/updateSPK/<?= $data['id_divisi'] ?>/2" method="POST">
                 <div class="modal-body">
                     <div class="col mb-2">
                         <label class="form-label">User Produksi</label>

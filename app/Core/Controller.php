@@ -40,6 +40,8 @@ class Controller extends Public_Variables
                 foreach ($this->dToko as $dt) {
                     if ($dt['id_toko'] == $this->userData['id_toko']) {
                         $this->userData['nama_toko'] = $dt['nama_toko'];
+                        $this->userData['sub_nama'] = $dt['sub_nama'];
+                        $this->userData['alamat'] = $dt['alamat'];
                     }
                 }
 

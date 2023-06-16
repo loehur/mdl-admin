@@ -40,6 +40,21 @@ class Buka_Order extends Controller
       $where = "id_toko = " . $this->userData['id_toko'] . " AND id_user = " . $this->userData['id_user'] . " AND id_pelanggan = 0";
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
+
+      $whereToko = "id_toko = " . $this->userData['id_toko'];
+      $data_harga = $this->model('M_DB_1')->get_where('produk_harga', $whereToko);
+
+      foreach ($data['order'] as $key => $do) {
+         foreach ($data_harga as $dh) {
+            if ($dh['code'] == $do['produk_code']) {
+               $harga = $dh['harga_' . $parse];
+               $data['order'][$key]['harga'] = $harga;
+               break;
+            }
+         }
+      }
+
+
       $wherePelanggan =  "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan_jenis = " . $parse;
       $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
@@ -48,7 +63,7 @@ class Buka_Order extends Controller
       $this->view($this->v_content, $data);
    }
 
-   function add($id_pelanggan_jenis)
+   function add()
    {
       $id_produk = $_POST['id_produk'];
       $jumlah = $_POST['jumlah'];
@@ -101,22 +116,12 @@ class Buka_Order extends Controller
       $produk_code = $id_produk . "-" . $detail_sum_code;
       $produk_detail = serialize($produk_detail_);
 
-      $whereToko = "id_toko = " . $this->userData['id_toko'];
-      $data_harga = $this->model('M_DB_1')->get_where('produk_harga', $whereToko);
-
-      $harga = 0;
-      foreach ($data_harga as $dh) {
-         if ($dh['produk_code'] == $produk_code) {
-            $harga = $dh['harga_' . $id_pelanggan_jenis];
-            break;
-         }
-      }
-
       $spkDVS = [];
 
       foreach ($this->dSPK as $ds) {
          $detailNeed = [];
          $dgr = unserialize($ds['detail_groups']);
+         $cm = $ds['cm'];
 
          foreach ($dgr as $key => $dgr_) {
             foreach ($produk_detail_ as $key => $pd) {
@@ -132,7 +137,11 @@ class Buka_Order extends Controller
                "spk" => $detailNeed,
                "status" => 0,
                "user_produksi" => 0,
-               "update" => ""
+               "update" => "",
+               "cm" => $cm, //complete maker
+               "cm_status" => 0,
+               "user_cm" => 0,
+               "update_cm" => "",
             );
          }
       }
@@ -140,8 +149,8 @@ class Buka_Order extends Controller
       $spkDVS_ = serialize($spkDVS);
       $spkNote_ = serialize($spkNote);
 
-      $cols = 'id_toko, id_produk, produk_code, produk_detail, spk_dvs, jumlah, harga, id_user, note, note_spk';
-      $vals = $this->userData['id_toko'] . "," . $id_produk . ",'" . $produk_code . "','" . $produk_detail . "','" . $spkDVS_ . "'," . $jumlah . "," . $harga . "," . $this->userData['id_user'] . ",'" . $note . "','" . $spkNote_ . "'";
+      $cols = 'id_toko, id_produk, produk_code, produk_detail, spk_dvs, jumlah, id_user, note, note_spk';
+      $vals = $this->userData['id_toko'] . "," . $id_produk . ",'" . $produk_code . "','" . $produk_detail . "','" . $spkDVS_ . "'," . $jumlah . "," . $this->userData['id_user'] . ",'" . $note . "','" . $spkNote_ . "'";
 
       $do = $this->model('M_DB_1')->insertCols('order_data', $cols, $vals);
       if ($do['errno'] == 0) {
@@ -194,76 +203,72 @@ class Buka_Order extends Controller
       $produk_code = $_POST['produk_code'];
       $harga = $_POST['harga'];
 
-      $cols = 'id_toko, produk_code, harga_' . $id_pelanggan_jenis;
+      $cols = 'id_toko, code, harga_' . $id_pelanggan_jenis;
       $vals = "'" . $this->userData['id_toko'] . "','" . $produk_code . "'," . $harga;
 
-      $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND produk_code = '" . $produk_code . "'";
+      $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND code = '" . $produk_code . "'";
       $dataCount = $this->model('M_DB_1')->count_where('produk_harga', $whereCount);
       if ($dataCount < 1) {
          $do = $this->model('M_DB_1')->insertCols('produk_harga', $cols, $vals);
          if ($do['errno'] == 0) {
             $this->model('Log')->write($this->userData['user'] . " Add produk_harga Success!");
-
-            $whereOrder = "id_toko = " . $this->userData['id_toko'] . " AND id_user = " . $this->userData['id_user'] . " AND id_pelanggan = 0 AND produk_code = '" . $produk_code . "'";
-            $set = "harga = " . $harga;
-            $do = $this->model('M_DB_1')->update("order_data", $set, $whereOrder);
-            if ($do['errno'] == 0) {
-               $this->model('Log')->write($this->userData['user'] . " Add Update harga order data success!");
-               echo $do['errno'];
-            } else {
-               $this->model('Log')->write($this->userData['user'] . " update harga order_data" . $do['error']);
-               print_r($do['error']);
-            }
+            echo $do['errno'];
          } else {
-            print_r($do['error']);
-         }
-      } else {
-         $set = "harga_" . $id_pelanggan_jenis . " = " . $harga;
-         $do = $this->model('M_DB_1')->update("produk_harga", $set, $whereCount);
-
-         if ($do['errno'] == 0) {
-            $this->model('Log')->write($this->userData['user'] . " Add produk_harga Success!");
-
-            $whereOrder = "id_toko = " . $this->userData['id_toko'] . " AND id_user = " . $this->userData['id_user'] . " AND id_pelanggan = 0 AND produk_code = '" . $produk_code . "'";
-            $set = "harga = " . $harga;
-            $do = $this->model('M_DB_1')->update("order_data", $set, $whereOrder);
-            if ($do['errno'] == 0) {
-               $this->model('Log')->write($this->userData['user'] . " Add Update harga order data success!");
-               echo $do['errno'];
-            } else {
-               $this->model('Log')->write($this->userData['user'] . " update harga order_data" . $do['error']);
-               print_r($do['error']);
-            }
-         } else {
-            $this->model('Log')->write($this->userData['user'] . " Add produk_harga Failed, Double Forbidden!");
             print_r($do['error']);
          }
       }
+
+      $this->dataSynchrone();
    }
 
    function proses($id_pelanggan_jenis)
    {
-      $whereCount = "id_toko = " . $this->userData['id_toko'] . " AND id_user = " . $this->userData['id_user'] . " AND id_pelanggan = 0 AND harga = 0";
-      $dataCount = $this->model('M_DB_1')->count_where('order_data', $whereCount);
-      if ($dataCount > 0) {
-         echo "Lengkapi data harga terlebih dahulu!";
-         exit();
-      }
 
       $id_pelanggan = $_POST['id_pelanggan'];
       $id_karyawan = $_POST['id_karyawan'];
       $ref = date("Ymdhis");
 
       $where = "id_toko = " . $this->userData['id_toko'] . " AND id_user = " . $this->userData['id_user'] . " AND id_pelanggan = 0";
-      $set = "id_penerima = " . $id_karyawan . ", id_pelanggan = " . $id_pelanggan . ", id_pelanggan_jenis = " . $id_pelanggan_jenis . ", ref = '" . $ref . "'";
-      $do = $this->model('M_DB_1')->update("order_data", $set, $where);
-      if ($do['errno'] == 0) {
-         $this->model('Log')->write($this->userData['user'] . " Proses order_data Success!");
-         echo $do['errno'];
-      } else {
-         $this->model('Log')->write($this->userData['user'] . " " . $do['error']);
-         print_r($do['error']);
+      $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
+      $whereToko = "id_toko = " . $this->userData['id_toko'];
+      $data_harga = $this->model('M_DB_1')->get_where('produk_harga', $whereToko);
+
+      $c_cart = count($data['order']);
+
+      foreach ($data['order'] as $do) {
+         foreach ($data_harga as $dh) {
+            if ($dh['code'] == $do['produk_code']) {
+               $harga = $dh['harga_' . $id_pelanggan_jenis];
+               if ($harga <> 0) {
+                  $c_cart -= 1;
+               }
+            }
+         }
+      }
+
+      if ($c_cart <> 0) {
+         echo "Tetapkan Harga terlebih dahulu!";
          exit();
+      }
+
+      $error = 0;
+
+      foreach ($data['order'] as $do) {
+         foreach ($data_harga as $dh) {
+            if ($dh['code'] == $do['produk_code']) {
+               $harga = $dh['harga_' . $id_pelanggan_jenis];
+               if ($harga <> 0) {
+                  $where = "id_order_data = " . $do['id_order_data'];
+                  $set = "harga = " . $harga . ", id_penerima = " . $id_karyawan . ", id_pelanggan = " . $id_pelanggan . ", id_pelanggan_jenis = " . $id_pelanggan_jenis . ", ref = '" . $ref . "'";
+                  $update = $this->model('M_DB_1')->update("order_data", $set, $where);
+                  $error = $update['errno'];
+               }
+            }
+         }
+      }
+
+      if ($error == 0) {
+         echo 1;
       }
    }
 

@@ -1,17 +1,21 @@
-<?php foreach ($data['detail'] as $key => $d) { ?>
-    <div class="mb-3">
-        <label class="form-label"><?= $d['name'] ?></label>
-        <select class="form-select tize" name="f-<?= $key ?>" required>
-            <option></option>
-            <?php foreach ($d['item'] as $i) { ?>
-                <option value="<?= $i['id_detail_item'] ?>"><?= strtoupper($i['detail_item']) ?></option>
-            <?php } ?>
-        </select>
-    </div>
-<?php  } ?>
 <div class="mb-3">
-    <label class="form-label" required>Jumlah</label>
-    <input type="number" min="1" value="1" name="jumlah" class="form-control" required>
+    <div class="row">
+        <?php foreach ($data['detail'] as $key => $d) { ?>
+            <div class="col-md-6 pb-2">
+                <label class="form-label mb-0 pb-0"><?= $d['name'] ?></label>
+                <select class="form-select tize" name="f-<?= $key ?>" required>
+                    <option></option>
+                    <?php foreach ($d['item'] as $i) { ?>
+                        <option value="<?= $i['id_detail_item'] ?>"><?= strtoupper($i['detail_item']) ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        <?php  } ?>
+        <div class="col-md-6 pb-2">
+            <label class="form-label mb-0 pb-0" required>Jumlah</label>
+            <input type="number" min="1" value="1" name="jumlah" class="form-control form-control-sm" required>
+        </div>
+    </div>
 </div>
 <div class="mb-3">
     <label class="form-label" required>Catatan Utama</label>

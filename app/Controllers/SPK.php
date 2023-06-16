@@ -47,6 +47,7 @@ class SPK extends Controller
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
       $recap = [];
+      $recap_2 = [];
       $recap_d = [];
 
       foreach ($data['order'] as $do) {
@@ -73,21 +74,60 @@ class SPK extends Controller
                $recap[$spk_code]['jumlah'] = $do['jumlah'];
             }
          } else {
-            foreach ($spk as $s_key => $sp) {
-               if ($s_key == $parse) {
-                  foreach ($sp['spk'] as $key_ => $sp_) {
-                     $spk_code .= "-" . $key_;
-                     $spk_text .= $sp_ . " ";
+            if ($spk[$parse]['cm'] == 1) {
+               if ($spk[$parse]['cm_status'] == 0) {
+                  foreach ($spk as $s_key => $sp) {
+                     if ($s_key == $parse) {
+                        foreach ($sp['spk'] as $key_ => $sp_) {
+                           $spk_code .= "-" . $key_;
+                           $spk_text .= $sp_ . " ";
+                        }
+                     }
+                  }
+
+                  if (isset($recap[$spk_code])) {
+                     $recap_2[$spk_code]['order'] .= "," . $do['id_order_data'];
+                     $recap_2[$spk_code]['jumlah'] += $do['jumlah'];
+                  } else {
+                     $recap_2[$spk_code]['order'] = $do['id_order_data'];
+                     $recap_2[$spk_code]['spk'] = $spk_text;
+                     $recap_2[$spk_code]['jumlah'] = $do['jumlah'];
+                  }
+               } else {
+                  foreach ($spk as $s_key => $sp) {
+                     if ($s_key == $parse) {
+                        foreach ($sp['spk'] as $key_ => $sp_) {
+                           $spk_code .= "-" . $key_;
+                           $spk_text .= $sp_ . " ";
+                        }
+                     }
+                  }
+                  if (isset($recap_d[$spk_code])) {
+                     $recap_d[$spk_code]['order'] .= "," . $do['id_order_data'];
+                     $recap_d[$spk_code]['jumlah'] += $do['jumlah'];
+                  } else {
+                     $recap_d[$spk_code]['order'] = $do['id_order_data'];
+                     $recap_d[$spk_code]['spk'] = $spk_text;
+                     $recap_d[$spk_code]['jumlah'] = $do['jumlah'];
                   }
                }
-            }
-            if (isset($recap_d[$spk_code])) {
-               $recap_d[$spk_code]['order'] .= "," . $do['id_order_data'];
-               $recap_d[$spk_code]['jumlah'] += $do['jumlah'];
             } else {
-               $recap_d[$spk_code]['order'] = $do['id_order_data'];
-               $recap_d[$spk_code]['spk'] = $spk_text;
-               $recap_d[$spk_code]['jumlah'] = $do['jumlah'];
+               foreach ($spk as $s_key => $sp) {
+                  if ($s_key == $parse) {
+                     foreach ($sp['spk'] as $key_ => $sp_) {
+                        $spk_code .= "-" . $key_;
+                        $spk_text .= $sp_ . " ";
+                     }
+                  }
+               }
+               if (isset($recap_d[$spk_code])) {
+                  $recap_d[$spk_code]['order'] .= "," . $do['id_order_data'];
+                  $recap_d[$spk_code]['jumlah'] += $do['jumlah'];
+               } else {
+                  $recap_d[$spk_code]['order'] = $do['id_order_data'];
+                  $recap_d[$spk_code]['spk'] = $spk_text;
+                  $recap_d[$spk_code]['jumlah'] = $do['jumlah'];
+               }
             }
          }
       }
@@ -118,6 +158,7 @@ class SPK extends Controller
 
       $data['order'] = $data_fix;
       $data['recap'] = $recap;
+      $data['recap_2'] = $recap_2;
       $data['recap_d'] = $recap_d;
 
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
@@ -162,7 +203,7 @@ class SPK extends Controller
       $this->view($this->page . "/selesai", $data);
    }
 
-   function updateSPK($id_divisi)
+   function updateSPK($id_divisi, $tahap = 1)
    {
       $karyawan = $_POST['id_karyawan'];
       $cek = $_POST['cek'];
@@ -173,9 +214,15 @@ class SPK extends Controller
             $where = "id_order_data = " . $c;
             $data = unserialize($this->model('M_DB_1')->get_where_row('order_data', $where)['spk_dvs']);
 
-            $data[$id_divisi]["status"] = 1;
-            $data[$id_divisi]["user_produksi"] = $karyawan;
-            $data[$id_divisi]["update"] = $date;
+            if ($tahap == 1) {
+               $data[$id_divisi]["status"] = 1;
+               $data[$id_divisi]["user_produksi"] = $karyawan;
+               $data[$id_divisi]["update"] = $date;
+            } else {
+               $data[$id_divisi]["cm_status"] = 1;
+               $data[$id_divisi]["user_cm"] = $karyawan;
+               $data[$id_divisi]["update_cm"] = $date;
+            }
 
             $set = "spk_dvs = '" . serialize($data) . "'";
             $do = $this->model('M_DB_1')->update("order_data", $set, $where);

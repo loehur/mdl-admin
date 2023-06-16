@@ -135,6 +135,17 @@
                             </div>
                         <?php } ?>
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" name="cm" type="checkbox" value="1">
+                                <label class="form-check-label">
+                                    Complete Marker
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
