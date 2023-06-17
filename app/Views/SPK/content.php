@@ -70,7 +70,7 @@
         <?php
         for ($x = 1; $x <= 2; $x++) { ?>
             <div class="col px-1 pe-0 ps-0">
-                <?php foreach ($data['order'][$x] as $data['order_']) { ?>
+                <?php foreach ($data['order'][$x] as $ref => $data['order_']) { ?>
                     <div class="container-fluid pt-2 pe-0">
                         <div class="card p-0">
                             <small>
@@ -125,7 +125,7 @@
                                                     <td colspan="5" class="table-light">
                                                         <table class="w-100 p-0 m-0">
                                                             <tr>
-                                                                <td><b><?= strtoupper($pelanggan)  ?></b></td>
+                                                                <td><b><?= strtoupper($pelanggan) ?> <span class="text-primary"><?= substr($ref, -4) ?></span></b></td>
                                                                 <td style="width: 180px;" class="text-end"><small><?= $cs  ?> [<?= substr($do['insertTime'], 2, -3) ?>]</span></small></td>
                                                             </tr>
                                                         </table>

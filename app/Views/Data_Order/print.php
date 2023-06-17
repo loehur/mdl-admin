@@ -16,11 +16,18 @@
         }
         break;
     }
+
+    foreach ($data['karyawan'] as $dp) {
+        if ($dp['id_karyawan'] == $do['id_penerima']) {
+            $cs = substr($dp['nama'], 0, 2) . "-" . $do['id_penerima'];
+        }
+    }
     ?>
 
     <table style="width: 100%;">
         <tr>
             <td>Pelanggan<br><b><?= strtoupper($pelanggan) ?></b></td>
+            <td>CS<br><b><?= strtoupper($cs) ?></b></td>
             <td style="text-align: right;">Tanggal Order<br><b><?= $do['insertTime'] ?></b></td>
             <td style="text-align: right;">No. Referensi<br><b><?= $do['ref'] ?></b></td>
         </tr>

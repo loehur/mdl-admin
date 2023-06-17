@@ -45,7 +45,7 @@ if ($id_pelanggan_jenis == 1) {
                             <select class="form-select tize" name="id_pelanggan" required>
                                 <option></option>
                                 <?php foreach ($data['pelanggan'] as $p) { ?>
-                                    <option value="<?= $p['id_pelanggan'] ?>"><?= $p['nama'] ?></option>
+                                    <option value="<?= $p['id_pelanggan'] ?>"><?= strtoupper($p['nama']) ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -54,7 +54,7 @@ if ($id_pelanggan_jenis == 1) {
                             <select class="form-select tize" name="id_karyawan" required>
                                 <option></option>
                                 <?php foreach ($data['karyawan'] as $k) { ?>
-                                    <option value="<?= $k['id_karyawan'] ?>"><?= $k['nama'] ?></option>
+                                    <option value="<?= $k['id_karyawan'] ?>"><?= strtoupper($k['nama']) ?></option>
                                 <?php } ?>
                             </select>
                         </div>

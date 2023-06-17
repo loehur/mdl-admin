@@ -54,22 +54,22 @@ if ($id_pelanggan_jenis == 1) {
             <form action="<?= $this->BASE_URL ?>Pelanggan/add/<?= $id_pelanggan_jenis ?>" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" required>Nama</label>
+                        <label class="form-label" required>Nama</label>
                         <input type="text" name="nama" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" required>Nomor Handphone</label>
+                        <label class="form-label" required>Nomor Handphone</label>
                         <input type="text" name="hp" class="form-control" required>
                     </div>
                     <?php
                     if ($id_pelanggan_jenis == 2) { ?>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label" required>Nama Usaha</label>
-                            <input type="text" name="usaha" class="form-control" required>
+                            <label class="form-label">Nama Usaha</label>
+                            <input type="text" name="usaha" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label" required>Alamat Usaha</label>
-                            <input type="text" name="alamat" class="form-control" required>
+                            <label class="form-label">Alamat Usaha</label>
+                            <input type="text" name="alamat" class="form-control">
                         </div>
                     <?php }
                     ?>
