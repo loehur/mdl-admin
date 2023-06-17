@@ -182,7 +182,7 @@ if ($id_pelanggan_jenis == 1) {
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label" required>Harga</label>
-                        <input type="harga" min="1" name="harga" class="form-control" required>
+                        <input type="number" min="1" name="harga" class="form-control" required>
                         <input type="hidden" name="produk_code" class="form-control" required>
                     </div>
                 </div>
