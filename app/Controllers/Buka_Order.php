@@ -121,19 +121,19 @@ class Buka_Order extends Controller
       $spkDVS = [];
 
       foreach ($this->dSPK as $ds) {
-         $detailNeed = [];
-         $dgr = unserialize($ds['detail_groups']);
-         $cm = $ds['cm'];
+         if ($id_produk == $ds['id_produk']) {
+            $detailNeed = [];
+            $dgr = unserialize($ds['detail_groups']);
+            $cm = $ds['cm'];
 
-         foreach ($dgr as $key => $dgr_) {
-            foreach ($produk_detail_ as $key => $pd) {
-               if ($dgr_ == $key) {
-                  $detailNeed[$pd['detail_id']] = $pd['detail_name'];
+            foreach ($dgr as $key => $dgr_) {
+               foreach ($produk_detail_ as $key => $pd) {
+                  if ($dgr_ == $key) {
+                     $detailNeed[$pd['detail_id']] = $pd['detail_name'];
+                  }
                }
             }
-         }
 
-         if ($ds['id_produk'] == $id_produk) {
             $spkDVS[$ds['id_divisi']] = array(
                "divisi_code" => "D-" . $ds['id_divisi'],
                "spk" => $detailNeed,
