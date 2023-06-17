@@ -55,7 +55,7 @@
                                             $detailGroups = unserialize($sd['detail_groups']);
                                             echo " - ";
                                             foreach ($detailGroups as $dg) {
-                                                echo $this->model("Arr")->get($this->dDetailGroup, "id_detail_group", "detail_group", $dg) . ", ";
+                                                echo $this->model("Arr")->get($this->dDetailGroup, "id_index", "detail_group", $dg) . ", ";
                                             }
                                             echo "<br>";
                                         }
@@ -127,7 +127,7 @@
                         <?php foreach ($this->dDetailGroup as $gd) { ?>
                             <div class="col-md-6">
                                 <div class="form-check">
-                                    <input class="form-check-input" name="detail_group[]" type="checkbox" value="<?= $gd['id_detail_group'] ?>">
+                                    <input class="form-check-input" name="detail_group[]" type="checkbox" value="<?= $gd['id_index'] ?>">
                                     <label class="form-check-label">
                                         <?= $gd['detail_group'] ?>
                                     </label>

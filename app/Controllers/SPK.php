@@ -43,12 +43,11 @@ class SPK extends Controller
       $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
 
       $dvs = '"D-' . $parse . '"';
-      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = 0 AND spk_dvs LIKE '%" . $dvs . "%' ORDER BY id_order_data DESC";
+      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = 0 AND spk_dvs LIKE '%" . $dvs . "%' ORDER BY id_order_data ASC";
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
       $recap = [];
       $recap_2 = [];
-      $recap_d = [];
 
       foreach ($data['order'] as $do) {
          $spk = unserialize($do['spk_dvs']);
@@ -93,40 +92,6 @@ class SPK extends Controller
                      $recap_2[$spk_code]['spk'] = $spk_text;
                      $recap_2[$spk_code]['jumlah'] = $do['jumlah'];
                   }
-               } else {
-                  foreach ($spk as $s_key => $sp) {
-                     if ($s_key == $parse) {
-                        foreach ($sp['spk'] as $key_ => $sp_) {
-                           $spk_code .= "-" . $key_;
-                           $spk_text .= $sp_ . " ";
-                        }
-                     }
-                  }
-                  if (isset($recap_d[$spk_code])) {
-                     $recap_d[$spk_code]['order'] .= "," . $do['id_order_data'];
-                     $recap_d[$spk_code]['jumlah'] += $do['jumlah'];
-                  } else {
-                     $recap_d[$spk_code]['order'] = $do['id_order_data'];
-                     $recap_d[$spk_code]['spk'] = $spk_text;
-                     $recap_d[$spk_code]['jumlah'] = $do['jumlah'];
-                  }
-               }
-            } else {
-               foreach ($spk as $s_key => $sp) {
-                  if ($s_key == $parse) {
-                     foreach ($sp['spk'] as $key_ => $sp_) {
-                        $spk_code .= "-" . $key_;
-                        $spk_text .= $sp_ . " ";
-                     }
-                  }
-               }
-               if (isset($recap_d[$spk_code])) {
-                  $recap_d[$spk_code]['order'] .= "," . $do['id_order_data'];
-                  $recap_d[$spk_code]['jumlah'] += $do['jumlah'];
-               } else {
-                  $recap_d[$spk_code]['order'] = $do['id_order_data'];
-                  $recap_d[$spk_code]['spk'] = $spk_text;
-                  $recap_d[$spk_code]['jumlah'] = $do['jumlah'];
                }
             }
          }
@@ -159,7 +124,6 @@ class SPK extends Controller
       $data['order'] = $data_fix;
       $data['recap'] = $recap;
       $data['recap_2'] = $recap_2;
-      $data['recap_d'] = $recap_d;
 
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
       $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);

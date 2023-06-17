@@ -217,6 +217,11 @@ class Buka_Order extends Controller
          } else {
             print_r($do['error']);
          }
+      } else {
+         $where = "code = '" . $produk_code . "'";
+         $set = "harga_" . $id_pelanggan_jenis . " = " . $harga;
+         $update = $this->model('M_DB_1')->update("produk_harga", $set, $where);
+         echo ($update['errno'] <> 0) ? $update['error'] : $update['errno'];
       }
 
       $this->dataSynchrone();
