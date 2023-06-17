@@ -239,7 +239,8 @@ if ($id_pelanggan_jenis == 1) {
                 if (res == 0) {
                     content();
                 } else if (res == 1) {
-                    location.href = "<?= $this->BASE_URL ?>Data_Order/index/0";
+                    var parse = $("select[name=id_pelanggan]").val();
+                    location.href = "<?= $this->BASE_URL ?>Data_Operasi/index/" + parse;
                 } else {
                     alert(res);
                 }
