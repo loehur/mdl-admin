@@ -40,7 +40,7 @@ class Data_Order extends Controller
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
       $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
 
-      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = " . $parse . " ORDER BY ref DESC";
+      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = " . $parse . " ORDER BY id_order_data DESC";
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
       $refs = array_column($data['order'], 'ref');

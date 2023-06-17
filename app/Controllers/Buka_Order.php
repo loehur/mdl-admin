@@ -84,12 +84,14 @@ class Buka_Order extends Controller
          }
       }
 
-      $produk_code = "";
-      $detail_sum_code = 0;
+
+
+      $produk_code = $id_produk . "#";
+      $detail_code = "";
+
       foreach ($data as $d) {
 
          $id_detail_item = $_POST['f-' . $d];
-
          foreach ($this->dDetailItem as $di) {
             if ($di['id_detail_item'] == $id_detail_item) {
                $detail_item = $di['detail_item'];
@@ -99,7 +101,7 @@ class Buka_Order extends Controller
 
          $groupName = "";
          foreach ($this->dDetailGroup as $dg) {
-            if ($dg['id_detail_group'] == $d) {
+            if ($dg['id_index'] == $d) {
                $groupName = $dg['detail_group'];
             }
          }
@@ -110,10 +112,10 @@ class Buka_Order extends Controller
             "detail_name" => $detail_item,
          );
 
-         $detail_sum_code += ($d + $id_detail_item);
+         $detail_code .= "-" . $id_detail_item;
       }
 
-      $produk_code = $id_produk . "-" . $detail_sum_code;
+      $produk_code .= $detail_code;
       $produk_detail = serialize($produk_detail_);
 
       $spkDVS = [];
@@ -179,12 +181,11 @@ class Buka_Order extends Controller
 
       $data_ = [];
       foreach ($data as $d) {
-         $where = "id_detail_group = " . $d . " ORDER BY detail_item ASC";
-         $data_item = $this->model('M_DB_1')->get_where('detail_item', $where);
-
          $groupName = "";
          foreach ($this->dDetailGroup as $dg) {
-            if ($dg['id_detail_group'] == $d) {
+            if ($dg['id_index'] == $d) {
+               $where = "id_detail_group = " . $dg['id_detail_group'] . " ORDER BY detail_item ASC";
+               $data_item = $this->model('M_DB_1')->get_where('detail_item', $where);
                $groupName = $dg['detail_group'];
             }
          }

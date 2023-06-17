@@ -1,6 +1,7 @@
 <div class="mb-3">
     <div class="row">
-        <?php foreach ($data['detail'] as $key => $d) { ?>
+        <?php foreach ($data['detail'] as $key => $d) {
+        ?>
             <div class="col-md-6 pb-2">
                 <label class="form-label mb-0 pb-0"><?= $d['name'] ?></label>
                 <select class="form-select tize" name="f-<?= $key ?>" required>

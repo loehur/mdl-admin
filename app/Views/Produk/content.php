@@ -32,7 +32,7 @@
                                 $detail = "";
                                 foreach (unserialize($a['produk_detail']) as $pd) {
                                     foreach ($data['detail'] as $d) {
-                                        if ($pd == $d['id_detail_group'])
+                                        if ($pd == $d['id_index'])
                                             $detail .= $d['detail_group'] . ", ";
                                     }
                                 }
@@ -89,7 +89,7 @@
                         <label class="form-label">Detail yang diperlukan</label>
                         <select class="form-select" name="detail[]" multiple aria-label="multiple select example" required>
                             <?php foreach ($data['detail'] as $d) { ?>
-                                <option value="<?= $d['id_detail_group'] ?>"><?= $d['detail_group'] ?></option>
+                                <option value="<?= $d['id_index'] ?>"><?= $d['detail_group'] ?></option>
                             <?php  }
                             ?>
                         </select>
