@@ -6,7 +6,7 @@
                 <?php
                 foreach ($data['pelanggan'] as $p) {
                     if ($d['id_pelanggan'] == $p['id_pelanggan']) {
-                        echo $p['nama'] . " (" . $d['jumlah'] . "x)";
+                        echo strtoupper($p['nama']) . " (" . $d['jumlah'] . "x)";
                     }
                 }
                 ?>

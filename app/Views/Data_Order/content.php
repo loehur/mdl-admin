@@ -16,12 +16,20 @@
     <!-- Main page content-->
     <div class="row me-2">
         <?php
+        $arr_done = [];
+        $arr_tuntas = [];
+
         for ($x = 1; $x <= 2; $x++) { ?>
             <div class="col px-1 pe-0 ps-0">
                 <?php foreach ($data['order'][$x] as $ref => $data['order_']) {
                     $bill = 0;
                     $total = 0;
                     $ambil = false;
+                    $ambil_all = true;
+
+                    $spk_done = true;
+                    $tuntas = true;
+                    $lunas = false;
                 ?>
                     <div class="container-fluid pt-2 pe-0">
                         <div class="card p-0">
@@ -124,6 +132,7 @@
                                                                 echo '<i class="fa-solid fa-check text-success"></i> ' . $dvs . " (" . $karyawan . ")<br>";
                                                             } else {
                                                                 echo '<i class="fa-regular fa-circle"></i> ' . $dvs . "<br>";
+                                                                $spk_done = false;
                                                             }
 
                                                             if ($divisi_arr[$key]['cm'] == 1) {
@@ -132,6 +141,7 @@
                                                                     echo '<i class="fa-solid text-success fa-check-double"></i> ' . $dvs . " (" . $karyawan . ")<br>";
                                                                 } else {
                                                                     echo '<i class="fa-regular fa-circle"></i> ' . $dvs . '<br>';
+                                                                    $spk_done = false;
                                                                 }
                                                             }
                                                         }
@@ -139,7 +149,8 @@
                                                         <?php
                                                         $id_ambil = $do['id_ambil'];
                                                         if ($id_ambil == 0) {
-                                                            $ambil = true;                                                        ?>
+                                                            $ambil = true;
+                                                            $ambil_all = false;                                                      ?>
                                                             <span class="text-purple btnAmbil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal4" data-id="<?= $id ?>"><i class="fa-regular fa-circle"></i> Ambil</span>
                                                         <?php } else {
                                                             $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $id_ambil);
@@ -163,7 +174,6 @@
 
                                         $sisa = $bill - $dibayar;
 
-                                        $lunas = false;
                                         if ($dibayar >= $bill) {
                                             $lunas = true;
                                         }
@@ -201,7 +211,16 @@
                             </small>
                         </div>
                     </div>
-                <?php } ?>
+                <?php
+                    if ($data['parse'] == 0) {
+                        if ($lunas == true && $ambil_all == true) {
+                            array_push($arr_tuntas, $ref);
+                        }
+                        if ($spk_done == true) {
+                            array_push($arr_done, $ref);
+                        }
+                    }
+                } ?>
             </div>
         <?php }
         ?>
@@ -328,7 +347,45 @@
 <script>
     $(document).ready(function() {
         $('select.tize').selectize();
+        clearTuntas();
+        clearDone();
     });
+
+    function clearTuntas() {
+        var dataNya = '<?= serialize($arr_tuntas) ?>';
+        var countArr = <?= count($arr_tuntas) ?>;
+
+        if (countArr > 0) {
+            $.ajax({
+                url: '<?= $this->BASE_URL ?>Data_Order/clearTuntas',
+                data: {
+                    'data': dataNya,
+                },
+                type: 'POST',
+                success: function(response) {
+                    content();
+                },
+            });
+        }
+    }
+
+    function clearDone() {
+        var dataNya = '<?= serialize($arr_done) ?>';
+        var countArr = <?= count($arr_done) ?>;
+
+        if (countArr > 0) {
+            $.ajax({
+                url: '<?= $this->BASE_URL ?>Data_Order/clearDone',
+                data: {
+                    'data': dataNya,
+                },
+                type: 'POST',
+                success: function(response) {
+                    content();
+                },
+            });
+        }
+    }
 
     var bill = 0;
     $("span.btnBayar").click(function() {

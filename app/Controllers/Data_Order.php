@@ -35,6 +35,7 @@ class Data_Order extends Controller
 
    public function content($parse = "")
    {
+      $data['parse'] = $parse;
       $wherePelanggan =  "id_toko = " . $this->userData['id_toko'];
       $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
@@ -117,6 +118,30 @@ class Data_Order extends Controller
       $set = "id_ambil = " . $karyawan . ", tgl_ambil = '" . $dateNow . "'";
       $update = $this->model('M_DB_1')->update("order_data", $set, $where);
       echo ($update['errno'] <> 0) ? $update['error'] : $update['errno'];
+   }
+
+   public function clearTuntas()
+   {
+      if (isset($_POST['data'])) {
+         $data = unserialize($_POST['data']);
+         foreach ($data as $a) {
+            $set = "tuntas = 1";
+            $where = "ref = '" . $a . "'";
+            $this->model('M_DB_1')->update("order_data", $set, $where);
+         }
+      }
+   }
+
+   public function clearDone()
+   {
+      if (isset($_POST['data'])) {
+         $data = unserialize($_POST['data']);
+         foreach ($data as $a) {
+            $set = "spk_done = 1";
+            $where = "ref = '" . $a . "'";
+            $this->model('M_DB_1')->update("order_data", $set, $where);
+         }
+      }
    }
 
    function ambil_semua()

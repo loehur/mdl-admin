@@ -43,7 +43,7 @@ class SPK extends Controller
       $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
 
       $dvs = '"D-' . $parse . '"';
-      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = 0 AND spk_dvs LIKE '%" . $dvs . "%' ORDER BY id_order_data ASC";
+      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND spk_done = 0 AND tuntas = 0 AND spk_dvs LIKE '%" . $dvs . "%' ORDER BY id_order_data DESC";
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
       $recap = [];
@@ -84,7 +84,7 @@ class SPK extends Controller
                      }
                   }
 
-                  if (isset($recap[$spk_code])) {
+                  if (isset($recap_2[$spk_code])) {
                      $recap_2[$spk_code]['order'] .= "," . $do['id_order_data'];
                      $recap_2[$spk_code]['jumlah'] += $do['jumlah'];
                   } else {
@@ -125,9 +125,6 @@ class SPK extends Controller
       $data['recap'] = $recap;
       $data['recap_2'] = $recap_2;
 
-      $whereKarywan = "id_toko = " . $this->userData['id_toko'];
-      $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
-
       $this->view($this->v_content, $data);
    }
 
@@ -149,22 +146,49 @@ class SPK extends Controller
       $this->view($this->page . "/update", $data);
    }
 
-   function load_selesai($order)
+   function cekSPK($order, $parse)
    {
-      $data = explode(",", $order);
+      $data_get = explode(",", $order);
 
-      $data_ = [];
-
-      foreach ($data as $d) {
+      $data['order'] = [];
+      foreach ($data_get as $d) {
          $where = "id_order_data = " . $d;
-         $data_[$d] = $this->model('M_DB_1')->get_where_row('order_data', $where);
+         $data_ = $this->model('M_DB_1')->get_where_row('order_data', $where);
+         array_push($data['order'], $data_);
       }
 
-      $whereToko = "id_toko = " . $this->userData['id_toko'];
-      $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $whereToko);
+      $data_ = [];
+      foreach ($data['order'] as $key => $do) {
+         $data_[$do['ref']][$key] = $do;
+      }
 
-      $data['order'] = $data_;
-      $this->view($this->page . "/selesai", $data);
+      $col = [];
+      $actif_col = 1;
+      $col[1] = 0;
+      $col[2] = 0;
+
+      $data_fix[1] = [];
+      $data_fix[2] = [];
+
+      foreach ($data_ as $key => $d) {
+         if ($col[1] <= $col[2]) {
+            $actif_col = 1;
+         } else {
+            $actif_col = 2;
+         }
+         $col[$actif_col] += count($data_[$key]);
+
+         $data_fix[$actif_col][$key] = $d;
+      }
+
+      $data['order'] = $data_fix;
+      $wherePelanggan =  "id_toko = " . $this->userData['id_toko'];
+      $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
+      $whereKarywan = "id_toko = " . $this->userData['id_toko'];
+      $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
+
+      $data['parse'] = $parse;
+      $this->view($this->page . "/cek", $data);
    }
 
    function updateSPK($id_divisi, $tahap = 1)
