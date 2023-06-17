@@ -139,7 +139,8 @@
 							<div class="collapse <?= (str_contains($t, "Data Order")) ? 'show' : '' ?>" id="dataOrder" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 									<a class="nav-link <?= ($t == "Data Order - Proses") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Data_Order/index/0">Proses</a>
-									<a class="nav-link <?= ($t == "Data Order - Tuntas") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Data_Order/index/1">Tuntas</a>
+									<a class="nav-link <?= ($t == "Data Order Operasi") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Data_Operasi/index/0">Customer</a>
+									<a class="nav-link <?= ($t == "Data Order - Tuntas") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Data_Order/index/1">Tuntas (Soon)</a>
 								</nav>
 							</div>
 							<a class="nav-link <?= (str_contains($t, "Pelanggan")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows" aria-expanded="false" aria-controls="collapseFlows">

@@ -43,7 +43,7 @@ class SPK extends Controller
       $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
 
       $dvs = '"D-' . $parse . '"';
-      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND spk_done = 0 AND tuntas = 0 AND spk_dvs LIKE '%" . $dvs . "%' ORDER BY id_order_data DESC";
+      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = 0 AND spk_dvs LIKE '%" . $dvs . "%' ORDER BY id_order_data DESC";
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
       $recap = [];

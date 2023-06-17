@@ -35,13 +35,41 @@ class Data_Order extends Controller
 
    public function content($parse = "")
    {
-      $data['parse'] = $parse;
       $wherePelanggan =  "id_toko = " . $this->userData['id_toko'];
       $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
       $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
 
       $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = " . $parse . " ORDER BY id_order_data DESC";
+      $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
+
+      $refs = array_column($data['order'], 'ref');
+      if (count($refs) > 0) {
+         $min_ref = min($refs);
+         $max_ref = max($refs);
+         $where = "id_toko = " . $this->userData['id_toko'] . " AND jenis_transaksi = 1 AND (ref_transaksi BETWEEN " . $min_ref . " AND " . $max_ref . ")";
+         $data['kas'] = $this->model('M_DB_1')->get_where('kas', $where);
+      }
+
+      $data_ = [];
+      foreach ($data['order'] as $key => $do) {
+         $data_[$do['ref']][$key] = $do;
+      }
+
+      $data['order'] = $data_;
+
+      $this->view($this->v_content, $data);
+   }
+
+   public function client($parse = "")
+   {
+      $data['parse'] = $parse;
+      $wherePelanggan =  "id_toko = " . $this->userData['id_toko'];
+      $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
+      $whereKarywan = "id_toko = " . $this->userData['id_toko'];
+      $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
+
+      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan = " . $parse . " AND tuntas = 0 ORDER BY id_order_data DESC";
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
       $refs = array_column($data['order'], 'ref');
@@ -118,30 +146,6 @@ class Data_Order extends Controller
       $set = "id_ambil = " . $karyawan . ", tgl_ambil = '" . $dateNow . "'";
       $update = $this->model('M_DB_1')->update("order_data", $set, $where);
       echo ($update['errno'] <> 0) ? $update['error'] : $update['errno'];
-   }
-
-   public function clearTuntas()
-   {
-      if (isset($_POST['data'])) {
-         $data = unserialize($_POST['data']);
-         foreach ($data as $a) {
-            $set = "tuntas = 1";
-            $where = "ref = '" . $a . "'";
-            $this->model('M_DB_1')->update("order_data", $set, $where);
-         }
-      }
-   }
-
-   public function clearDone()
-   {
-      if (isset($_POST['data'])) {
-         $data = unserialize($_POST['data']);
-         foreach ($data as $a) {
-            $set = "spk_done = 1";
-            $where = "ref = '" . $a . "'";
-            $this->model('M_DB_1')->update("order_data", $set, $where);
-         }
-      }
    }
 
    function ambil_semua()
