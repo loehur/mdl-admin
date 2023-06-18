@@ -1,4 +1,4 @@
-<div class="mb-3">
+<div class="mb-2">
     <div class="row">
         <?php foreach ($data['detail'] as $key => $d) {
         ?>
@@ -18,14 +18,14 @@
         </div>
     </div>
 </div>
-<div class="mb-3">
-    <label class="form-label" required>Catatan Utama</label>
-    <input type="text" name="note" class="form-control">
+<div class="mb-2">
+    <label class="form-label mb-0 pb-0" required>Catatan Utama</label>
+    <input type="text" name="note" class="form-control form-control-sm">
 </div>
 <?php foreach ($data['spkNote'] as $key => $d) { ?>
-    <div class="mb-3">
-        <label class="form-label" required>Catatan <b><?= $this->model('Arr')->get($this->dDvs, "id_divisi", "divisi", $key) ?></b></label>
-        <input type="text" name="d-<?= $key ?>" class="form-control">
+    <div class="mb-2">
+        <label class="form-label mb-0 pb-0" required>Catatan <b><?= $this->model('Arr')->get($this->dDvs, "id_divisi", "divisi", $key) ?></b></label>
+        <input type="text" name="d-<?= $key ?>" class="form-control form-control-sm">
     </div>
 <?php  } ?>
 

@@ -152,8 +152,7 @@ if ($id_pelanggan_jenis == 1) {
             </div>
             <form action="<?= $this->BASE_URL ?>Buka_Order/add" method="POST">
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Pilih Produk</label>
+                    <div class="mb-3 border border-success rounded">
                         <select class="form-select tize" name="id_produk" required>
                             <option></option>
                             <?php foreach ($this->dProduk as $dp) { ?>
