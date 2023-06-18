@@ -43,9 +43,9 @@
                             }
                         }
                 ?>
-                        <div class="results col-md-6 p-1 rounded <?= ($dateTime == $today) ? 'border border-success' : '' ?>">
+                        <div class="results col-md-6 p-1 rounded">
                             <p class="d-none"><?= strtoupper($pelanggan . substr($ref, -4) . $cs) ?></p>
-                            <table class="w-100 bg-white">
+                            <table class="w-100 bg-white <?= ($dateTime == $today) ? 'border border-success' : '' ?>">
                                 <tr>
                                     <td class="p-1"><span class="text-danger"><?= substr($ref, -4) ?></span> <a href="<?= $this->BASE_URL ?>Data_Operasi/index/<?= $do['id_pelanggan'] ?>"><b><?= strtoupper($pelanggan) ?></a></b></td>
                                     <td class="p-1 text-end"><small><?= $cs  ?> [<?= substr($do['insertTime'], 2, -3) ?>]</small></td>
