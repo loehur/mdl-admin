@@ -66,7 +66,7 @@ class Controller extends Public_Variables
         $_SESSION['data_toko'] = $this->model('M_DB_1')->get('toko');
         $_SESSION['data_divisi'] = $this->model('M_DB_1')->get_where('divisi', $whereToko . " ORDER BY sort ASC");
         $_SESSION['spk_divisi'] = $this->model('M_DB_1')->get_where('spk_dvs', $whereToko);
-        $_SESSION['produk'] = $this->model('M_DB_1')->get_where('produk', $whereToko);
+        $_SESSION['produk'] = $this->model('M_DB_1')->get_where('produk', $whereToko . " ORDER BY produk ASC");
         $_SESSION['detail_group'] = $this->model('M_DB_1')->get_where('detail_group', $whereToko . " ORDER BY sort ASC");
         $_SESSION['detail_item'] = $this->model('M_DB_1')->get_where('detail_item', $whereToko . " ORDER BY detail_item ASC");
         $_SESSION['data_user'] = $this->model('M_DB_1')->get('user', $whereToko);

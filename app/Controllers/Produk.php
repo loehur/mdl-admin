@@ -38,7 +38,7 @@ class Produk extends Controller
    {
 
       $where = "id_toko = " . $this->userData['id_toko'];
-      $data['produk'] = $this->model('M_DB_1')->get_where('produk', $where);
+      $data['produk'] = $this->model('M_DB_1')->get_where('produk', $where . " ORDER BY produk ASC");
       $data['detail'] = $this->model('M_DB_1')->get_where('detail_group', $where . " ORDER BY sort ASC");
       $data['divisi'] = $this->dDvs;
 
@@ -77,12 +77,27 @@ class Produk extends Controller
       $this->dataSynchrone();
    }
 
+   function edit($id_produk)
+   {
+      $produk = $_POST['produk'];
+      $detail = serialize($_POST['detail']);
+
+      $set = "produk = '" . $produk . "', produk_detail = '" . $detail . "'";
+      $where = "id_produk = " . $id_produk;
+      $update = $this->model('M_DB_1')->update("produk", $set, $where);
+      $this->dataSynchrone();
+
+      echo $update['errno'];
+   }
+
    function add_spk($id_produk)
    {
       $cols = 'id_toko, id_produk, id_divisi, detail_groups, cm';
       $divisi = $_POST['divisi'];
       $cm = (isset($_POST['cm'])) ? $_POST['cm'] : 0;
       $detail_groups = serialize($_POST['detail_group']);
+
+      $result = 0;
 
       if (count($_POST['detail_group']) > 0) {
          $vals = "'" . $this->userData['id_toko'] . "','" . $id_produk . "','" . $divisi . "','" . $detail_groups . "'," . $cm;
@@ -92,17 +107,19 @@ class Produk extends Controller
             $do = $this->model('M_DB_1')->insertCols('spk_dvs', $cols, $vals);
             if ($do['errno'] == 0) {
                $this->model('Log')->write($this->userData['user'] . " Add spk_dvs Success!");
-               echo $do['errno'];
+               $result = $do['errno'];
             } else {
-               print_r($do['error']);
+               $result = $do['error'];
             }
          } else {
-            $this->model('Log')->write($this->userData['user'] . " Add spk_dvs Failed, Double Forbidden!");
-            echo "Double Entry!";
+            $set = "detail_groups = '" . $detail_groups . "', cm = " . $cm;
+            $where = "id_toko = '" . $this->userData['id_toko'] . "' AND id_produk = '" . $id_produk . "' AND id_divisi = '" . $divisi . "'";
+            $update = $this->model('M_DB_1')->update("spk_dvs", $set, $where);
+            $result = $update['errno'];
          }
       }
-
       $this->dataSynchrone();
+      echo $result;
    }
 
 

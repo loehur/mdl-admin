@@ -110,7 +110,7 @@
                                                 <td>
                                                     <table class="border-bottom">
                                                         <tr>
-                                                            <td colspan="10"><span class="text-nowrap text-success"><small><?= ucwords($produk) ?></small></span><br>
+                                                            <td colspan="10"><span class="text-nowrap text-success"><small><?= $id . "# " . ucwords($produk) ?></small></span><br>
                                                         <tr>
                                                         <tr>
                                                             <?php

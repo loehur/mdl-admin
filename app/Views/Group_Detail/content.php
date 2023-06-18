@@ -11,7 +11,7 @@
     </header>
     <!-- Main page content-->
     <div class="container-fluid px-4">
-        <div class="card mt-n10" style="max-width: 500px;">
+        <div class="card mt-n10">
             <div class="card-header ">Kelompok Detail
                 <button type="button" class="float-end btn btn-outline-primary mx-2" data-bs-toggle="modal" data-bs-target="#exampleModalLink">Tambah Link</button>
                 <button type="button" class="float-end btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
@@ -36,15 +36,15 @@
                                         </div>
                                     </div>
                                     <div class="row mt-1">
-                                        <div class="c">
-                                            <small>
-                                                <?php
-                                                foreach ($data[$k]['item'] as $di) { ?>
-                                                    <span class="border px-1 text-nowrap"><?= strtoupper($di['detail_item']) ?></span>
-                                                <?php }
-                                                ?>
-                                            </small>
-                                        </div>
+                                        <?php
+                                        foreach ($data[$k]['item'] as $di) { ?>
+                                            <div class="col-md-4">
+                                                <small>
+                                                    <span style="cursor: pointer;" data-id="<?= $di['id_detail_item'] ?>" class="deleteItem text-danger"><i class=" fa-regular fa-circle-xmark"></i></i></span> <span class="border edit px-1 text-nowrap" data-id='<?= $di['id_detail_item'] ?>'><?= strtoupper($di['detail_item']) ?></span>
+                                                </small>
+                                            </div>
+                                        <?php }
+                                        ?>
                                     </div>
                                 </td>
                             </tr>
@@ -122,13 +122,13 @@
             <form id="addItem" action="<?= $this->BASE_URL ?>Group_Detail/add_item" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Item Detail</label>
+                        <label class="form-label">Item Detail</label>
                         <input type="text" name="item" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Varian - <small>Pisahkan dengan Koma ( , )</small></label>
+                        <label class="form-label">Varian - <small>Pisahkan dengan Koma ( , )</small></label>
                         <input type="text" name="varian" class="form-control">
                     </div>
                 </div>
@@ -151,7 +151,7 @@
             <form id="addItemMulti" action="<?= $this->BASE_URL ?>Group_Detail/add_item_multi" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Item Detail - <small>Pisahkan dengan Koma ( , )</small></label>
+                        <label class="form-label">Item Detail - <small>Pisahkan dengan Koma ( , )</small></label>
                         <input type="text" name="item" class="form-control" required>
                     </div>
                 </div>
@@ -201,5 +201,66 @@
                 }
             },
         });
+    });
+
+    var click = 0;
+    $("span.edit").on('dblclick', function() {
+        click = click + 1;
+        if (click != 1) {
+            return;
+        }
+
+        var id = $(this).attr('data-id');
+        var value = $(this).html();
+        var value_before = value;
+        var span = $(this);
+        span.html("<input type='text' id='value_3313' style='text-align:center;width:200px' value='" + value.toUpperCase() + "'>");
+
+        $("#value_3313").focus();
+        $("#value_3313").focusout(function() {
+            var value_after = $(this).val();
+            if (value_after == value_before) {
+                span.html(value_before);
+                click = 0;
+            } else {
+                $.ajax({
+                    url: '<?= $this->BASE_URL ?>Group_Detail/updateCell',
+                    data: {
+                        'id': id,
+                        'value': value_after,
+                    },
+                    type: 'POST',
+                    success: function(res) {
+                        if (res == 0) {
+                            content();
+                        } else {
+                            alert(res);
+                        }
+                    },
+                });
+            }
+        });
+    });
+
+    $("span.deleteItem").click(function() {
+        if (confirm("Yakin Hapus?")) {
+            var id = $(this).attr("data-id");
+            $.ajax({
+                url: "<?= $this->BASE_URL ?>Group_Detail/delete_item",
+                data: {
+                    id: id
+                },
+                type: "POST",
+                success: function(res) {
+                    if (res == 0) {
+                        content();
+                    } else {
+                        alert(res);
+                    }
+                },
+            });
+        } else {
+            return false;
+        }
     });
 </script>

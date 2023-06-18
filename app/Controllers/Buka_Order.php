@@ -91,6 +91,9 @@ class Buka_Order extends Controller
 
       foreach ($data as $d) {
 
+         $groupName = "";
+         $detail_item = "";
+
          $id_detail_item = $_POST['f-' . $d];
          foreach ($this->dDetailItem as $di) {
             if ($di['id_detail_item'] == $id_detail_item) {
@@ -98,12 +101,15 @@ class Buka_Order extends Controller
             }
          }
 
-
-         $groupName = "";
          foreach ($this->dDetailGroup as $dg) {
             if ($dg['id_index'] == $d) {
                $groupName = $dg['detail_group'];
             }
+         }
+
+         if ($groupName == "" || $detail_item == "") {
+            echo "Error! diperlukan Synchrone Data!";
+            exit();
          }
 
          $produk_detail_[$d] = array(

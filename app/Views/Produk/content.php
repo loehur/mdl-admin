@@ -43,11 +43,11 @@
                                         <?= $a['produk'] ?>
                                     </td>
                                     <td>
-                                        <?= $detail ?>
+                                        <span onclick="chgActionEdit(<?= $id_produk ?>,'<?= $a['produk'] ?>')" data-bs-toggle="modal" data-bs-target="#exampleModalEdit" class="text-primary" style="cursor: pointer;"><i class="fa-regular fa-pen-to-square"></i></span> <?= $detail ?>
                                     </td>
                                     <td>
                                         <!-- <?= $divisi ?> -->
-                                        <button onclick="chgAction(<?= $id_produk ?>)" type="button" class="border rounded bg-white" data-bs-toggle="modal" data-bs-target="#setSPK">+</button>
+                                        <button onclick="chgAction(<?= $id_produk ?>)" type="button" class="border rounded bg-white" data-bs-toggle="modal" data-bs-target="#setSPK">+ / Edit</button>
                                         <br>
                                         <?php
                                         foreach ($spk_dvs as $sd) {
@@ -104,6 +104,38 @@
     </div>
 </div>
 
+<div class="modal fade" id="exampleModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Merubah Detail Produk</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="produk_edit" action="<?= $this->BASE_URL ?>Produk/edit" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nama Produk</label>
+                        <input type="text" name="produk" id="input_produk_edit" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Detail yang diperlukan</label>
+                        <select class="form-select" name="detail[]" multiple aria-label="multiple select example" required>
+                            <?php foreach ($data['detail'] as $d) { ?>
+                                <option value="<?= $d['id_index'] ?>"><?= $d['detail_group'] ?></option>
+                            <?php  }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="setSPK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -149,7 +181,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Tambah</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Tambah/Edit</button>
                 </div>
             </form>
         </div>
@@ -159,10 +191,17 @@
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
 <script>
     var addItemAction = $("form#addSPK").attr('action');
+    var actionEdit = $("form#produk_edit").attr('action');
 
     function chgAction(id_detail_group) {
         var newAction = addItemAction + "/" + id_detail_group;
         $('form#addSPK').attr('action', newAction);
+    }
+
+    function chgActionEdit(id_produk, name) {
+        var newAction = actionEdit + "/" + id_produk;
+        $('form#produk_edit').attr('action', newAction);
+        $("#input_produk_edit").val(name);
     }
 
     $("form").on("submit", function(e) {

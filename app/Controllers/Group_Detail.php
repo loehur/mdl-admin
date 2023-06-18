@@ -129,6 +129,28 @@ class Group_Detail extends Controller
       }
    }
 
+   public function updateCell()
+   {
+      $value = $_POST['value'];
+      $id = $_POST['id'];
+
+      $set = "detail_item = '" . $value . "'";
+      $where = "id_detail_item = " . $id;
+      $update = $this->model('M_DB_1')->update("detail_item", $set, $where);
+      $this->dataSynchrone();
+      echo $update['errno'];
+   }
+
+   public function delete_item()
+   {
+      $id = $_POST['id'];
+      $where = "id_detail_item = " . $id;
+      $delete = $this->model('M_DB_1')->delete_where("detail_item", $where);
+      $this->dataSynchrone();
+      echo $delete['errno'];
+   }
+
+
    function add_item_multi($id_detail_group)
    {
       $item_post = $_POST['item'];
