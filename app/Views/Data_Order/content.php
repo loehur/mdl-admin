@@ -13,7 +13,7 @@
 </style>
 
 <main>
-    <div class="row me-2 ps-2 pt-2">
+    <div class="row me-2 ms-1 mt-1 pt-2">
         <div class="col-auto"><input type="text" placeholder="Search..." id="myInput" class="form-control form-control-sm"></div>
     </div>
     <!-- Main page content-->
@@ -43,9 +43,9 @@
                             }
                         }
                 ?>
-                        <div class="results col-md-6 p-1 rounded">
+                        <div class="results col-md-6 pb-2 px-1">
                             <p class="d-none"><?= strtoupper($pelanggan . substr($ref, -4) . $cs) ?></p>
-                            <table class="w-100 bg-white <?= ($dateTime == $today) ? 'border border-success' : '' ?>">
+                            <table class="w-100 bg-white <?= ($dateTime == $today) ? 'border-bottom border-success' : 'border-bottom border-warning' ?>">
                                 <tr>
                                     <td class="p-1"><span class="text-danger"><?= substr($ref, -4) ?></span> <a href="<?= $this->BASE_URL ?>Data_Operasi/index/<?= $do['id_pelanggan'] ?>"><b><?= strtoupper($pelanggan) ?></a></b></td>
                                     <td class="p-1 text-end"><small><?= $cs  ?> [<?= substr($do['insertTime'], 2, -3) ?>]</small></td>

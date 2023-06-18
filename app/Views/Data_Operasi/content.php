@@ -30,12 +30,12 @@
     </div>
 
     <!-- Main page content-->
-    <div class="row me-2">
+    <div class="row me-2 ps-4">
         <?php
         $arr_tuntas = [];
 
         for ($x = 1; $x <= 2; $x++) { ?>
-            <div class="col px-1 pe-0 ps-0">
+            <div class="col ps-0 pe-2">
                 <?php foreach ($data['order'][$x] as $ref => $data['order_']) {
                     $bill = 0;
                     $total = 0;
@@ -45,7 +45,7 @@
                     $tuntas = true;
                     $lunas = false;
                 ?>
-                    <div class="container-fluid pt-2 pe-0">
+                    <div class="container-fluid pt-2 ps-0 pe-0">
                         <div class="card p-0">
                             <small>
                                 <table class="table table-sm mb-0">
@@ -95,7 +95,7 @@
                                                 }
                                         ?>
                                                 <tr class="">
-                                                    <td colspan="5" class="table-light" style="<?= ($dateTime == $today) ? 'background-color:palegreen' : '' ?>">
+                                                    <td colspan="5" class="table-light <?= ($dateTime == $today) ? 'border-bottom border-success' : 'border-bottom border-warning' ?>">
                                                         <table class="w-100 p-0 m-0">
                                                             <tr>
                                                                 <td><span class="text-danger"><?= substr($ref, -4) ?></span> <b><?= strtoupper($pelanggan) ?></b></td>
