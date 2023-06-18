@@ -20,7 +20,7 @@
                 <div class="container-fluid pt-2 pe-0">
                     <div class="card p-0">
                         <small>
-                            <table class="table table-sm table-hover mb-0">
+                            <table class="table table-sm mb-0">
                                 <tbody>
                                     <?php
                                     $no = 0;
@@ -29,6 +29,8 @@
                                         $id = $do['id_order_data'];
                                         $id_order_data = $do['id_order_data'];
                                         $id_produk = $do['id_produk'];
+                                        $dateTime = substr($do['insertTime'], 0, 10);
+                                        $today = date("Y-m-d");
 
                                         if ($no == 1) {
                                             foreach ($data['pelanggan'] as $dp) {
@@ -44,7 +46,7 @@
                                             }
                                     ?>
                                             <tr>
-                                                <td colspan="5">
+                                                <td colspan="5" class="<?= ($dateTime == $today) ? 'border border-success' : '' ?>">
                                                     <table class="w-100 p-0 m-0">
                                                         <tr>
                                                             <td><a href="<?= $this->BASE_URL ?>Data_Operasi/index/<?= $do['id_pelanggan'] ?>"><b><?= strtoupper($pelanggan) ?></a> <span class="text-danger"><?= substr($ref, -4) ?></span></b></td>

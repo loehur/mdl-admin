@@ -48,7 +48,7 @@
                     <div class="container-fluid pt-2 pe-0">
                         <div class="card p-0">
                             <small>
-                                <table class="table table-sm table-hover mb-0">
+                                <table class="table table-sm mb-0">
                                     <tbody>
                                         <?php
                                         $no = 0;
@@ -61,6 +61,9 @@
                                             $id_order_data = $do['id_order_data'];
                                             $id_produk = $do['id_produk'];
                                             $detail_arr = unserialize($do['produk_detail']);
+
+                                            $dateTime = substr($do['insertTime'], 0, 10);
+                                            $today = date("Y-m-d");
 
                                             foreach ($this->dProduk as $dp) {
                                                 if ($dp['id_produk'] == $id_produk) {
@@ -91,8 +94,8 @@
                                                     }
                                                 }
                                         ?>
-                                                <tr>
-                                                    <td colspan="5" class="table-light">
+                                                <tr class="">
+                                                    <td colspan="5" class="table-light" style="<?= ($dateTime == $today) ? 'background-color:palegreen' : '' ?>">
                                                         <table class="w-100 p-0 m-0">
                                                             <tr>
                                                                 <td><b><?= strtoupper($pelanggan) ?> <span class="text-primary"><?= substr($ref, -4) ?></span></b></td>
