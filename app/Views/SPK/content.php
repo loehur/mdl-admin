@@ -14,7 +14,7 @@
                                     <td><?= strtoupper($r['spk']) ?></td>
                                     <td align="right"><?= $r['jumlah'] ?> Pcs</td>
                                     <td align="right"><span class="border rounded px-1 py-1 btn updateSPK" data-order="<?= $r['order'] ?>" data-bs-toggle="modal" data-bs-target="#updateSPK">Update</span></td>
-                                    <td><span class="border rounded px-1 py-1 btn cekSPK" data-parse="<?= $data['id_divisi'] ?>" data-order="<?= $r['order'] ?>">Cek</span></td>
+                                    <td><span data-bs-toggle="modal" data-bs-target="#modalOrder" class="border rounded px-1 py-1 btn cekSPK" data-parse="<?= $data['id_divisi'] ?>" data-order="<?= $r['order'] ?>">Cek</span></td>
                                 </tr>
                             <?php }
                             ?>
@@ -36,7 +36,7 @@
                                     <td><?= strtoupper($r['spk']) ?></td>
                                     <td align="right"><?= $r['jumlah'] ?> Pcs</td>
                                     <td align="right"><span class="border rounded px-1 py-1 btn updateSPK" data-order="<?= $r['order'] ?>" data-bs-toggle="modal" data-bs-target="#updateSPK2">Update</span></td>
-                                    <td><span class="border rounded px-1 py-1 btn cekSPK" data-parse="<?= $data['id_divisi'] ?>" data-order="<?= $r['order'] ?>">Cek</span></td>
+                                    <td><span data-bs-toggle="modal" data-bs-target="#modalOrder" class="border rounded px-1 py-1 btn cekSPK" data-parse="<?= $data['id_divisi'] ?>" data-order="<?= $r['order'] ?>">Cek</span></td>
                                 </tr>
                             <?php }
                             ?>
@@ -127,6 +127,14 @@
     </div>
 </div>
 
+<div class="modal" id="modalOrder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="cekOrder">
+
+        </div>
+    </div>
+</div>
+
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>js/selectize.min.js"></script>
 <script>
@@ -143,7 +151,7 @@
     $('span.cekSPK').click(function() {
         var order = $(this).attr("data-order");
         var parse = $(this).attr("data-parse");
-        $("div#content").load('<?= $this->BASE_URL ?>SPK/cekSPK/' + order + "/" + parse);
+        $("div#cekOrder").load('<?= $this->BASE_URL ?>SPK/cekSPK/' + order + "/" + parse);
     });
 
     $("form").on("submit", function(e) {

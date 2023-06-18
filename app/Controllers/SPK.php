@@ -162,26 +162,7 @@ class SPK extends Controller
          $data_[$do['ref']][$key] = $do;
       }
 
-      $col = [];
-      $actif_col = 1;
-      $col[1] = 0;
-      $col[2] = 0;
-
-      $data_fix[1] = [];
-      $data_fix[2] = [];
-
-      foreach ($data_ as $key => $d) {
-         if ($col[1] <= $col[2]) {
-            $actif_col = 1;
-         } else {
-            $actif_col = 2;
-         }
-         $col[$actif_col] += count($data_[$key]);
-
-         $data_fix[$actif_col][$key] = $d;
-      }
-
-      $data['order'] = $data_fix;
+      $data['order'] = $data_;
       $wherePelanggan =  "id_toko = " . $this->userData['id_toko'];
       $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
