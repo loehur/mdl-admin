@@ -5,7 +5,7 @@
             <div class="container-fluid pt-2 pe-0">
                 <div class="card">
                     <small>
-                        <table class="table table-sm table-hover mb-0">
+                        <table class="table table-sm mb-0">
                             <tr>
                                 <td colspan="5" class="table-danger">Rekap SPK - <b>Tahap I</b></td>
                             </tr>
@@ -27,7 +27,7 @@
             <div class="container-fluid pt-2 pe-0">
                 <div class="card">
                     <small>
-                        <table class="table table-sm table-hover mb-0">
+                        <table class="table table-sm mb-0">
                             <tr>
                                 <td colspan="5" class="table-warning">Rekap SPK - <b>Tahap II</b></td>
                             </tr>

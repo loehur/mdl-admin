@@ -18,7 +18,7 @@
                     <div class="container-fluid pt-2 pe-0">
                         <div class="card p-0">
                             <small>
-                                <table class="table table-sm table-hover mb-0">
+                                <table class="table table-sm mb-0">
                                     <tbody>
                                         <?php
 
