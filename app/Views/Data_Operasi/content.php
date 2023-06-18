@@ -98,7 +98,7 @@
                                                     <td colspan="5" class="table-light" style="<?= ($dateTime == $today) ? 'background-color:palegreen' : '' ?>">
                                                         <table class="w-100 p-0 m-0">
                                                             <tr>
-                                                                <td><b><?= strtoupper($pelanggan) ?> <span class="text-primary"><?= substr($ref, -4) ?></span></b></td>
+                                                                <td><span class="text-danger"><?= substr($ref, -4) ?></span> <b><?= strtoupper($pelanggan) ?></b></td>
                                                                 <td style="width: 180px;" class="text-end"><small><?= $cs  ?> [<?= substr($do['insertTime'], 2, -3) ?>]</span></small></td>
                                                             </tr>
                                                         </table>
