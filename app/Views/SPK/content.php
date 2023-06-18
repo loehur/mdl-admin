@@ -48,7 +48,7 @@
     </div>
 </main>
 
-<div class="modal fade" id="updateSPK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="updateSPK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
