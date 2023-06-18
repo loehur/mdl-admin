@@ -16,7 +16,7 @@
 
     <div class="row ms-1 me-2 mt-2">
         <div class="col pe-0" style="min-width: 250px; max-width: 300px">
-            <label class="form-label">Pelanggan</label>
+            <label class="form-label">Customer</label>
             <select class="form-select tize" name="id_pelanggan" required>
                 <option></option>
                 <?php foreach ($data['pelanggan'] as $p) { ?>
