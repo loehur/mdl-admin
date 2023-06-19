@@ -151,11 +151,12 @@ class Data_Order extends Controller
    function cancel()
    {
       $id = $_POST['cancel_id'];
+      $reason = $_POST['reason'];
       $karyawan = $_POST['id_karyawan'];
 
       $where = "id_order_data = " . $id;
       $dateNow = date("Y-m-d H:i:s");
-      $set = "id_cancel = " . $karyawan . ", cancel = 1, tgl_cancel = '" . $dateNow . "'";
+      $set = "id_cancel = " . $karyawan . ", cancel = 1, cancel_reason = '" . $reason . "', tgl_cancel = '" . $dateNow . "'";
       $update = $this->model('M_DB_1')->update("order_data", $set, $where);
       echo ($update['errno'] <> 0) ? $update['error'] : $update['errno'];
    }

@@ -134,7 +134,7 @@
                                                         if ($cancel <> 0) {
                                                             $canceler = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $id_cancel); ?>
                                                             <tr>
-                                                                <td><span class="badge badge-dagner text-dark border border-dark">Canceled by <?= $canceler ?></span></td>
+                                                                <td><span class="badge badge-dagner text-dark border border-dark"><?= $canceler ?> : <?= $do['cancel_reason'] ?></span></td>
                                                             </tr>
                                                         <?php } ?>
                                                         <tr>
@@ -293,7 +293,7 @@
                 <div class="modal-body">
                     <div class="container">
                         <div class="row mb-2">
-                            <div class="col-sm-6">
+                            <div class="col">
                                 <label class="form-label">Karyawan</label>
                                 <input type="hidden" name="ambil_ref">
                                 <select class="form-select tize" name="id_karyawan" required>
@@ -326,8 +326,8 @@
                 <div class="modal-body">
                     <div class="container">
                         <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <label class="form-label">Karyawan</label>
+                            <div class="col">
+                                <label class=" form-label">Karyawan</label>
                                 <input type="hidden" name="ambil_id">
                                 <select class="form-select tize" name="id_karyawan" required>
                                     <option></option>
@@ -359,7 +359,7 @@
                 <div class="modal-body">
                     <div class="container">
                         <div class="row mb-2">
-                            <div class="col-sm-6">
+                            <div class="col">
                                 <label class="form-label">Karyawan</label>
                                 <input type="hidden" name="cancel_id">
                                 <select class="form-select tize" name="id_karyawan" required>
@@ -368,6 +368,12 @@
                                         <option value="<?= $k['id_karyawan'] ?>"><?= $k['nama'] ?></option>
                                     <?php } ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="form-label">Alasan Cancel</label>
+                                <input type="text" name="reason" class="form-control form-control-sm" required>
                             </div>
                         </div>
                         <div class="row mb-2">
