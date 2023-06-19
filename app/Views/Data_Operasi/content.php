@@ -73,6 +73,7 @@
 
                                             $divisi_arr = unserialize($do['spk_dvs']);
                                             $divisi = [];
+                                            $countSPK =  count($divisi_arr);
                                             foreach ($divisi_arr as $key => $dv) {
                                                 foreach ($this->dDvs as $dv_) {
                                                     if ($dv_['id_divisi'] == $key) {
@@ -165,7 +166,11 @@
                                                         $id_ambil = $do['id_ambil'];
                                                         if ($id_ambil == 0) {
                                                             $ambil = true;
-                                                            $ambil_all = false;                                                      ?>
+                                                            if ($countSPK > 0) {
+                                                                $ambil_all = false;
+                                                            }
+
+                                                        ?>
                                                             <span class="text-purple btnAmbil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal4" data-id="<?= $id ?>"><i class="fa-regular fa-circle"></i> Ambil</span>
                                                         <?php } else {
                                                             $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $id_ambil);

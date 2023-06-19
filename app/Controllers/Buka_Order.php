@@ -296,4 +296,15 @@ class Buka_Order extends Controller
          print_r($do);
       }
    }
+
+   public function updateCell($parse)
+   {
+      $value = $_POST['value'];
+      $id = $_POST['id'];
+
+      $where = "code = '" . $id . "'";
+      $set = "harga_" . $parse . " = " . $value;
+      $update = $this->model('M_DB_1')->update("produk_harga", $set, $where);
+      echo ($update['errno'] <> 0) ? $update['error'] : $update['errno'];
+   }
 }
