@@ -90,6 +90,14 @@
             }
         });
 
+        $("#myInput").on("keyup change", function(e) {
+            var input = $("#myInput");
+            var value = input.val();
+            if (value == "") {
+                filter();
+            }
+        });
+
         function filter() {
             var input = $("#myInput");
             var filter = input.val().toUpperCase(),
