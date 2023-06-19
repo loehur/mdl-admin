@@ -25,7 +25,7 @@
             </select>
         </div>
         <div class="col pt-auto mt-auto pe-0">
-            <button type="submit" class="cek btn btn-primary">Cek</button>
+            <button type="submit" class="cek btn btn-sm btn-primary">Cek</button>
         </div>
     </div>
 
@@ -44,6 +44,15 @@
 
                     $tuntas = true;
                     $lunas = false;
+
+                    $dibayar = 0;
+                    $showMutasi = "";
+                    foreach ($data['kas'] as $dk) {
+                        if ($dk['ref_transaksi'] == $ref) {
+                            $dibayar += $dk['jumlah'];
+                            $showMutasi .= "-Rp" . number_format($dk['jumlah']) . "<br>";
+                        }
+                    }
                 ?>
                     <div class="container-fluid pt-2 ps-0 pe-0">
                         <div class="card p-0">
@@ -56,11 +65,20 @@
                                             $no++;
                                             $id = $do['id_order_data'];
                                             $jumlah = $do['harga'] * $do['jumlah'];
-                                            $total += $jumlah;
-                                            $bill += $jumlah;
+
+                                            $cancel = $do['cancel'];
+                                            $id_cancel = $do['id_cancel'];
+
+                                            if ($cancel == 0) {
+                                                $bill += $jumlah;
+                                                $total += $jumlah;
+                                            }
+
                                             $id_order_data = $do['id_order_data'];
                                             $id_produk = $do['id_produk'];
                                             $detail_arr = unserialize($do['produk_detail']);
+
+
 
                                             $dateTime = substr($do['insertTime'], 0, 10);
                                             $today = date("Y-m-d");
@@ -99,7 +117,9 @@
                                                     <td colspan="5" class="table-light <?= ($dateTime == $today) ? 'border-bottom border-success' : 'border-bottom border-warning' ?>">
                                                         <table class="w-100 p-0 m-0">
                                                             <tr>
-                                                                <td><span class="text-danger"><?= substr($ref, -4) ?></span> <b><?= strtoupper($pelanggan) ?></b></td>
+                                                                <td>
+                                                                    <span class="text-danger"><?= substr($ref, -4) ?></span> <b><?= strtoupper($pelanggan) ?></b>
+                                                                </td>
                                                                 <td style="width: 180px;" class="text-end"><small><?= $cs  ?> [<?= substr($do['insertTime'], 2, -3) ?>]</span></small></td>
                                                             </tr>
                                                         </table>
@@ -107,11 +127,35 @@
                                                 </tr>
                                             <?php }
                                             ?>
-                                            <tr>
+                                            <tr style="<?= ($cancel == 1) ? 'color:silver' : '' ?>">
                                                 <td>
                                                     <table class="border-bottom">
+                                                        <?php
+                                                        if ($cancel <> 0) {
+                                                            $canceler = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $id_cancel); ?>
+                                                            <tr>
+                                                                <td><span class="badge badge-dagner text-dark border border-dark">Canceled by <?= $canceler ?></span></td>
+                                                            </tr>
+                                                        <?php } ?>
                                                         <tr>
-                                                            <td colspan="10"><span class="text-nowrap text-success"><small><?= $id . "# " . ucwords($produk) ?></small></span><br>
+                                                            <td colspan="10">
+                                                                <?php
+                                                                if ($cancel == 1) { ?>
+                                                                    <span class="text-nowrap text-success"><small><del><?= $id . "# " . ucwords($produk) ?></del></small></span>
+                                                                <?php } else { ?>
+                                                                    <span class="text-nowrap text-success"><small><?= $id . "# " . ucwords($produk) ?></small></span>
+                                                                <?php } ?>
+                                                                <?php if ($dibayar == 0 && $cancel == 0) { ?>
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="border-0 bg-white ps-1 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                            <span class="visually-hidden">Toggle Dropdown</span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a data-bs-toggle="modal" data-bs-target="#exampleModalCancel" class="dropdown-item cancel" data-id="<?= $id ?>" href="#">Cancel</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                <?php } ?>
+                                                            </td>
                                                         <tr>
                                                         <tr>
                                                             <?php
@@ -166,38 +210,35 @@
                                                         $id_ambil = $do['id_ambil'];
                                                         if ($id_ambil == 0) {
                                                             $ambil = true;
-                                                            if ($countSPK > 0) {
+                                                            if ($countSPK > 0 && $cancel <> 0) {
                                                                 $ambil_all = false;
                                                             }
 
                                                         ?>
-                                                            <span class="text-purple btnAmbil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal4" data-id="<?= $id ?>"><i class="fa-regular fa-circle"></i> Ambil</span>
+                                                            <span class="btnAmbil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal4" data-id="<?= $id ?>"><i class="fa-regular fa-circle"></i> Ambil</span>
                                                         <?php } else {
                                                             $karyawan = $this->model('Arr')->get($data['karyawan'], "id_karyawan", "nama", $id_ambil);
                                                             echo '<span class="text-purple"><i class="fa-solid fa-check"></i> Ambil (' . $karyawan . ")</span>";
                                                         } ?>
                                                     </small>
                                                 </td>
-                                                <td class="text-end"><?= number_format($do['jumlah']) ?>x</td>
-                                                <td class="text-end">Rp<?= number_format($jumlah) ?></td>
+                                                <td class="text-end"><?= number_format($do['jumlah']) ?></td>
+                                                <td class="text-end">
+                                                    <?php
+                                                    if ($cancel == 0) { ?>
+                                                        Rp<?= number_format($jumlah) ?>
+                                                    <?php } else { ?>
+                                                        <del>Rp<?= number_format($jumlah) ?></del>
+                                                    <?php } ?>
+                                                </td>
                                             </tr>
                                         <?php }
-
-                                        $dibayar = 0;
-                                        $showMutasi = "";
-                                        foreach ($data['kas'] as $dk) {
-                                            if ($dk['ref_transaksi'] == $ref) {
-                                                $dibayar += $dk['jumlah'];
-                                                $showMutasi .= "-Rp" . number_format($dk['jumlah']) . "<br>";
-                                            }
-                                        }
 
                                         $sisa = $bill - $dibayar;
 
                                         if ($dibayar >= $bill) {
                                             $lunas = true;
                                         }
-
 
                                         if ($dibayar > 0 && $lunas == false) {
                                             $showMutasi .= "<span class='text-danger'><b>Sisa Rp" . number_format($sisa) . "</b></span>";
@@ -273,7 +314,6 @@
             </div>
         </div>
     </div>
-    </div>
 </form>
 
 <form action="<?= $this->BASE_URL; ?>Data_Order/ambil" method="POST">
@@ -307,6 +347,38 @@
             </div>
         </div>
     </div>
+</form>
+
+<form action="<?= $this->BASE_URL; ?>Data_Order/cancel" method="POST">
+    <div class="modal" id="exampleModalCancel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white">Pembatalan!</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label class="form-label">Karyawan</label>
+                                <input type="hidden" name="cancel_id">
+                                <select class="form-select tize" name="id_karyawan" required>
+                                    <option></option>
+                                    <?php foreach ($data['karyawan'] as $k) { ?>
+                                        <option value="<?= $k['id_karyawan'] ?>"><?= $k['nama'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <button type="submit" data-bs-dismiss="modal" class="btn btn-danger">Cancel Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </form>
 
@@ -353,7 +425,6 @@
             </div>
         </div>
     </div>
-    </div>
 </form>
 
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
@@ -399,6 +470,11 @@
     $("span.btnAmbil").click(function() {
         id = $(this).attr("data-id");
         $("input[name=ambil_id]").val(id);
+    })
+
+    $("a.cancel").click(function() {
+        id = $(this).attr("data-id");
+        $("input[name=cancel_id]").val(id);
     })
 
     $("span.btnAmbilSemua").click(function() {

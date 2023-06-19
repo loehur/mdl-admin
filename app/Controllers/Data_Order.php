@@ -148,6 +148,18 @@ class Data_Order extends Controller
       echo ($update['errno'] <> 0) ? $update['error'] : $update['errno'];
    }
 
+   function cancel()
+   {
+      $id = $_POST['cancel_id'];
+      $karyawan = $_POST['id_karyawan'];
+
+      $where = "id_order_data = " . $id;
+      $dateNow = date("Y-m-d H:i:s");
+      $set = "id_cancel = " . $karyawan . ", cancel = 1, tgl_cancel = '" . $dateNow . "'";
+      $update = $this->model('M_DB_1')->update("order_data", $set, $where);
+      echo ($update['errno'] <> 0) ? $update['error'] : $update['errno'];
+   }
+
    function ambil_semua()
    {
       $ref = $_POST['ambil_ref'];
@@ -166,7 +178,7 @@ class Data_Order extends Controller
       $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
       $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
-      $where = "id_toko = " . $this->userData['id_toko'] . " AND ref = '" . $parse . "'";
+      $where = "id_toko = " . $this->userData['id_toko'] . " AND ref = '" . $parse . "' AND cancel = 0";
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
       $refs = array_column($data['order'], 'ref');
