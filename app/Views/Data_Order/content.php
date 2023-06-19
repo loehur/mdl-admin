@@ -14,7 +14,15 @@
 
 <main>
     <div class="row me-2 ms-1 mt-1 pt-2">
-        <div class="col-auto"><input type="text" placeholder="Search..." id="myInput" class="form-control form-control-sm"></div>
+        <div class="col-auto pe-0">
+            <input type="text" placeholder="Search..." id="myInput" class="form-control form-control-sm">
+        </div>
+        <div class="col-auto pe-0 mt-auto">
+            <button id="search" class="btn btn-sm btn-success">Search</button>
+        </div>
+        <div class="col-auto mt-auto">
+            <button id="reset" class="btn btn-sm btn-warning">Reset</button>
+        </div>
     </div>
     <!-- Main page content-->
     <small>
@@ -66,8 +74,25 @@
 
 <script>
     $(document).ready(function() {
-        $("#myInput").on("keyup change", function() {
-            var filter = $(this).val().toUpperCase(),
+        $("#search").on("click", function() {
+            filter();
+        });
+
+        $("#reset").on("click", function() {
+            var input = $("#myInput");
+            input.val("");
+            filter();
+        });
+
+        $("#myInput").keypress(function(e) {
+            if (e.which == 13) {
+                filter();
+            }
+        });
+
+        function filter() {
+            var input = $("#myInput");
+            var filter = input.val().toUpperCase(),
                 count = 0;
 
             $('#results div').each(function() {
@@ -77,8 +102,7 @@
                     $(this).show();
                     count++;
                 }
-
             });
-        });
+        }
     });
 </script>
