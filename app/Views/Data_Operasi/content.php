@@ -11,21 +11,29 @@
         visibility: hidden;
     }
 </style>
-
 <main>
-
-    <div class="row ms-1 me-2 mt-2">
+    <div class="row ms-1 me-2 mt-3">
         <div class="col pe-0" style="min-width: 250px; max-width: 300px">
-            <label class="form-label">Customer</label>
             <select class="form-select tize" name="id_pelanggan" required>
-                <option></option>
+                <option>-- Customer --</option>
                 <?php foreach ($data['pelanggan'] as $p) { ?>
                     <option value="<?= $p['id_pelanggan'] ?>" <?= ($data['parse'] == $p['id_pelanggan'] ? "selected" : "") ?>><?= strtoupper($p['nama']) ?></option>
                 <?php } ?>
             </select>
         </div>
+        <?php if ($data['parse_2'] <> 0) { ?>
+            <div class="col pe-0" style="min-width: 90px; max-width: 100px">
+                <select class="form-select tize" name="y" required>
+                    <?php
+                    $yNow = date("Y");
+                    for ($x = 2023; $x <= $yNow; $x++) { ?>
+                        <option value="<?= $x ?>" <?= ($data['parse_2'] == $x ? "selected" : "") ?>><?= $x ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        <?php } ?>
         <div class="col pt-auto mt-auto pe-0">
-            <button type="submit" class="cek btn btn-sm btn-primary">Cek</button>
+            <button type="submit" class="cek pt-3 btn btn-sm btn-primary">Cek</button>
         </div>
     </div>
 
@@ -439,7 +447,11 @@
 <script>
     $(document).ready(function() {
         $('select.tize').selectize();
-        clearTuntas();
+
+        var parse_2 = <?= $data['parse_2'] ?>;
+        if (parse_2 == 0) {
+            clearTuntas();
+        }
     });
 
     function clearTuntas() {
@@ -461,8 +473,9 @@
     }
 
     $('button.cek').click(function() {
-        var parse = $("select.tize").val();
-        $("div#content").load('<?= $this->BASE_URL ?>Data_Operasi/content/' + parse);
+        var parse = $("select[name=id_pelanggan]").val();
+        var parse_2 = $("select[name=y]").val() || 0;
+        $("div#content").load('<?= $this->BASE_URL ?>Data_Operasi/content/' + parse + '/' + parse_2);
     });
 
     var bill = 0;

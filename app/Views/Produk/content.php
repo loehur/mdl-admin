@@ -51,7 +51,7 @@
                                         <br>
                                         <?php
                                         foreach ($spk_dvs as $sd) {
-                                            echo "<b>" . $this->model("Arr")->get($this->dDvs, "id_divisi", "divisi", $sd['id_divisi']) . "</b>";
+                                            echo "<b>" . $this->model("Arr")->get($this->dDvs, "id_divisi", "divisi", $sd['id_divisi']) . "</b> " . $sd['cm'] + 1 . " Step";
                                             $detailGroups = unserialize($sd['detail_groups']);
                                             echo " - ";
                                             foreach ($detailGroups as $dg) {

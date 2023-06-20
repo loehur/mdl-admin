@@ -12,30 +12,43 @@ class Data_Operasi extends Controller
       $this->v_viewer = $this->page . "/viewer";
    }
 
-   public function index($parse)
+   public function index($parse, $parse_2 = 0)
    {
-
-      $this->view("Layouts/layout_main", [
-         "content" => $this->v_content,
-         "title" => "Data Order Operasi"
-      ]);
-      $this->viewer($parse);
+      if ($parse_2 == 0) {
+         $this->view("Layouts/layout_main", [
+            "content" => $this->v_content,
+            "title" => "Data Order Customer"
+         ]);
+      } else {
+         $this->view("Layouts/layout_main", [
+            "content" => $this->v_content,
+            "title" => "Data Order Tuntas"
+         ]);
+      }
+      $this->viewer($parse, $parse_2);
    }
 
-   public function viewer($parse = "")
+   public function viewer($parse = "", $parse_2)
    {
-      $this->view($this->v_viewer, ["page" => $this->page, "parse" => $parse]);
+      $this->view($this->v_viewer, ["page" => $this->page, "parse" => $parse, "parse_2" => $parse_2]);
    }
 
-   public function content($parse = "")
+   public function content($parse = "", $parse_2 = 0)
    {
       $data['parse'] = $parse;
+      $data['parse_2'] = $parse_2;
+
       $wherePelanggan =  "id_toko = " . $this->userData['id_toko'];
       $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
       $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
 
-      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan = " . $parse . " AND tuntas = 0 ORDER BY id_order_data DESC";
+      if ($parse_2 < 2023) {
+         $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan = " . $parse . " AND tuntas = 0 ORDER BY id_order_data DESC";
+      } else {
+         $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan = " . $parse . " AND tuntas = 1 AND insertTime LIKE '%" . $parse_2 . "%' ORDER BY id_order_data DESC";
+      }
+
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
       $refs = array_column($data['order'], 'ref');

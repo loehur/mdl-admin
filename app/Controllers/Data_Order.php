@@ -14,17 +14,12 @@ class Data_Order extends Controller
 
    public function index($parse)
    {
-      if ($parse == 0) {
-         $this->view("Layouts/layout_main", [
-            "content" => $this->v_content,
-            "title" => "Data Order - Proses"
-         ]);
-      } elseif ($parse == 1) {
-         $this->view("Layouts/layout_main", [
-            "content" => $this->v_content,
-            "title" => "Data Order - Tuntas"
-         ]);
-      }
+
+      $this->view("Layouts/layout_main", [
+         "content" => $this->v_content,
+         "title" => "Data Order Proses"
+      ]);
+
       $this->viewer($parse);
    }
 
@@ -35,12 +30,31 @@ class Data_Order extends Controller
 
    public function content($parse = "")
    {
+      $data['parse'] = $parse;
       $wherePelanggan =  "id_toko = " . $this->userData['id_toko'];
       $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
       $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
 
-      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = " . $parse . " ORDER BY id_order_data DESC";
+      switch ($parse) {
+         case 0:
+            //DALAM PROSES 7 HARI
+            $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = 0 AND DATE(NOW()) <= (insertTime + INTERVAL 7 DAY) ORDER BY id_order_data DESC";
+            break;
+         case 1:
+            //DALAM PROSES > 7 HARI
+            $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = 0 AND (DATE(NOW()) > (insertTime + INTERVAL 7 DAY) AND DATE(NOW()) <= (insertTime + INTERVAL 30 DAY)) ORDER BY id_order_data DESC";
+            break;
+         case 2:
+            //DALAM PROSES > 30 HARI
+            $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = 0 AND (DATE(NOW()) > (insertTime + INTERVAL 30 DAY) AND DATE(NOW()) <= (insertTime + INTERVAL 365 DAY)) ORDER BY id_order_data DESC";
+            break;
+         case 3:
+            //DALAM PROSES > 1 TAHUN
+            $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan <> 0 AND tuntas = 0 AND DATE(NOW()) > (insertTime + INTERVAL 365 DAY) ORDER BY id_order_data DESC";
+            break;
+      }
+
       $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
 
       $refs = array_column($data['order'], 'ref');
