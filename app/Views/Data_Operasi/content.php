@@ -15,7 +15,7 @@
     <div class="row ms-1 me-2 mt-3">
         <div class="col pe-0" style="min-width: 250px; max-width: 300px">
             <select class="form-select tize" name="id_pelanggan" required>
-                <option>-- Customer --</option>
+                <option></option>
                 <?php foreach ($data['pelanggan'] as $p) { ?>
                     <option value="<?= $p['id_pelanggan'] ?>" <?= ($data['parse'] == $p['id_pelanggan'] ? "selected" : "") ?>><?= strtoupper($p['nama']) ?></option>
                 <?php } ?>
@@ -218,7 +218,7 @@
                                                         $id_ambil = $do['id_ambil'];
                                                         if ($id_ambil == 0) {
                                                             $ambil = true;
-                                                            if ($countSPK > 0 && $cancel <> 0) {
+                                                            if ($countSPK > 0 && $cancel == 0) {
                                                                 $ambil_all = false;
                                                             }
 
@@ -244,7 +244,7 @@
 
                                         $sisa = $bill - $dibayar;
 
-                                        if ($dibayar >= $bill) {
+                                        if ($sisa <= 0) {
                                             $lunas = true;
                                         }
 
@@ -420,7 +420,7 @@
                         </div>
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <label class="form-label">Bayar (Rp) <a class="bayarPas">Bayar Pas (Click)</a></label>
+                                <label class="form-label">Bayar (Rp) <small><span style="cursor: pointer;" class="bayarPas text-danger">Bayar Pas (Click)</span></small></label>
                                 <input type="number" name="jumlah" class="form-control dibayar" required>
                                 <input type="hidden" name="ref" id="refBayar" required>
                             </div>
@@ -485,6 +485,13 @@
         var ref = $(this).attr("data-ref");
         $("input#refBayar").val(ref);
     })
+
+    $("span.bayarPas").click(function() {
+        bill = $("input[name=bill]").val();
+        $("input.dibayar").val(bill);
+        kembalian();
+    })
+
 
     $("span.btnAmbil").click(function() {
         id = $(this).attr("data-id");

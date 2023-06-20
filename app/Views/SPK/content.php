@@ -1,49 +1,41 @@
 <main>
     <!-- Main page content-->
-    <div class="row me-2">
-        <div class="col-md-6 p-0 pe-1">
-            <div class="container-fluid pt-2 pe-0">
-                <div class="card">
-                    <small>
-                        <table class="table table-sm mb-0">
-                            <tr>
-                                <td colspan="5" class="table-danger">Rekap SPK - <b>Tahap I</b></td>
-                            </tr>
-                            <?php foreach ($data['recap'] as $r) { ?>
-                                <tr>
-                                    <td><?= strtoupper($r['spk']) ?></td>
-                                    <td align="right"><?= $r['jumlah'] ?> Pcs</td>
-                                    <td align="right"><span class="border rounded px-1 py-1 btn updateSPK" data-order="<?= $r['order'] ?>" data-bs-toggle="modal" data-bs-target="#updateSPK">Update</span></td>
-                                    <td><span data-bs-toggle="modal" data-bs-target="#modalOrder" class="border rounded px-1 py-1 btn cekSPK" data-parse="<?= $data['id_divisi'] ?>" data-order="<?= $r['order'] ?>">Cek</span></td>
-                                </tr>
-                            <?php }
-                            ?>
-                        </table>
-                    </small>
-                </div>
-            </div>
+    <div class="row me-1 ms-2 mt-3">
+        <div class="col-md-6 ps-0 pe-1">
+            <small>
+                <table class="table table-sm mb-0 bg-white shadow-sm border">
+                    <tr>
+                        <td colspan="5" class="table-danger">Rekap SPK - <b>Tahap I</b></td>
+                    </tr>
+                    <?php foreach ($data['recap'] as $r) { ?>
+                        <tr>
+                            <td><?= strtoupper($r['spk']) ?></td>
+                            <td align="right"><?= $r['jumlah'] ?> Pcs</td>
+                            <td align="right"><span class="border rounded px-1 py-1 btn updateSPK" data-order="<?= $r['order'] ?>" data-bs-toggle="modal" data-bs-target="#updateSPK">Update</span></td>
+                            <td><span data-bs-toggle="modal" data-bs-target="#modalOrder" class="border rounded px-1 py-1 btn cekSPK" data-parse="<?= $data['id_divisi'] ?>" data-order="<?= $r['order'] ?>">Cek</span></td>
+                        </tr>
+                    <?php }
+                    ?>
+                </table>
+            </small>
         </div>
-        <div class="col-md-6 p-0 pe-1">
-            <div class="container-fluid pt-2 pe-0">
-                <div class="card">
-                    <small>
-                        <table class="table table-sm mb-0">
-                            <tr>
-                                <td colspan="5" class="table-warning">Rekap SPK - <b>Tahap II</b></td>
-                            </tr>
-                            <?php foreach ($data['recap_2'] as $r) { ?>
-                                <tr>
-                                    <td><?= strtoupper($r['spk']) ?></td>
-                                    <td align="right"><?= $r['jumlah'] ?> Pcs</td>
-                                    <td align="right"><span class="border rounded px-1 py-1 btn updateSPK" data-order="<?= $r['order'] ?>" data-bs-toggle="modal" data-bs-target="#updateSPK2">Update</span></td>
-                                    <td><span data-bs-toggle="modal" data-bs-target="#modalOrder" class="border rounded px-1 py-1 btn cekSPK" data-parse="<?= $data['id_divisi'] ?>" data-order="<?= $r['order'] ?>">Cek</span></td>
-                                </tr>
-                            <?php }
-                            ?>
-                        </table>
-                    </small>
-                </div>
-            </div>
+        <div class="col-md-6 ps-0 pe-1">
+            <small>
+                <table class="table table-sm mb-0 bg-white shadow-sm border">
+                    <tr>
+                        <td colspan="5" class="table-warning">Rekap SPK - <b>Tahap II</b></td>
+                    </tr>
+                    <?php foreach ($data['recap_2'] as $r) { ?>
+                        <tr>
+                            <td><?= strtoupper($r['spk']) ?></td>
+                            <td align="right"><?= $r['jumlah'] ?> Pcs</td>
+                            <td align="right"><span class="border rounded px-1 py-1 btn updateSPK" data-order="<?= $r['order'] ?>" data-bs-toggle="modal" data-bs-target="#updateSPK2">Update</span></td>
+                            <td><span data-bs-toggle="modal" data-bs-target="#modalOrder" class="border rounded px-1 py-1 btn cekSPK" data-parse="<?= $data['id_divisi'] ?>" data-order="<?= $r['order'] ?>">Cek</span></td>
+                        </tr>
+                    <?php }
+                    ?>
+                </table>
+            </small>
         </div>
     </div>
 </main>

@@ -75,53 +75,6 @@ class Data_Order extends Controller
       $this->view($this->v_content, $data);
    }
 
-   public function client($parse = "")
-   {
-      $data['parse'] = $parse;
-      $wherePelanggan =  "id_toko = " . $this->userData['id_toko'];
-      $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
-      $whereKarywan = "id_toko = " . $this->userData['id_toko'];
-      $data['karyawan'] = $this->model('M_DB_1')->get_where('karyawan', $whereKarywan);
-
-      $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan = " . $parse . " AND tuntas = 0 ORDER BY id_order_data DESC";
-      $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
-
-      $refs = array_column($data['order'], 'ref');
-      if (count($refs) > 0) {
-         $min_ref = min($refs);
-         $max_ref = max($refs);
-         $where = "id_toko = " . $this->userData['id_toko'] . " AND jenis_transaksi = 1 AND (ref_transaksi BETWEEN " . $min_ref . " AND " . $max_ref . ")";
-         $data['kas'] = $this->model('M_DB_1')->get_where('kas', $where);
-      }
-
-      $data_ = [];
-      foreach ($data['order'] as $key => $do) {
-         $data_[$do['ref']][$key] = $do;
-      }
-
-      $col = [];
-      $actif_col = 1;
-      $col[1] = 0;
-      $col[2] = 0;
-
-      $data_fix[1] = [];
-      $data_fix[2] = [];
-
-      foreach ($data_ as $key => $d) {
-         if ($col[1] <= $col[2]) {
-            $actif_col = 1;
-         } else {
-            $actif_col = 2;
-         }
-         $col[$actif_col] += count($data_[$key]);
-
-         $data_fix[$actif_col][$key] = $d;
-      }
-      $data['order'] = $data_fix;
-
-      $this->view($this->v_content, $data);
-   }
-
    function bayar()
    {
       $ref = $_POST['ref'];

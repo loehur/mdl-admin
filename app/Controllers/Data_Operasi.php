@@ -73,7 +73,7 @@ class Data_Operasi extends Controller
       $data_fix[2] = [];
 
       foreach ($data_ as $key => $d) {
-         if ($col[1] <= $col[2]) {
+         if ($col[1] <= $col[2] + 1) {
             $actif_col = 1;
          } else {
             $actif_col = 2;

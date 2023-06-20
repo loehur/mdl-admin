@@ -22,7 +22,7 @@ class SPK extends Controller
 
       $this->view("Layouts/layout_main", [
          "content" => $this->v_content,
-         "title" => "SPK - " . $t
+         "title" => "SPK_R - " . $t
       ]);
 
       $this->viewer($dvs);
