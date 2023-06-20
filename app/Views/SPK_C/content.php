@@ -189,13 +189,17 @@
 
     $("form").on("submit", function(e) {
         e.preventDefault();
+
+        var parse = <?= $parse ?>;
+        var parse_2 = $("input[name=tgl]").val();
+
         $.ajax({
             url: $(this).attr('action'),
             data: $(this).serialize(),
             type: $(this).attr("method"),
             success: function(res) {
                 if (res == 0) {
-                    content();
+                    $("div#content").load('<?= $this->BASE_URL ?>SPK_C/content/' + parse + '/' + parse_2);
                 } else {
                     alert(res);
                 }
