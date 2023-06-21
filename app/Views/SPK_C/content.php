@@ -87,7 +87,7 @@
                                                     <td colspan="10">
                                                         <span class='text-danger'><i class='fa-solid fa-circle-exclamation'></i> <?= $do['note'] ?></span>
                                                         <?php foreach (unserialize($do['note_spk']) as $ks => $ns) {
-                                                            if ($ns == $parse) {
+                                                            if ($ks == $parse) {
                                                                 echo " - <span class='text-primary'>" . $ns . "</span>";
                                                             }
                                                         }
