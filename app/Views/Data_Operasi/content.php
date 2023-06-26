@@ -42,7 +42,8 @@
         <?php
         $arr_tuntas = [];
 
-        for ($x = 1; $x <= 2; $x++) { ?>
+        for ($x = 1; $x <= 2; $x++) {
+        ?>
             <div class="col ps-0 pe-2">
                 <?php foreach ($data['order'][$x] as $ref => $data['order_']) {
                     $bill = 0;

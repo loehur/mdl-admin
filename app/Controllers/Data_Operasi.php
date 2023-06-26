@@ -37,6 +37,8 @@ class Data_Operasi extends Controller
    {
       $data['parse'] = $parse;
       $data['parse_2'] = $parse_2;
+      $data['kas'] = [];
+      $data['order'] = [];
 
       $wherePelanggan =  "id_toko = " . $this->userData['id_toko'];
       $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
@@ -48,14 +50,15 @@ class Data_Operasi extends Controller
       } else {
          $where = "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan = " . $parse . " AND tuntas = 1 AND insertTime LIKE '%" . $parse_2 . "%' ORDER BY id_order_data DESC";
       }
-
-      $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
+      if ($parse <> "" && $parse <> 0) {
+         $data['order'] = $this->model('M_DB_1')->get_where('order_data', $where);
+      }
 
       $refs = array_column($data['order'], 'ref');
       if (count($refs) > 0) {
          $min_ref = min($refs);
          $max_ref = max($refs);
-         $where = "id_toko = " . $this->userData['id_toko'] . " AND jenis_transaksi = 1 AND (ref_transaksi BETWEEN " . $min_ref . " AND " . $max_ref . ")";
+         $where = "id_toko = " . $this->userData['id_toko'] . " AND jenis_transaksi = 1 AND (ref_transaksi BETWEEN '" . $min_ref . "' AND '" . $max_ref . "')";
          $data['kas'] = $this->model('M_DB_1')->get_where('kas', $where);
       }
 

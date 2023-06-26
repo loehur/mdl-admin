@@ -46,7 +46,7 @@
     <!-- Main page content-->
     <small>
         <div class="ms-1 mt-2 me-1">
-            <div class="row row-cols-2 mx-2 mt-2">
+            <div class="row row-cols-1 mx-2 mt-2">
                 <?php foreach ($data['order'] as $ref => $data['order_']) { ?>
                     <?php
                     $no = 0;
