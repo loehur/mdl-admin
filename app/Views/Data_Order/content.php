@@ -1,29 +1,9 @@
-<style>
-    .selectize-control {
-        padding: 0;
-    }
-
-    .selectize-input {
-        border: none;
-    }
-
-    .selectize-input::after {
-        visibility: hidden;
-    }
-</style>
-
 <?php $modeView = $data['parse'] ?>
 <main>
     <div class="p-2 ms-3 mt-3 me-3 bg-white">
         <div class="row mb-1">
             <div class="col-auto pe-0">
                 <input type="text" placeholder="Search..." id="myInput" class="form-control form-control-sm">
-            </div>
-            <div class="col-auto pe-0 mt-auto">
-                <button id="search" class="btn pt-3 btn-sm btn-success">Search</button>
-            </div>
-            <div class="col-auto mt-auto">
-                <button id="reset" class="btn pt-3 btn-sm btn-warning">Reset</button>
             </div>
         </div>
         <div class="row">
@@ -66,7 +46,7 @@
     <!-- Main page content-->
     <small>
         <div class="ms-1 mt-2 me-1">
-            <div class="row mx-2 mt-2" id="results">
+            <div class="row row-cols-2 mx-2 mt-2">
                 <?php foreach ($data['order'] as $ref => $data['order_']) { ?>
                     <?php
                     $no = 0;
@@ -91,9 +71,8 @@
                                 }
                             }
                     ?>
-                            <div class="results col-md-6 pb-2 px-1">
-                                <p class="d-none"><?= strtoupper($pelanggan . substr($ref, -4) . $cs) ?></p>
-                                <table class="w-100 bg-white <?= ($dateTime == $today) ? 'border-bottom border-success' : 'border-bottom border-warning' ?>">
+                            <div class="col pb-2 px-1">
+                                <table class="w-100 target bg-white <?= ($dateTime == $today) ? 'border-bottom border-success' : 'border-bottom border-warning' ?>">
                                     <tr>
                                         <td class="p-1"><span class="text-danger"><?= substr($ref, -4) ?></span> <a href="<?= $this->BASE_URL ?>Data_Operasi/index/<?= $do['id_pelanggan'] ?>"><b><?= strtoupper($pelanggan) ?></a></b></td>
                                         <td class="p-1 text-end"><small><?= $cs  ?> [<?= substr($do['insertTime'], 2, -3) ?>]</small></td>
@@ -114,44 +93,17 @@
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-        $("#search").on("click", function() {
-            filter();
-        });
+    $("#myInput").on("keyup", function() {
+        var input = this.value;
+        var filter = input.toLowerCase();
 
-        $("#reset").on("click", function() {
-            var input = $("#myInput");
-            input.val("");
-            filter();
-        });
-
-        $("#myInput").keypress(function(e) {
-            if (e.which == 13) {
-                filter();
+        var nodes = document.getElementsByClassName('target');
+        for (i = 0; i < nodes.length; i++) {
+            if (nodes[i].innerText.toLowerCase().includes(filter)) {
+                nodes[i].style.display = "block";
+            } else {
+                nodes[i].style.display = "none";
             }
-        });
-
-        $("#myInput").on("keyup change", function(e) {
-            var input = $("#myInput");
-            var value = input.val();
-            if (value == "") {
-                filter();
-            }
-        });
-
-        function filter() {
-            var input = $("#myInput");
-            var filter = input.val().toUpperCase(),
-                count = 0;
-
-            $('#results div').each(function() {
-                if ($(this).text().search(new RegExp(filter, "i")) < 0) {
-                    $(this).hide();
-                } else {
-                    $(this).show();
-                    count++;
-                }
-            });
         }
     });
 </script>
