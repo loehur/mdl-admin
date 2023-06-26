@@ -37,10 +37,15 @@
                                     }
                                 }
                                 $spk_dvs = $a['spk_dvs'];
+                                $c_spk = count($spk_dvs);
                             ?>
                                 <tr>
                                     <td>
                                         <?= $a['produk'] ?>
+
+                                        <?php if ($c_spk == 0) { ?>
+                                            <span style="cursor: pointer;" data-id="<?= $id_produk ?>" class="deleteProduk text-danger"><i class=" fa-regular fa-circle-xmark"></i></span>
+                                        <?php } ?>
                                     </td>
                                     <td>
                                         <span onclick="chgActionEdit(<?= $id_produk ?>,'<?= $a['produk'] ?>')" data-bs-toggle="modal" data-bs-target="#exampleModalEdit" class="text-primary" style="cursor: pointer;"><i class="fa-regular fa-pen-to-square"></i></span> <?= $detail ?>
@@ -50,7 +55,9 @@
                                         <button onclick="chgAction(<?= $id_produk ?>)" type="button" class="border rounded bg-white" data-bs-toggle="modal" data-bs-target="#setSPK">+ / Edit</button>
                                         <br>
                                         <?php
-                                        foreach ($spk_dvs as $sd) {
+                                        foreach ($spk_dvs as $sd) { ?>
+                                            <span style="cursor: pointer;" data-id="<?= $sd['id_spk_dvs'] ?>" class="deleteItem text-danger"><i class=" fa-regular fa-circle-xmark"></i></span>
+                                        <?php
                                             echo "<b>" . $this->model("Arr")->get($this->dDvs, "id_divisi", "divisi", $sd['id_divisi']) . "</b> " . $sd['cm'] + 1 . " Step";
                                             $detailGroups = unserialize($sd['detail_groups']);
                                             echo " - ";
@@ -218,5 +225,49 @@
                 }
             },
         });
+    });
+
+    $("span.deleteItem").click(function() {
+        if (confirm("Yakin Hapus?")) {
+            var id = $(this).attr("data-id");
+            $.ajax({
+                url: "<?= $this->BASE_URL ?>Produk/delete_item",
+                data: {
+                    id: id
+                },
+                type: "POST",
+                success: function(res) {
+                    if (res == 0) {
+                        content();
+                    } else {
+                        alert(res);
+                    }
+                },
+            });
+        } else {
+            return false;
+        }
+    });
+
+    $("span.deleteProduk").click(function() {
+        if (confirm("Yakin Hapus?")) {
+            var id = $(this).attr("data-id");
+            $.ajax({
+                url: "<?= $this->BASE_URL ?>Produk/delete_produk",
+                data: {
+                    id: id
+                },
+                type: "POST",
+                success: function(res) {
+                    if (res == 0) {
+                        content();
+                    } else {
+                        alert(res);
+                    }
+                },
+            });
+        } else {
+            return false;
+        }
     });
 </script>

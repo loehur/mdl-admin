@@ -40,7 +40,7 @@
                                         foreach ($data[$k]['item'] as $di) { ?>
                                             <div class="col-md-4">
                                                 <small>
-                                                    <span style="cursor: pointer;" data-id="<?= $di['id_detail_item'] ?>" class="deleteItem text-danger"><i class=" fa-regular fa-circle-xmark"></i></i></span> <span class="border edit px-1 text-nowrap" data-id='<?= $di['id_detail_item'] ?>'><?= strtoupper($di['detail_item']) ?></span>
+                                                    <span style="cursor: pointer;" data-id="<?= $di['id_detail_item'] ?>" class="deleteItem text-danger"><i class=" fa-regular fa-circle-xmark"></i></span> <span class="border edit px-1 text-nowrap" data-id='<?= $di['id_detail_item'] ?>'><?= strtoupper($di['detail_item']) ?></span>
                                                 </small>
                                             </div>
                                         <?php }

@@ -157,20 +157,7 @@
 						<?php } ?>
 
 						<div class="sidenav-menu-heading">SPK Panel</div>
-						<a class="nav-link <?= (str_contains($t, "SPK_R")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#SPK" aria-expanded="true" aria-controls="SPK">
-							<div class="nav-link-icon"><i data-feather="file-text"></i></div>
-							SPK - Rekap
-							<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-						</a>
-						<div class="collapse <?= (str_contains($t, "SPK_R")) ? 'show' : '' ?>" id="SPK" data-bs-parent="#accordionSidenav">
-							<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
-								<?php foreach ($this->dDvs as $dv) {
-									if ($dv['viewer'] <> 0) { ?>
-										<a class="nav-link <?= ($t == "SPK_R - " . $dv['divisi']) ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>SPK/index/<?= $dv['id_divisi'] ?>"><?= $dv['divisi'] ?></a>
-								<?php }
-								} ?>
-							</nav>
-						</div>
+
 						<a class="nav-link <?= (str_contains($t, "SPK_C")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#SPK_C" aria-expanded="true" aria-controls="SPK">
 							<div class="nav-link-icon"><i data-feather="file-text"></i></div>
 							SPK - Harian
@@ -186,6 +173,20 @@
 							</nav>
 						</div>
 
+						<a class="nav-link <?= (str_contains($t, "SPK_R")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#SPK" aria-expanded="true" aria-controls="SPK">
+							<div class="nav-link-icon"><i data-feather="file-text"></i></div>
+							SPK - Rekap
+							<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+						</a>
+						<div class="collapse <?= (str_contains($t, "SPK_R")) ? 'show' : '' ?>" id="SPK" data-bs-parent="#accordionSidenav">
+							<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
+								<?php foreach ($this->dDvs as $dv) {
+									if ($dv['viewer'] <> 0) { ?>
+										<a class="nav-link <?= ($t == "SPK_R - " . $dv['divisi']) ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>SPK/index/<?= $dv['id_divisi'] ?>"><?= $dv['divisi'] ?></a>
+								<?php }
+								} ?>
+							</nav>
+						</div>
 
 						<?php if ($this->userData['user_tipe'] <= 1) { ?>
 							<div class="sidenav-menu-heading">Admin Panel</div>

@@ -54,7 +54,6 @@ class Buka_Order extends Controller
          }
       }
 
-
       $wherePelanggan =  "id_toko = " . $this->userData['id_toko'] . " AND id_pelanggan_jenis = " . $parse;
       $data['pelanggan'] = $this->model('M_DB_1')->get_where('pelanggan', $wherePelanggan);
       $whereKarywan = "id_toko = " . $this->userData['id_toko'];
@@ -65,6 +64,9 @@ class Buka_Order extends Controller
 
    function add()
    {
+      $this->dataSynchrone();
+      $this->data();
+
       $id_produk = $_POST['id_produk'];
       $jumlah = $_POST['jumlah'];
       $note = $_POST['note'];
@@ -83,8 +85,6 @@ class Buka_Order extends Controller
             $data = unserialize($dp['produk_detail']);
          }
       }
-
-
 
       $produk_code = $id_produk . "#";
       $detail_code = "";

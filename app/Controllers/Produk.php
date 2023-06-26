@@ -122,7 +122,27 @@ class Produk extends Controller
       echo $result;
    }
 
+   public function delete_item()
+   {
+      $id = $_POST['id'];
+      $where = "id_spk_dvs = " . $id;
+      $delete = $this->model('M_DB_1')->delete_where("spk_dvs", $where);
+      $this->dataSynchrone();
+      echo $delete['errno'];
+   }
 
+   public function delete_produk()
+   {
+      $id = $_POST['id'];
+
+      $where = "code LIKE '" . $id . "#%'";
+      $delete = $this->model('M_DB_1')->delete_where("produk_harga", $where);
+      $where = "id_produk = " . $id;
+      $delete = $this->model('M_DB_1')->delete_where("produk", $where);
+
+      $this->dataSynchrone();
+      echo $delete['errno'];
+   }
 
    function add_item_multi($id_detail_group)
    {
