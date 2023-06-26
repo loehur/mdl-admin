@@ -21,11 +21,16 @@
                     <tbody>
                         <?php
                         foreach ($data as $k => $a) {
+                            $c_item = count($a['item']);
                         ?>
                             <tr>
                                 <td>
                                     <div class="row">
                                         <div class="col">
+                                            <?php
+                                            if ($c_item == 0) { ?>
+                                                <span style="cursor: pointer;" data-id="<?= $a['id_index'] ?>" class="deleteGrup text-danger"><i class=" fa-regular fa-circle-xmark"></i></span>
+                                            <?php } ?>
                                             <span class="text-success"><?= $a['detail_group'] ?></span>
                                         </div>
                                         <div class="col">
@@ -247,6 +252,28 @@
             var id = $(this).attr("data-id");
             $.ajax({
                 url: "<?= $this->BASE_URL ?>Group_Detail/delete_item",
+                data: {
+                    id: id
+                },
+                type: "POST",
+                success: function(res) {
+                    if (res == 0) {
+                        content();
+                    } else {
+                        alert(res);
+                    }
+                },
+            });
+        } else {
+            return false;
+        }
+    });
+
+    $("span.deleteGrup").click(function() {
+        if (confirm("Yakin Hapus?")) {
+            var id = $(this).attr("data-id");
+            $.ajax({
+                url: "<?= $this->BASE_URL ?>Group_Detail/delete_grup",
                 data: {
                     id: id
                 },

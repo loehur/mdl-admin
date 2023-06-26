@@ -150,6 +150,15 @@ class Group_Detail extends Controller
       echo $delete['errno'];
    }
 
+   public function delete_grup()
+   {
+      $id = $_POST['id'];
+      $where = "id_index = " . $id;
+      $delete = $this->model('M_DB_1')->delete_where("detail_group", $where);
+      $this->dataSynchrone();
+      echo $delete['errno'];
+   }
+
 
    function add_item_multi($id_detail_group)
    {
