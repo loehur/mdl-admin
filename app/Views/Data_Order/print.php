@@ -1,4 +1,11 @@
-<div style="margin:auto; width: 78mm; margin-top:10mm; font-family: sans-serif;">
+<div style="margin:auto; width: 190mm; margin-top:10mm">
+    <div class="header">
+        <h2 style="margin:0"><?= $this->userData['nama_toko'] ?></h2>
+        <?= $this->userData['sub_nama'] ?><br>
+        <?= $this->userData['alamat'] ?>
+    </div>
+    <hr>
+
     <?php
 
     foreach ($data['order'] as $do) {
@@ -19,24 +26,27 @@
 
     <table style="width: 100%;">
         <tr>
-            <td colspan="2" style="text-align: center;">
-                <h2 style="margin:0"><?= strtoupper($this->userData['nama_toko']) ?></h2>
-                <?= $this->userData['sub_nama'] ?>
-            </td>
+            <td>Pelanggan<br><b><?= strtoupper($pelanggan) ?></b></td>
+            <td>CS<br><b><?= strtoupper($cs) ?></b></td>
+            <td style="text-align: right;">Tanggal Order<br><b><?= $do['insertTime'] ?></b></td>
+            <td style="text-align: right;">No. Referensi<br><b><?= $do['ref'] ?></b></td>
         </tr>
-        <tr>
-            <td colspan="2" style="border-bottom: 1px solid;"></td>
-        </tr>
-        <tr>
-            <td colspan="2" style="padding-top:6px;padding-bottom:4px"><b><?= strtoupper($pelanggan) ?></b><br><?= strtoupper($cs) ?>#<?= $do['ref'] ?><br><?= $do['insertTime'] ?></td>
-        </tr>
-        <tr>
-            <td colspan="2" style="border-bottom: 1px solid;"></td>
-        </tr>
+    </table>
+    <br>
 
+    <table style="width:100%; border-collapse:collapse">
+        <tr style="border-bottom: 1px solid;">
+            <td style="text-align: right;">No.</td>
+            <td>Keterangan</td>
+            <td style="text-align: right;">Qty</td>
+            <td style="text-align: right;">Harga</td>
+            <td style="text-align: right;">Total</td>
+        </tr>
         <?php
+        $no = 0;
         $total = 0;
         foreach ($data['order'] as $do) {
+            $no += 1;
             $total += $do['harga'] * $do['jumlah'];
             $id_produk = $do['id_produk'];
             $detail_arr = unserialize($do['produk_detail']);
@@ -58,48 +68,55 @@
 
             $sisa = $total - $dibayar;
         ?>
-            <tr>
-                <td colspan="2">
-                    <?php
-                    foreach ($detail_arr as $da) { ?>
-                        <?= strtoupper($da['detail_name']) . " " ?>
-                    <?php } ?>
+            <tr style="border-bottom: 1px solid;">
+                <td style="text-align: right;">
+                    <?= $no ?>
                 </td>
-            </tr>
-            <tr>
-                <td style="text-align: right; border-bottom: 1px solid;border-bottom-style: dotted;">
-                    <?= $do['jumlah'] ?>pcs @<?= number_format($do['harga']) ?>
+                <td>
+                    <table class="border-bottom">
+                        <tr>
+                            <?php
+                            foreach ($detail_arr as $da) { ?>
+                                <td class="pe-1" nowrap>
+                                    <?= "<small>" . $da['group_name'] . "</small> <br>" . strtoupper($da['detail_name']) ?>
+                                </td>
+                            <?php } ?>
+                        </tr>
+                    </table>
                 </td>
-                <td style="text-align: right; border-bottom: 1px solid;border-bottom-style: dotted;">
+                <td style="text-align: right;">
+                    <?= $do['jumlah'] ?>pcs
+                </td>
+                <td style="text-align: right;">
+                    <?= number_format($do['harga']) ?>
+                </td>
+                <td style="text-align: right;">
                     <?= number_format($do['harga'] * $do['jumlah']) ?>
                 </td>
             </tr>
         <?php } ?>
         <tr>
-            <td colspan="2" style="text-align:right">
-                <table style="float: right;">
-                    <tr>
-                        <td style="text-align: right;">Total:</td>
-                        <td style="text-align: right;"><?= number_format($total) ?></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;">Dibayar:</td>
-                        <td style="text-align: right;"><?= number_format($dibayar) ?></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;"><b>Sisa:</b></td>
-                        <td style="text-align: right;"><b><?= number_format($sisa) ?></b></td>
-                    </tr>
-                </table>
-            </td>
+            <td style="height: 20px;"></td>
         </tr>
         <tr>
-            <td colspan="2" style="border-bottom: 1px solid;"></td>
+            <td valign=top colspan="2" rowspan="3">Riwayat Bayar:<br><?= $showMutasi ?></td>
+            <td colspan="2" style="text-align:right">Total:</td>
+            <td style="text-align:right"><?= number_format($total) ?></td>
         </tr>
         <tr>
-            <td valign=top colspan="2">Riwayat Bayar:<br><?= $showMutasi ?></td>
+            <td></td>
+            <td style="text-align:right">Dibayar:</td>
+            <td style="text-align:right"><?= number_format($dibayar) ?></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="text-align:right"><b>Sisa:</b></td>
+            <td style="text-align:right"><b><?= number_format($sisa) ?></b></td>
         </tr>
     </table>
+    <br>
+    Extra Note:
+    <div style="width: 100%; border: 1px solid; height:50px; border-radius:2mm"></div>
 </div>
 
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
