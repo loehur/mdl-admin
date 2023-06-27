@@ -60,7 +60,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Menambah MULTI <span class="text-success groupDetail"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="addItemMulti" action="<?= $this->BASE_URL ?>Group_Detail/add_item_multi" method="POST">
+            <form id="addItemMulti" action="<?= $this->BASE_URL ?>Group_Detail_CS/add_item_multi" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Item Detail - <small>Pisahkan dengan Koma ( , )</small></label>
