@@ -32,6 +32,7 @@
                                                 <span style="cursor: pointer;" data-id="<?= $a['id_index'] ?>" class="deleteGrup text-danger"><i class=" fa-regular fa-circle-xmark"></i></span>
                                             <?php } ?>
                                             <span class="text-success"><?= $a['detail_group'] ?></span>
+                                            <span class="px-1 pb-1" onclick="toggle(<?= $a['id_index'] ?>)"><small>Fast Add</small> <input id="add<?= $a['id_index'] ?>" type="checkbox" <?= ($a['cs'] == 1) ? "checked" : "" ?> data-toggle="toggle" data-size="mini"></span>
                                         </div>
                                         <div class="col">
                                             <div class="float-end">
@@ -171,11 +172,33 @@
 
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>js/selectize.min.js"></script>
+<script src="<?= $this->ASSETS_URL ?>plugins/toggle/js/bootstrap-toggle.min.js"></script>
 
 <script>
     $(document).ready(function() {
         $('select.tize').selectize();
     });
+
+    function toggle(id) {
+        var add = $("input#add" + id);
+        var val = 1;
+        if (add.is(':checked')) {
+            val = 0;
+        }
+        $.ajax({
+            url: "<?= $this->BASE_URL ?>Group_Detail/update_add",
+            data: {
+                id: id,
+                value: val
+            },
+            type: "POST",
+            success: function(res) {
+                if (res != 0) {
+                    alert(res);
+                }
+            },
+        });
+    }
 
     var addItemAction = $("form#addItem").attr('action');
     var addItemMultiAction = $("form#addItemMulti").attr('action');

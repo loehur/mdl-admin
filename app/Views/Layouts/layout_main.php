@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=410, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 	<title>Orins | <?= $data['title'] ?></title>
@@ -13,7 +13,9 @@
 	<link rel="icon" type="image/x-icon" href="<?= $this->ASSETS_URL ?>assets/img/favicon.png" />
 	<script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
+
 	<link rel="stylesheet" href="<?= $this->ASSETS_URL ?>plugins/fontawesome-free-6.4.0-web/css/all.css" rel="stylesheet">
+	<link href="<?= $this->ASSETS_URL ?>plugins/toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -152,6 +154,17 @@
 								<nav class="sidenav-menu-nested nav">
 									<a class="nav-link <?= ($t == "Pelanggan Umum") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Pelanggan/index/1">Umum</a>
 									<a class="nav-link <?= ($t == "Pelanggan Rekanan") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Pelanggan/index/2">Rekanan</a>
+								</nav>
+							</div>
+
+							<a class="nav-link <?= (str_contains($t, "CS Fitur")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlowCSF" aria-expanded="false" aria-controls="collapseFlowCSF">
+								<div class="nav-link-icon"><i data-feather="settings"></i></div>
+								CS Fitur
+								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							</a>
+							<div class="collapse <?= (str_contains($t, "CS Fitur")) ? 'show' : '' ?>" id="collapseFlowCSF" data-bs-parent="#accordionSidenav">
+								<nav class="sidenav-menu-nested nav">
+									<a class="nav-link <?= ($t == "CS Fitur - Item Detail") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Group_Detail_CS">Item Detail (+)</a>
 								</nav>
 							</div>
 						<?php } ?>

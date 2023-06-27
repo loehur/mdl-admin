@@ -1,6 +1,6 @@
 <?php
 
-class Group_Detail extends Controller
+class Group_Detail_CS extends Controller
 {
    public $page = __CLASS__;
 
@@ -23,7 +23,7 @@ class Group_Detail extends Controller
    {
       $this->view("Layouts/layout_main", [
          "content" => $this->v_content,
-         "title" => "Set Produksi - Group Detail"
+         "title" => "CS Fitur - Item Detail"
       ]);
 
       $this->viewer();
@@ -37,7 +37,7 @@ class Group_Detail extends Controller
    public function content()
    {
 
-      $where = "id_toko = " . $this->userData['id_toko'] . " ORDER BY detail_group ASC";
+      $where = "id_toko = " . $this->userData['id_toko'] . " AND cs = 1 ORDER BY detail_group ASC";
       $data = $this->model('M_DB_1')->get_where('detail_group', $where);
 
       foreach ($data as $key => $d) {
@@ -137,18 +137,6 @@ class Group_Detail extends Controller
       $set = "detail_item = '" . $value . "'";
       $where = "id_detail_item = " . $id;
       $update = $this->model('M_DB_1')->update("detail_item", $set, $where);
-      $this->dataSynchrone();
-      echo $update['errno'];
-   }
-
-   public function update_add()
-   {
-      $id = $_POST['id'];
-      $val = $_POST['value'];
-
-      $where = "id_index = " . $id;
-      $set = "cs = " . $val;
-      $update = $this->model('M_DB_1')->update("detail_group", $set, $where);
       $this->dataSynchrone();
       echo $update['errno'];
    }
