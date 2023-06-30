@@ -145,14 +145,18 @@
     $("#myInput").on("keyup", function() {
         var input = this.value;
         var filter = input.toLowerCase();
-
         var nodes = document.getElementsByClassName('target');
-        for (i = 0; i < nodes.length; i++) {
-            if (nodes[i].innerText.toLowerCase().includes(filter)) {
-                nodes[i].style.display = "block";
-            } else {
-                nodes[i].style.display = "none";
+
+        if (filter.length > 0) {
+            for (i = 0; i < nodes.length; i++) {
+                if (nodes[i].innerText.toLowerCase().includes(filter)) {
+                    nodes[i].style.display = "table";
+                } else {
+                    nodes[i].style.display = "none";
+                }
             }
+        } else {
+            nodes.style.display = "table";
         }
     });
 </script>
