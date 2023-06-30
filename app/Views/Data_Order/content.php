@@ -156,7 +156,9 @@
                 }
             }
         } else {
-            nodes.style.display = "table";
+            for (i = 0; i < nodes.length; i++) {
+                nodes[i].style.display = "table";
+            }
         }
     });
 </script>
