@@ -99,7 +99,7 @@
 						</div>
 					</h6>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#!">
+					<a class="dropdown-item" href="<?= $this->BASE_URL ?>Akun">
 						<div class="dropdown-item-icon"><i data-feather="settings"></i></div>
 						Account
 					</a>
