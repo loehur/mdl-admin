@@ -1,4 +1,4 @@
-<div style="margin:auto; width: 190mm; margin-top:10mm">
+<div style="margin:auto; width: 190mm;">
     <div class="header">
         <h2 style="margin:0"><?= $this->userData['nama_toko'] ?></h2>
         <?= $this->userData['sub_nama'] ?><br>
@@ -114,9 +114,6 @@
             <td style="text-align:right"><b><?= number_format($sisa) ?></b></td>
         </tr>
     </table>
-    <br>
-    Extra Note:
-    <div style="width: 100%; border: 1px solid; height:50px; border-radius:2mm"></div>
 </div>
 
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>

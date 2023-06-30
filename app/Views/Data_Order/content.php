@@ -50,6 +50,16 @@
                 <?php foreach ($data['order'] as $ref => $data['order_']) { ?>
                     <?php
                     $no = 0;
+                    $lunas = false;
+                    $dibayar = 0;
+                    $ambil_all = true;
+                    foreach ($data['kas'] as $dk) {
+                        if ($dk['ref_transaksi'] == $ref) {
+                            $dibayar += $dk['jumlah'];
+                        }
+                    }
+                    $bill = 0;
+
                     foreach ($data['order_'] as $do) {
                         $no++;
                         $id = $do['id_order_data'];
@@ -57,6 +67,22 @@
                         $id_produk = $do['id_produk'];
                         $dateTime = substr($do['insertTime'], 0, 10);
                         $today = date("Y-m-d");
+                        $cancel = $do['cancel'];
+                        $id_ambil = $do['id_ambil'];
+
+                        $jumlah = $do['harga'] * $do['jumlah'];
+                        if ($cancel == 0) {
+                            $bill += $jumlah;
+                        }
+
+                        $divisi_arr = unserialize($do['spk_dvs']);
+                        $countSPK =  count($divisi_arr);
+
+                        if ($id_ambil == 0) {
+                            if ($countSPK > 0 && $cancel == 0) {
+                                $ambil_all = false;
+                            }
+                        }
 
                         if ($no == 1) {
                             foreach ($data['pelanggan'] as $dp) {
@@ -74,18 +100,41 @@
                             <div class="col px-1">
                                 <table class="w-100 mb-1 target bg-white <?= ($dateTime == $today) ? 'border-bottom border-success' : 'border-bottom border-warning' ?>">
                                     <tr>
-                                        <td class="p-1"><span class="text-danger"><?= substr($ref, -4) ?></span> <a href="<?= $this->BASE_URL ?>Data_Operasi/index/<?= $do['id_pelanggan'] ?>"><b><?= strtoupper($pelanggan) ?></a></b></td>
-                                        <td class="p-1 text-end"><small><?= $cs  ?> [<?= substr($do['insertTime'], 2, -3) ?>]</small></td>
+                                        <td class="p-1">
+                                            <span class="text-danger"><?= substr($ref, -4) ?></span> <a href="<?= $this->BASE_URL ?>Data_Operasi/index/<?= $do['id_pelanggan'] ?>"><b><?= strtoupper($pelanggan) ?></a></b>
+                                            <br>
+                                            <small><?= $cs  ?> [<?= substr($do['insertTime'], 2, -3) ?>]</small>
+                                        </td>
+                                    <?php }
+                                    ?>
+                                <?php }
+                            $sisa = $bill - $dibayar;
+                            if ($sisa <= 0) {
+                                $lunas = true;
+                            }
+                                ?>
+                                <td class="text-end pe-1">
+                                    <small>
+                                        Ambil
+                                        <?php if ($ambil_all == true) { ?>
+                                            <i class="fa-solid fa-circle-check text-purple"></i>
+                                        <?php } else { ?>
+                                            <i class="fa-regular fa-circle"></i>
+                                        <?php } ?>
+                                        <br>
+                                        Lunas
+                                        <?php if ($lunas == true) { ?>
+                                            <i class="fa-solid fa-circle-check text-success"></i>
+                                        <?php } else { ?>
+                                            <i class="fa-regular fa-circle"></i>
+                                        <?php } ?>
+                                    </small>
+                                </td>
                                     </tr>
                                 </table>
                             </div>
-                        <?php }
-                        ?>
-                    <?php }
-
-                    ?>
-                <?php
-                } ?>
+                        <?php
+                    } ?>
             </div>
         </div>
     </small>

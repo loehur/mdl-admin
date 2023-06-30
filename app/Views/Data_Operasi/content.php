@@ -87,8 +87,6 @@
                                             $id_produk = $do['id_produk'];
                                             $detail_arr = unserialize($do['produk_detail']);
 
-
-
                                             $dateTime = substr($do['insertTime'], 0, 10);
                                             $today = date("Y-m-d");
 
