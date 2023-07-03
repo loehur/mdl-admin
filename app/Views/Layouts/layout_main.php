@@ -73,7 +73,7 @@
 	<nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
 		<button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0" id="sidebarToggle"><i data-feather="menu"></i></button>
 		<a class="navbar-brand pe-3 ps-4 ps-lg-2" id="sync" href="<?= $this->BASE_URL ?>Log/sync"><?= strtoupper($this->userData['nama_toko']) ?></a>
-		<?php if ($this->userData['user_tipe'] == 0) { ?>
+		<?php if (in_array($this->userData['user_tipe'], $this->pFinance)) { ?>
 			<div class="dropdown me-2">
 				<button class="btn btn-icon btn-transparent-dark dropdown-toggle border" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 					<i class="fa-solid fa-repeat"></i>
@@ -209,7 +209,7 @@
 							</a>
 							<div class="collapse <?= (str_contains($t, "Cashier")) ? 'show' : '' ?>" id="collapseCashier" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav">
-									<a class="nav-link <?= ($t == "Cashier - Setoran") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Non_Tunai_C">Setoran</a>
+									<a class="nav-link <?= ($t == "Cashier - Setoran") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Setoran">Setoran</a>
 								</nav>
 							</div>
 						<?php } ?>
@@ -266,7 +266,8 @@
 							<div class="collapse <?= (str_contains($t, "Finance")) ? 'show' : '' ?>" id="collapseFinance" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav">
 									<a class="nav-link <?= ($t == "Finance - Non Tunai") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Non_Tunai">Transaksi Non Tunai</a>
-									<a class="nav-link <?= ($t == "Finance - Setoran Toko") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Toko_Admin">Setoran Toko</a>
+									<a class="nav-link <?= ($t == "Finance - Setoran Toko") ? 'active' : '' ?>" href="#">Setoran Kasir</a>
+									<a class="nav-link <?= ($t == "Finance - Setoran Toko") ? 'active' : '' ?>" href="#">Data Piutang</a>
 								</nav>
 							</div>
 						<?php } ?>

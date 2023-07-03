@@ -1,6 +1,6 @@
 <?php
 
-class Non_Tunai_C extends Controller
+class Setoran extends Controller
 {
    public $page = __CLASS__;
 
@@ -51,7 +51,7 @@ class Non_Tunai_C extends Controller
    {
       $ref = date("Ymdhis");
       $set = "ref_setoran = '" . $ref . "'";
-      $where = "metode_mutasi = 1 AND id_client <> 0 AND ref_setoran = 0";
+      $where = "metode_mutasi = 1 AND id_client <> 0 AND ref_setoran = ''";
       $update = $this->model('M_DB_1')->update("kas", $set, $where);
       echo $update['errno'];
    }

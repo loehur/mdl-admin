@@ -65,8 +65,21 @@
                             if ($dk['status_mutasi'] == 0) {
                                 $pending_bayar = true;
                             }
-                            $statusP = ($dk['status_mutasi'] == 0) ? "<small class='text-warning'>(Dalam Pengecekan)</small> " : '<small><i class="fa-solid fa-check text-success"></i></small> ';
-                            $showMutasi .= $statusP . $dk['note'] . " -Rp" . number_format($dk['jumlah']) . "<br>";
+
+                            switch ($dk['status_mutasi']) {
+                                case 0:
+                                    $statusP = "<small class='text-warning'>(Dalam Pengecekan)</small> ";
+                                    $showMutasi .= $statusP . $dk['note'] . " -Rp" . number_format($dk['jumlah']) . "<br>";
+                                    break;
+                                case 1:
+                                    $statusP = '<small><i class="fa-solid fa-check text-success"></i></small> ';
+                                    $showMutasi .= $statusP . $dk['note'] . " -Rp" . number_format($dk['jumlah']) . "<br>";
+                                    break;
+                                default:
+                                    $statusP = '<small><i class="fa-solid fa-xmark text-danger"></i></small> ';
+                                    $showMutasi .= $statusP . "<del>" . $dk['note'] . " -Rp" . number_format($dk['jumlah']) . "</del><br>";
+                                    break;
+                            }
                         }
                     }
                 ?>

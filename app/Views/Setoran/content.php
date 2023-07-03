@@ -53,7 +53,7 @@
 
                             <tr>
                                 <td align="right">#<?= $a['id_kas'] ?></td>
-                                <td><?= $pelanggan ?></td>
+                                <td><?= strtoupper($pelanggan) ?></td>
                                 <td><?= $a['ref_transaksi'] ?></td>
                                 <td><?= $a['insertTime'] ?></td>
                                 <td align="right">Rp<?= number_format($jumlah) ?></td>
@@ -134,7 +134,7 @@
 <script>
     $("button#setor").click(function() {
         $.ajax({
-            url: "<?= $this->BASE_URL ?>Non_Tunai_C/setor",
+            url: "<?= $this->BASE_URL ?>Setoran/setor",
             data: [],
             type: "POST",
             success: function(result) {

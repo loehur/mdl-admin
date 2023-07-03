@@ -9,7 +9,7 @@ class Log extends Controller
       $this->session_cek();
       $this->data();
 
-      if (!in_array($this->userData['user_tipe'], $this->pMaster)) {
+      if (!in_array($this->userData['user_tipe'], $this->pFinance)) {
          $this->model('Log')->write($this->userData['user'] . " Force Logout. Hacker!");
          $this->logout();
       }
@@ -23,11 +23,9 @@ class Log extends Controller
 
    function change_toko($id)
    {
-      if ($this->userData['user_tipe'] == 0) {
-         $where = "id_user = " . $this->userData['id_user'];
-         $set = "id_toko = " . $id;
-         $update = $this->model('M_DB_1')->update("user", $set, $where);
-         $this->dataSynchrone();
-      }
+      $where = "id_user = " . $this->userData['id_user'];
+      $set = "id_toko = " . $id;
+      $this->model('M_DB_1')->update("user", $set, $where);
+      $this->dataSynchrone();
    }
 }
