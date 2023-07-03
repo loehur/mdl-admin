@@ -264,8 +264,8 @@
 							<div class="collapse <?= (str_contains($t, "Finance")) ? 'show' : '' ?>" id="collapseFinance" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav">
 									<a class="nav-link <?= ($t == "Finance - Non Tunai") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Non_Tunai">Transaksi Non Tunai</a>
-									<a class="nav-link <?= ($t == "Finance - Setoran Toko") ? 'active' : '' ?>" href="#">Setoran Kasir</a>
-									<a class="nav-link <?= ($t == "Finance - Setoran Toko") ? 'active' : '' ?>" href="#">Data Piutang</a>
+									<a class="nav-link <?= ($t == "Finance - Setoran") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Setoran_F">Setoran Kasir</a>
+									<a class="nav-link <?= ($t == "Finance - Piutang") ? 'active' : '' ?>" href="#">Data Piutang</a>
 								</nav>
 							</div>
 						<?php } ?>

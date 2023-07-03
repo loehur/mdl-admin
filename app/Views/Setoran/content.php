@@ -109,10 +109,10 @@
                         $st_setor = "";
                         switch ($set['status_setoran']) {
                             case 0:
-                                $st_setor = "<span class='text-warning'>Finance Checking</span>";
+                                $st_setor = "<span class='text-warning'><i class='fa-regular fa-circle'></i> Finance Checking</span>";
                                 break;
                             case 1:
-                                $st_setor = "<span class='text-success'>Verified</span>";
+                                $st_setor = "<span class='text-success'><i class='fa-solid fa-circle-check'></i> Verified</span>";
                                 break;
                         }
                     ?>
