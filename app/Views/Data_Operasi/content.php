@@ -59,7 +59,7 @@
                     $showMutasi = "";
                     foreach ($data['kas'] as $dk) {
                         if ($dk['ref_transaksi'] == $ref) {
-                            if ($dk['status_mutasi'] <> 2) {
+                            if ($dk['status_mutasi'] == 0 || $dk['status_mutasi'] == 1) {
                                 $dibayar += $dk['jumlah'];
                             }
                             if ($dk['status_mutasi'] == 0) {

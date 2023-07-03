@@ -1,7 +1,7 @@
-<div style="margin:auto; width: 190mm; font-family: sans-serif;">
+<div style="margin:auto; margin-top:5mm; width: 190mm; font-family: sans-serif;">
     <div class="header">
-        <h2 style="margin:0"><?= $this->userData['nama_toko'] ?></h2>
-        <?= $this->userData['sub_nama'] ?><br>
+        <h2 style="margin:0;color:green"><b><?= $this->userData['nama_toko'] ?></b></h2>
+        <b><?= $this->userData['sub_nama'] ?></b><br>
         <?= $this->userData['alamat'] ?>
     </div>
     <hr>
@@ -60,9 +60,14 @@
             $dibayar = 0;
             $showMutasi = "";
             foreach ($data['kas'] as $dk) {
-                if ($dk['ref_transaksi'] == $do['ref'] && $dk['status_mutasi'] == 1) {
+                if ($dk['ref_transaksi'] == $do['ref'] && ($dk['status_mutasi'] == 1 || $dk['status_mutasi'] == 0)) {
                     $dibayar += $dk['jumlah'];
-                    $showMutasi .= "Rp" . number_format($dk['jumlah']) . " (" . $dk['insertTime'] . ")<br>";
+
+                    if ($dk['status_mutasi'] == 0) {
+                        $showMutasi .= "Rp" . number_format($dk['jumlah']) . " (" . $dk['insertTime'] . ") <b>*Dalam Pengecekan</b><br>";
+                    } else {
+                        $showMutasi .= "Rp" . number_format($dk['jumlah']) . " (" . $dk['insertTime'] . ")<br>";
+                    }
                 }
             }
 
@@ -99,7 +104,7 @@
             <td style="height: 20px;"></td>
         </tr>
         <tr>
-            <td valign=top colspan="2" rowspan="3">Riwayat Bayar:<br><?= $showMutasi ?></td>
+            <td valign=top colspan="2" rowspan="3"><small>Riwayat Pembayaran:</small><br><?= $showMutasi ?></td>
             <td colspan="2" style="text-align:right">Total:</td>
             <td style="text-align:right"><?= number_format($total) ?></td>
         </tr>
