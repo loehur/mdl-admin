@@ -63,6 +63,10 @@
 		.selectize-input::after {
 			visibility: hidden;
 		}
+
+		main {
+			margin-bottom: 20px;
+		}
 	</style>
 </head>
 
