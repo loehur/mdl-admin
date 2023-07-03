@@ -50,6 +50,8 @@ class Buka_Order extends Controller
       $whereToko = "id_toko = " . $this->userData['id_toko'];
       $data_harga = $this->model('M_DB_1')->get_where('produk_harga', $whereToko);
 
+      $data['count'] = count($data['order']);
+
       foreach ($data['order'] as $key => $do) {
          foreach ($data_harga as $dh) {
             if ($dh['code'] == $do['produk_code']) {
@@ -305,12 +307,28 @@ class Buka_Order extends Controller
 
    public function updateCell($parse)
    {
+      if (!in_array($this->userData['user_tipe'], $this->pKasir)) {
+         echo "Perubahan Harga hanya Kasir/Admin";
+         exit();
+      }
+
       $value = $_POST['value'];
       $id = $_POST['id'];
 
       $where = "code = '" . $id . "'";
       $set = "harga_" . $parse . " = " . $value;
       $update = $this->model('M_DB_1')->update("produk_harga", $set, $where);
+      echo ($update['errno'] <> 0) ? $update['error'] : $update['errno'];
+   }
+
+   public function updateCell_N()
+   {
+      $value = $_POST['value'];
+      $id = $_POST['id'];
+
+      $where = "id_order_data = '" . $id . "'";
+      $set = "jumlah = " . $value;
+      $update = $this->model('M_DB_1')->update("order_data", $set, $where);
       echo ($update['errno'] <> 0) ? $update['error'] : $update['errno'];
    }
 }

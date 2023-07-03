@@ -36,7 +36,11 @@ if ($id_pelanggan_jenis == 1) {
     <!-- Main page content-->
     <div class="container-fluid px-4">
         <div class="card mt-n10">
-            <div class="card-header ">Buka Order - <b><?= $pelanggan_jenis ?></b><button type="button" class="float-end btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button></div>
+            <div class="card-header ">Buka Order - <b><?= $pelanggan_jenis ?></b>
+                <?php if ($data['count'] <= 15) { ?>
+                    <button type="button" class="float-end btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
+                <?php } ?>
+            </div>
             <div class="card-body">
                 <form action="<?= $this->BASE_URL ?>Buka_Order/proses/<?= $id_pelanggan_jenis ?>" method="POST">
                     <div class="row pb-2">
@@ -59,7 +63,7 @@ if ($id_pelanggan_jenis == 1) {
                             </select>
                         </div>
                         <div class="col mt-auto">
-                            <button type="submit" class="btn btn-primary">Proses</button>
+                            <button type="submit" class="btn btn-primary">Proses - <span class="ms-1"><b><?= $data['count'] ?> Item</b></span></button>
                         </div>
                     </div>
                 </form>
@@ -133,7 +137,7 @@ if ($id_pelanggan_jenis == 1) {
                                 </div>
                             </td>
                             <td class="text-end"><span class="edit" data-id="<?= $do['produk_code'] ?>"><?= ($do['harga'] == 0) ? $btnSetHarga : $do['harga'] ?></span></td>
-                            <td class="text-end"><?= number_format($do['jumlah']) ?></td>
+                            <td class="text-end"><span class="edit_n" data-id="<?= $do['id_order_data'] ?>"><?= number_format($do['jumlah']) ?></span></td>
                             <td class="text-end"><?= number_format($do['harga'] * $do['jumlah']) ?></td>
                             <td><a class="deleteItem" data-id_order="<?= $id_order_data ?>" href="#"><i class="text-danger fa-regular fa-circle-xmark"></i></a></td>
                         </tr>
@@ -271,6 +275,45 @@ if ($id_pelanggan_jenis == 1) {
             } else {
                 $.ajax({
                     url: '<?= $this->BASE_URL ?>Buka_Order/updateCell/' + parse,
+                    data: {
+                        'id': id,
+                        'value': value_after,
+                    },
+                    type: 'POST',
+                    success: function(res) {
+                        if (res == 0) {
+                            content();
+                        } else {
+                            alert(res);
+                        }
+                    },
+                });
+            }
+        });
+    });
+
+    var click = 0;
+    $("span.edit_n").on('dblclick', function() {
+        click = click + 1;
+        if (click != 1) {
+            return;
+        }
+
+        var id = $(this).attr('data-id');
+        var value = $(this).html();
+        var value_before = value;
+        var span = $(this);
+        span.html("<input type='number' id='value_3313' style='text-align:center;width:70px' value='" + value + "'>");
+
+        $("#value_3313").focus();
+        $("#value_3313").focusout(function() {
+            var value_after = $(this).val();
+            if (value_after == value_before) {
+                span.html(value_before);
+                click = 0;
+            } else {
+                $.ajax({
+                    url: '<?= $this->BASE_URL ?>Buka_Order/updateCell_N',
                     data: {
                         'id': id,
                         'value': value_after,

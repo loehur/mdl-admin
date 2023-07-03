@@ -26,21 +26,21 @@
 
     <table style="width: 100%;">
         <tr>
-            <td>Pelanggan<br><b><?= strtoupper($pelanggan) ?></b></td>
-            <td>CS<br><b><?= strtoupper($cs) ?></b></td>
-            <td style="text-align: right;">Tanggal Order<br><b><?= $do['insertTime'] ?></b></td>
-            <td style="text-align: right;">No. Referensi<br><b><?= $do['ref'] ?></b></td>
+            <td><small>Pelanggan</small><br><b><?= strtoupper($pelanggan) ?></b></td>
+            <td><small>CS</small><br><b><?= strtoupper($cs) ?></b></td>
+            <td style="text-align: right;"><small>Tanggal Order</small><br><b><?= $do['insertTime'] ?></b></td>
+            <td style="text-align: right;"><small>No. Referensi</small><br><b><?= $do['ref'] ?></b></td>
         </tr>
     </table>
     <br>
 
     <table style="width:100%; border-collapse:collapse">
         <tr style="border-bottom: 1px solid;">
-            <td style="text-align: right;">No.</td>
-            <td>Keterangan</td>
-            <td style="text-align: right;">Qty</td>
-            <td style="text-align: right;">Harga</td>
-            <td style="text-align: right;">Total</td>
+            <th style="text-align: right;">No.</th>
+            <th>Keterangan</th>
+            <th style="text-align: right;">Qty</th>
+            <th style="text-align: right;">Harga</th>
+            <th style="text-align: right;">Total</th>
         </tr>
         <?php
         $no = 0;
@@ -75,7 +75,7 @@
         ?>
             <tr style="border-bottom: 1px solid;">
                 <td style="text-align: right;">
-                    <?= $no ?>
+                    <?= $no ?>.
                 </td>
                 <td>
                     <table class="border-bottom">
