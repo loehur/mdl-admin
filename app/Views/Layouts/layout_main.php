@@ -117,8 +117,8 @@
 				<div class="sidenav-menu">
 					<div class="nav accordion" id="accordionSidenav">
 						<!-- Sidenav Menu Heading (Account)-->
-						<hr class="p-0 m-0 border-0 mb-2">
 						<?php if (in_array($this->userData['user_tipe'], $this->pCS)) { ?>
+							<hr class="p-0 m-0">
 							<!-- Sidenav Accordion (Dashboard)-->
 							<a class="nav-link <?= (str_contains($t, "Buka Order")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseNewOrder" aria-expanded="true" aria-controls="collapseNewOrder">
 								<div class="nav-link-icon"><i data-feather="plus-square"></i></div>
@@ -199,9 +199,8 @@
 							</div>
 						<?php } ?>
 
-						<hr class="p-0 m-0">
-
 						<?php if (in_array($this->userData['user_tipe'], $this->pKasir)) { ?>
+							<hr class="p-0 m-0">
 							<!-- CASHIER PANEL -->
 							<a class="nav-link <?= (str_contains($t, "Cashier")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseCashier" aria-expanded="false" aria-controls="collapseFlows">
 								<div class="nav-link-icon"><i data-feather="credit-card"></i></div>
@@ -215,9 +214,8 @@
 							</div>
 						<?php } ?>
 
-						<hr class="p-0 m-0">
-
 						<?php if (in_array($this->userData['user_tipe'], $this->pAdmin)) { ?>
+							<hr class="p-0 m-0">
 							<a class="nav-link <?= (str_contains($t, "User")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlowsUser" aria-expanded="false" aria-controls="collapseFlows">
 								<div class="nav-link-icon"><i data-feather="user"></i></div>
 								Orins User
@@ -255,9 +253,8 @@
 							</div>
 						<?php } ?>
 
-						<hr class="p-0 m-0">
-
 						<?php if (in_array($this->userData['user_tipe'], $this->pFinance)) { ?>
+							<hr class="p-0 m-0">
 							<!-- FINANCE PANEL -->
 							<a class="nav-link <?= (str_contains($t, "Finance")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFinance" aria-expanded="false" aria-controls="collapseFlows">
 								<div class="nav-link-icon"><i data-feather="server"></i></div>
@@ -273,9 +270,8 @@
 							</div>
 						<?php } ?>
 
-						<hr class="p-0 m-0">
-
 						<?php if (in_array($this->userData['user_tipe'], $this->pMaster)) { ?>
+							<hr class="p-0 m-0">
 							<!-- MASTER PANEL -->
 							<a class="nav-link <?= (str_contains($t, "Managment")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseToko" aria-expanded="false" aria-controls="collapseFlows">
 								<div class="nav-link-icon"><i data-feather="server"></i></div>
