@@ -155,8 +155,8 @@
 								</nav>
 							</div>
 
-							<a class="border-bottom nav-link <?= (str_contains($t, "CS Fitur")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlowCSF" aria-expanded="false" aria-controls="collapseFlowCSF">
-								<div class="nav-link-icon"><i data-feather="settings"></i></div>
+							<a class="nav-link <?= (str_contains($t, "CS Fitur")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlowCSF" aria-expanded="false" aria-controls="collapseFlowCSF">
+								<div class="nav-link-icon"><i data-feather="columns"></i></div>
 								CS Fitur
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 							</a>
@@ -182,7 +182,7 @@
 									} ?>
 								</nav>
 							</div>
-							<a class="border-bottom nav-link <?= (str_contains($t, "SPK_R")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#SPK" aria-expanded="true" aria-controls="SPK">
+							<a class="nav-link <?= (str_contains($t, "SPK_R")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#SPK" aria-expanded="true" aria-controls="SPK">
 								<div class="nav-link-icon"><i data-feather="file-text"></i></div>
 								SPK - Rekap
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -197,6 +197,24 @@
 								</nav>
 							</div>
 						<?php } ?>
+
+						<hr class="p-0 m-0">
+
+						<?php if (in_array($this->userData['user_tipe'], $this->pKasir)) { ?>
+							<!-- CASHIER PANEL -->
+							<a class="nav-link <?= (str_contains($t, "Cashier")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseCashier" aria-expanded="false" aria-controls="collapseFlows">
+								<div class="nav-link-icon"><i data-feather="credit-card"></i></div>
+								Cashier
+								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							</a>
+							<div class="collapse <?= (str_contains($t, "Cashier")) ? 'show' : '' ?>" id="collapseCashier" data-bs-parent="#accordionSidenav">
+								<nav class="sidenav-menu-nested nav">
+									<a class="nav-link <?= ($t == "Cashier - Setoran") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Non_Tunai_C">Setoran</a>
+								</nav>
+							</div>
+						<?php } ?>
+
+						<hr class="p-0 m-0">
 
 						<?php if (in_array($this->userData['user_tipe'], $this->pAdmin)) { ?>
 							<a class="nav-link <?= (str_contains($t, "User")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlowsUser" aria-expanded="false" aria-controls="collapseFlows">
@@ -222,8 +240,8 @@
 									<a class="nav-link" href="#">Tidak Aktif</a>
 								</nav>
 							</div>
-							<a class="border-bottom nav-link <?= (str_contains($t, "Set Produksi")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows2" aria-expanded="false" aria-controls="collapseFlows">
-								<div class="nav-link-icon"><i data-feather="database"></i></div>
+							<a class="nav-link <?= (str_contains($t, "Set Produksi")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows2" aria-expanded="false" aria-controls="collapseFlows">
+								<div class="nav-link-icon"><i data-feather="tool"></i></div>
 								Pengaturan Produksi
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 							</a>
@@ -236,9 +254,11 @@
 							</div>
 						<?php } ?>
 
+						<hr class="p-0 m-0">
+
 						<?php if (in_array($this->userData['user_tipe'], $this->pFinance)) { ?>
 							<!-- FINANCE PANEL -->
-							<a class="border-bottom nav-link <?= (str_contains($t, "Finance")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFinance" aria-expanded="false" aria-controls="collapseFlows">
+							<a class="nav-link <?= (str_contains($t, "Finance")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFinance" aria-expanded="false" aria-controls="collapseFlows">
 								<div class="nav-link-icon"><i data-feather="server"></i></div>
 								Finance
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -250,6 +270,8 @@
 								</nav>
 							</div>
 						<?php } ?>
+
+						<hr class="p-0 m-0">
 
 						<?php if (in_array($this->userData['user_tipe'], $this->pMaster)) { ?>
 							<!-- MASTER PANEL -->
