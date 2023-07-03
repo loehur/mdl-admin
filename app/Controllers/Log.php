@@ -8,11 +8,6 @@ class Log extends Controller
    {
       $this->session_cek();
       $this->data();
-
-      if (!in_array($this->userData['user_tipe'], $this->pFinance)) {
-         $this->model('Log')->write($this->userData['user'] . " Force Logout. Hacker!");
-         $this->logout();
-      }
    }
 
    public function sync()
@@ -23,6 +18,11 @@ class Log extends Controller
 
    function change_toko($id)
    {
+      if (!in_array($this->userData['user_tipe'], $this->pFinance)) {
+         $this->model('Log')->write($this->userData['user'] . " Force Logout. Hacker!");
+         $this->logout();
+      }
+
       $where = "id_user = " . $this->userData['id_user'];
       $set = "id_toko = " . $id;
       $this->model('M_DB_1')->update("user", $set, $where);
