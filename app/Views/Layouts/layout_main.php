@@ -117,6 +117,7 @@
 				<div class="sidenav-menu">
 					<div class="nav accordion" id="accordionSidenav">
 						<!-- Sidenav Menu Heading (Account)-->
+						<hr class="p-0 m-0 border-0 mb-2">
 						<?php if (in_array($this->userData['user_tipe'], $this->pCS)) { ?>
 							<!-- Sidenav Accordion (Dashboard)-->
 							<a class="nav-link <?= (str_contains($t, "Buka Order")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseNewOrder" aria-expanded="true" aria-controls="collapseNewOrder">
