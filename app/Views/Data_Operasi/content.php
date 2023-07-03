@@ -502,7 +502,7 @@
     $('button.cek').click(function() {
         var parse = $("select[name=id_pelanggan]").val();
         var parse_2 = $("select[name=y]").val() || 0;
-        $("div#content").load('<?= $this->BASE_URL ?>Data_Operasi/content/' + parse + '/' + parse_2);
+        location.href = "<?= $this->BASE_URL ?>Data_Operasi/index/" + parse + "/" + parse_2;
     });
 
     var bill = 0;

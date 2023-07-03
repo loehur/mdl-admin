@@ -8,7 +8,7 @@ class Setoran_F extends Controller
    {
       $this->session_cek();
       $this->data();
-      if (!in_array($this->userData['user_tipe'], $this->pKasir)) {
+      if (!in_array($this->userData['user_tipe'], $this->pFinance)) {
          $this->model('Log')->write($this->userData['user'] . " Force Logout. Hacker!");
          $this->logout();
       }
