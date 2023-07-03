@@ -54,7 +54,7 @@
                     $dibayar = 0;
                     $ambil_all = true;
                     foreach ($data['kas'] as $dk) {
-                        if ($dk['ref_transaksi'] == $ref) {
+                        if ($dk['ref_transaksi'] == $ref && $dk['status_mutasi'] == 1) {
                             $dibayar += $dk['jumlah'];
                         }
                     }

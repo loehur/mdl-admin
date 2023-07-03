@@ -53,13 +53,20 @@
 
                     $tuntas = true;
                     $lunas = false;
+                    $pending_bayar = false;
 
                     $dibayar = 0;
                     $showMutasi = "";
                     foreach ($data['kas'] as $dk) {
                         if ($dk['ref_transaksi'] == $ref) {
-                            $dibayar += $dk['jumlah'];
-                            $showMutasi .= "-Rp" . number_format($dk['jumlah']) . "<br>";
+                            if ($dk['status_mutasi'] <> 2) {
+                                $dibayar += $dk['jumlah'];
+                            }
+                            if ($dk['status_mutasi'] == 0) {
+                                $pending_bayar = true;
+                            }
+                            $statusP = ($dk['status_mutasi'] == 0) ? "<small class='text-warning'>(Dalam Pengecekan)</small> " : '<small><i class="fa-solid fa-check text-success"></i></small> ';
+                            $showMutasi .= $statusP . $dk['note'] . " -Rp" . number_format($dk['jumlah']) . "<br>";
                         }
                     }
                 ?>
@@ -107,9 +114,10 @@
                                                 }
                                             }
 
+                                            $id_pelanggan = $do['id_pelanggan'];
                                             if ($no == 1) {
                                                 foreach ($data['pelanggan'] as $dp) {
-                                                    if ($dp['id_pelanggan'] == $do['id_pelanggan']) {
+                                                    if ($dp['id_pelanggan'] == $id_pelanggan) {
                                                         $pelanggan = $dp['nama'];
                                                     }
                                                 }
@@ -243,7 +251,7 @@
 
                                         $sisa = $bill - $dibayar;
 
-                                        if ($sisa <= 0) {
+                                        if ($sisa <= 0 && $pending_bayar == false) {
                                             $lunas = true;
                                         }
 
@@ -261,13 +269,13 @@
                                                         if ($ambil == true) { ?>
                                                             <td class="text-end pe-1"><small><span data-bs-toggle="modal" data-bs-target="#exampleModal3" class="btnAmbilSemua border border-purple text-purple btn btn-sm py-1 px-1" data-ref="<?= $do['ref'] ?>">Ambil Semua</span></small></td>
                                                         <?php }
-                                                        if ($this->userData['user_tipe'] <= 2 && $lunas == false) { ?>
-                                                            <td class="text-end pe-1"><small><span data-ref="<?= $ref ?>" data-bill="<?= $sisa ?>" data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btnBayar border border-danger text-danger btn btn-sm py-1 px-1">Bayar</span></small></td>
+                                                        if (in_array($this->userData['user_tipe'], $this->pKasir) && $sisa > 0) { ?>
+                                                            <td class="text-end pe-1"><small><span data-ref="<?= $ref ?>" data-client="<?= $id_pelanggan ?>" data-bill="<?= $sisa ?>" data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btnBayar border border-danger text-danger btn btn-sm py-1 px-1">Bayar</span></small></td>
                                                         <?php } ?>
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td class="text-end"><?= ($lunas == true) ? '<i class="fa-solid text-success fa-circle-check"></i>' : '' ?> <b>Rp<?= number_format($total) ?></b></td>
+                                            <td class="text-end" nowrap><?= ($lunas == true) ? '<i class="fa-solid text-success fa-circle-check"></i>' : '' ?> <b>Rp<?= number_format($total) ?></b></td>
                                         </tr>
                                         <tr class="border-top">
                                             <td class="text-end text" colspan="4">
@@ -422,10 +430,17 @@
                                 <label class="form-label">Bayar (Rp) <small><span style="cursor: pointer;" class="bayarPas text-danger">Bayar Pas (Click)</span></small></label>
                                 <input type="number" name="jumlah" class="form-control dibayar" required>
                                 <input type="hidden" name="ref" id="refBayar" required>
+                                <input type="hidden" name="client" id="client" required>
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label">Kembalian (Rp)</label>
                                 <input type="number" class="form-control kembalian" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label class="form-label"><span class="text-primary">Catatan</span> <small>(Contoh: BCA/Qris)</small></label>
+                                <input type="text" name="note" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -480,9 +495,11 @@
     var bill = 0;
     $("span.btnBayar").click(function() {
         bill = $(this).attr("data-bill");
+        client = $(this).attr("data-client");
         $("input.bill").val(bill);
         var ref = $(this).attr("data-ref");
         $("input#refBayar").val(ref);
+        $("input#client").val(client);
     })
 
     $("span.bayarPas").click(function() {

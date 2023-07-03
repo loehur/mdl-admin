@@ -8,6 +8,10 @@ class Group_Detail_CS extends Controller
    {
       $this->session_cek();
       $this->data();
+      if (!in_array($this->userData['user_tipe'], $this->pCS)) {
+         $this->model('Log')->write($this->userData['user'] . " Force Logout. Hacker!");
+         $this->logout();
+      }
 
       $this->v_content = $this->page . "/content";
       $this->v_viewer = $this->page . "/viewer";

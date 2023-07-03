@@ -117,11 +117,9 @@
 				<div class="sidenav-menu">
 					<div class="nav accordion" id="accordionSidenav">
 						<!-- Sidenav Menu Heading (Account)-->
-
-						<?php if ($this->userData['user_tipe'] <= 3) { ?>
-							<div class="sidenav-menu-heading">CS Panel</div>
+						<?php if (in_array($this->userData['user_tipe'], $this->pCS)) { ?>
 							<!-- Sidenav Accordion (Dashboard)-->
-							<a class="nav-link <?= (str_contains($t, "Buka Order")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseNewOrder" aria-expanded="true" aria-controls="collapseNewOrder">
+							<a class="nav-link <?= (str_contains($t, "Buka Order")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseNewOrder" aria-expanded="true" aria-controls="collapseNewOrder">
 								<div class="nav-link-icon"><i data-feather="plus-square"></i></div>
 								Buka Order
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -157,7 +155,7 @@
 								</nav>
 							</div>
 
-							<a class="nav-link <?= (str_contains($t, "CS Fitur")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlowCSF" aria-expanded="false" aria-controls="collapseFlowCSF">
+							<a class="border-bottom nav-link <?= (str_contains($t, "CS Fitur")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlowCSF" aria-expanded="false" aria-controls="collapseFlowCSF">
 								<div class="nav-link-icon"><i data-feather="settings"></i></div>
 								CS Fitur
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -169,40 +167,38 @@
 							</div>
 						<?php } ?>
 
-						<div class="sidenav-menu-heading">SPK Panel</div>
+						<?php if (in_array($this->userData['user_tipe'], $this->pProduksi)) { ?>
+							<a class="nav-link <?= (str_contains($t, "SPK_C")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#SPK_C" aria-expanded="true" aria-controls="SPK">
+								<div class="nav-link-icon"><i data-feather="file-text"></i></div>
+								SPK - Harian
+								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							</a>
+							<div class="collapse <?= (str_contains($t, "SPK_C")) ? 'show' : '' ?>" id="SPK_C" data-bs-parent="#accordionSidenav">
+								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
+									<?php foreach ($this->dDvs as $dv) {
+										if ($dv['viewer'] <> 0) { ?>
+											<a class="nav-link <?= ($t == "SPK_C - " . $dv['divisi']) ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>SPK_C/index/<?= $dv['id_divisi'] ?>"><?= $dv['divisi'] ?></a>
+									<?php }
+									} ?>
+								</nav>
+							</div>
+							<a class="border-bottom nav-link <?= (str_contains($t, "SPK_R")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#SPK" aria-expanded="true" aria-controls="SPK">
+								<div class="nav-link-icon"><i data-feather="file-text"></i></div>
+								SPK - Rekap
+								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							</a>
+							<div class="collapse <?= (str_contains($t, "SPK_R")) ? 'show' : '' ?>" id="SPK" data-bs-parent="#accordionSidenav">
+								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
+									<?php foreach ($this->dDvs as $dv) {
+										if ($dv['viewer'] <> 0) { ?>
+											<a class="nav-link <?= ($t == "SPK_R - " . $dv['divisi']) ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>SPK/index/<?= $dv['id_divisi'] ?>"><?= $dv['divisi'] ?></a>
+									<?php }
+									} ?>
+								</nav>
+							</div>
+						<?php } ?>
 
-						<a class="nav-link <?= (str_contains($t, "SPK_C")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#SPK_C" aria-expanded="true" aria-controls="SPK">
-							<div class="nav-link-icon"><i data-feather="file-text"></i></div>
-							SPK - Harian
-							<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-						</a>
-						<div class="collapse <?= (str_contains($t, "SPK_C")) ? 'show' : '' ?>" id="SPK_C" data-bs-parent="#accordionSidenav">
-							<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
-								<?php foreach ($this->dDvs as $dv) {
-									if ($dv['viewer'] <> 0) { ?>
-										<a class="nav-link <?= ($t == "SPK_C - " . $dv['divisi']) ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>SPK_C/index/<?= $dv['id_divisi'] ?>"><?= $dv['divisi'] ?></a>
-								<?php }
-								} ?>
-							</nav>
-						</div>
-
-						<a class="nav-link <?= (str_contains($t, "SPK_R")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#SPK" aria-expanded="true" aria-controls="SPK">
-							<div class="nav-link-icon"><i data-feather="file-text"></i></div>
-							SPK - Rekap
-							<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-						</a>
-						<div class="collapse <?= (str_contains($t, "SPK_R")) ? 'show' : '' ?>" id="SPK" data-bs-parent="#accordionSidenav">
-							<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
-								<?php foreach ($this->dDvs as $dv) {
-									if ($dv['viewer'] <> 0) { ?>
-										<a class="nav-link <?= ($t == "SPK_R - " . $dv['divisi']) ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>SPK/index/<?= $dv['id_divisi'] ?>"><?= $dv['divisi'] ?></a>
-								<?php }
-								} ?>
-							</nav>
-						</div>
-
-						<?php if ($this->userData['user_tipe'] <= 1) { ?>
-							<div class="sidenav-menu-heading">Admin Panel</div>
+						<?php if (in_array($this->userData['user_tipe'], $this->pAdmin)) { ?>
 							<a class="nav-link <?= (str_contains($t, "User")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlowsUser" aria-expanded="false" aria-controls="collapseFlows">
 								<div class="nav-link-icon"><i data-feather="user"></i></div>
 								Orins User
@@ -226,7 +222,7 @@
 									<a class="nav-link" href="#">Tidak Aktif</a>
 								</nav>
 							</div>
-							<a class="nav-link <?= (str_contains($t, "Set Produksi")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows2" aria-expanded="false" aria-controls="collapseFlows">
+							<a class="border-bottom nav-link <?= (str_contains($t, "Set Produksi")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows2" aria-expanded="false" aria-controls="collapseFlows">
 								<div class="nav-link-icon"><i data-feather="database"></i></div>
 								Pengaturan Produksi
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -240,22 +236,36 @@
 							</div>
 						<?php } ?>
 
-						<?php if ($this->userData['user_tipe'] == 0) { ?>
-							<!-- MASTER PANEL -->
-							<div class="sidenav-menu-heading">Master Panel</div>
-							<a class="nav-link <?= (str_contains($t, "Toko")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseToko" aria-expanded="false" aria-controls="collapseFlows">
+						<?php if (in_array($this->userData['user_tipe'], $this->pFinance)) { ?>
+							<!-- FINANCE PANEL -->
+							<a class="border-bottom nav-link <?= (str_contains($t, "Finance")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFinance" aria-expanded="false" aria-controls="collapseFlows">
 								<div class="nav-link-icon"><i data-feather="server"></i></div>
-								Toko
+								Finance
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 							</a>
-							<div class="collapse <?= (str_contains($t, "Toko")) ? 'show' : '' ?>" id="collapseToko" data-bs-parent="#accordionSidenav">
+							<div class="collapse <?= (str_contains($t, "Finance")) ? 'show' : '' ?>" id="collapseFinance" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav">
-									<a class="nav-link <?= ($t == "Daftar Toko") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Toko_Daftar">Daftar Toko</a>
-									<a class="nav-link <?= ($t == "Admin Orins Toko") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Toko_Admin">Admin Orins Toko</a>
+									<a class="nav-link <?= ($t == "Finance - Non Tunai") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Non_Tunai">Transaksi Non Tunai</a>
+									<a class="nav-link <?= ($t == "Finance - Setoran Toko") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Toko_Admin">Setoran Toko</a>
 								</nav>
 							</div>
 						<?php } ?>
 
+						<?php if (in_array($this->userData['user_tipe'], $this->pMaster)) { ?>
+							<!-- MASTER PANEL -->
+							<a class="nav-link <?= (str_contains($t, "Managment")) ? 'active' : 'collapsed' ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseToko" aria-expanded="false" aria-controls="collapseFlows">
+								<div class="nav-link-icon"><i data-feather="server"></i></div>
+								Managment
+								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							</a>
+							<div class="collapse <?= (str_contains($t, "Managment")) ? 'show' : '' ?>" id="collapseToko" data-bs-parent="#accordionSidenav">
+								<nav class="sidenav-menu-nested nav">
+									<a class="nav-link <?= ($t == "Managment - Toko") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Toko_Daftar">Data Toko</a>
+									<a class="nav-link <?= ($t == "Managment - Admin Toko") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Toko_Admin">Admin Toko</a>
+									<a class="nav-link <?= ($t == "Managment - Admin Officer") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Admin_Officer">Admin Officer</a>
+								</nav>
+							</div>
+						<?php } ?>
 					</div>
 				</div>
 				<!-- Sidenav Footer-->

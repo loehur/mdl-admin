@@ -60,7 +60,7 @@
             $dibayar = 0;
             $showMutasi = "";
             foreach ($data['kas'] as $dk) {
-                if ($dk['ref_transaksi'] == $do['ref']) {
+                if ($dk['ref_transaksi'] == $do['ref'] && $dk['status_mutasi'] == 1) {
                     $dibayar += $dk['jumlah'];
                     $showMutasi .= "Rp" . number_format($dk['jumlah']) . " (" . $dk['insertTime'] . ")<br>";
                 }

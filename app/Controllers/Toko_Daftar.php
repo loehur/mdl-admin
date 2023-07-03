@@ -7,10 +7,9 @@ class Toko_Daftar extends Controller
    public function __construct()
    {
       $this->session_cek();
-
       $this->data();
-
-      if ($this->userData['user_tipe'] <> 0) {
+      if (!in_array($this->userData['user_tipe'], $this->pMaster)) {
+         $this->model('Log')->write($this->userData['user'] . " Force Logout. Hacker!");
          $this->logout();
       }
 
@@ -23,7 +22,7 @@ class Toko_Daftar extends Controller
    {
       $this->view("Layouts/layout_main", [
          "content" => $this->v_content,
-         "title" => "Daftar Toko"
+         "title" => "Managment - Toko"
       ]);
 
       $this->viewer();

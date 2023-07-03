@@ -8,8 +8,7 @@ class Karyawan extends Controller
    {
       $this->session_cek();
       $this->data();
-
-      if ($this->userData['user_tipe'] > 1) {
+      if (!in_array($this->userData['user_tipe'], $this->pAdmin)) {
          $this->model('Log')->write($this->userData['user'] . " Force Logout. Hacker!");
          $this->logout();
       }
@@ -42,7 +41,6 @@ class Karyawan extends Controller
 
    function add()
    {
-      $dvs = serialize($_POST['dvs']);
       $nama = $_POST['nama'];
       $cols = 'id_toko, nama';
       $vals = "'" . $this->userData['id_toko'] . "','" . $nama . "'";

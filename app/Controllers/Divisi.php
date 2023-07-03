@@ -7,10 +7,9 @@ class Divisi extends Controller
    public function __construct()
    {
       $this->session_cek();
-
       $this->data();
 
-      if ($this->userData['user_tipe'] > 1) {
+      if (!in_array($this->userData['user_tipe'], $this->pAdmin)) {
          $this->model('Log')->write($this->userData['user'] . " Force Logout. Hacker!");
          $this->logout();
       }

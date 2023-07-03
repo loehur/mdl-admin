@@ -1,6 +1,6 @@
 <?php
 
-class Toko_Admin extends Controller
+class Admin_Officer extends Controller
 {
    public $page = __CLASS__;
 
@@ -8,6 +8,7 @@ class Toko_Admin extends Controller
    {
       $this->session_cek();
       $this->data();
+
       if (!in_array($this->userData['user_tipe'], $this->pMaster)) {
          $this->model('Log')->write($this->userData['user'] . " Force Logout. Hacker!");
          $this->logout();
@@ -21,7 +22,7 @@ class Toko_Admin extends Controller
    {
       $this->view("Layouts/layout_main", [
          "content" => $this->v_content,
-         "title" => "Managment - Admin Toko"
+         "title" => "Managment - Admin Officer"
       ]);
 
       $this->viewer();
@@ -35,31 +36,27 @@ class Toko_Admin extends Controller
    public function content()
    {
 
-      $where = "user_tipe = 1 AND id_toko = " . $this->userData['id_toko'];
+      $where = "user_tipe = 5";
       $data = $this->model('M_DB_1')->get_where('user', $where);
       $this->view($this->v_content, $data);
    }
 
    function add()
    {
-      $no = $_POST['hp'];
+      $user = $_POST['user'];
+      $nama = $_POST['nama'];
+      $office = $_POST['office'];
+
       $pass = $this->model('Enc')->enc("123");
       $cols = 'id_toko, nama, user, password, user_tipe';
-      $vals = "'" . $this->userData['id_toko'] . "','Admin','" . $no . "','" . $pass . "',1";
+      $vals = "'" . $this->userData['id_toko'] . "','" . $nama . "','" . $user . "','" . $pass . "'," . $office;
 
-      $whereCount = "id_toko = '" . $this->userData['id_toko'] . "' AND user_tipe = 1";
-      $dataCount = $this->model('M_DB_1')->count_where('user', $whereCount);
-      if ($dataCount <> 1) {
-         $do = $this->model('M_DB_1')->insertCols('user', $cols, $vals);
-         if ($do['errno'] == 0) {
-            $this->model('Log')->write($this->userData['user'] . " Add Admin Success!");
-            echo $do['errno'];
-         } else {
-            print_r($do['error']);
-         }
+      $do = $this->model('M_DB_1')->insertCols('user', $cols, $vals);
+      if ($do['errno'] == 0) {
+         $this->model('Log')->write($this->userData['user'] . " Add Admin Officer Success!");
+         echo $do['errno'];
       } else {
-         $this->model('Log')->write($this->userData['user'] . " Add Admin Failed, Double Admin Forbidden!");
-         echo "Double Entry!";
+         print_r($do['error']);
       }
    }
 }

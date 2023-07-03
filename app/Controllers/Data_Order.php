@@ -8,6 +8,12 @@ class Data_Order extends Controller
    {
       $this->session_cek();
       $this->data();
+
+      if (!in_array($this->userData['user_tipe'], $this->pCS)) {
+         $this->model('Log')->write($this->userData['user'] . " Force Logout. Hacker!");
+         $this->logout();
+      }
+
       $this->v_content = $this->page . "/content";
       $this->v_viewer = $this->page . "/viewer";
    }
@@ -89,16 +95,26 @@ class Data_Order extends Controller
       $jumlah = $_POST['jumlah'];
       $bill = $_POST['bill'];
       $method = $_POST['method'];
+      $client = $_POST['client'];
+      $note = $_POST['note'];
+      $st_mutasi = 1;
 
       if ($jumlah > $bill) {
          $jumlah = $bill;
       }
 
+      if ($method == 2) {
+         if (strlen($note) == 0) {
+            $note = "Non Tunai";
+         }
+         $st_mutasi = 0;
+      }
+
       $whereCount = "ref_transaksi = '" . $ref . "' AND jumlah = " . $jumlah;
       $dataCount = $this->model('M_DB_1')->count_where('kas', $whereCount);
 
-      $cols = "id_toko, jenis_transaksi, jenis_mutasi, ref_transaksi, metode_mutasi, status_mutasi, jumlah, id_user";
-      $vals = $this->userData['id_toko'] . ",1,1,'" . $ref . "'," . $method . ",1," . $jumlah . "," . $this->userData['id_user'];
+      $cols = "id_toko, jenis_transaksi, jenis_mutasi, ref_transaksi, metode_mutasi, status_mutasi, jumlah, id_user, id_client,note";
+      $vals = $this->userData['id_toko'] . ",1,1,'" . $ref . "'," . $method . "," . $st_mutasi . "," . $jumlah . "," . $this->userData['id_user'] . "," . $client . ",'" . $note . "'";
 
       if ($dataCount < 1) {
          $do = $this->model('M_DB_1')->insertCols('kas', $cols, $vals);
