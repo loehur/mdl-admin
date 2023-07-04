@@ -21,8 +21,8 @@ class Controller extends Public_Variables
 
     public function session_cek()
     {
-        if (isset($_SESSION['login_orins'])) {
-            if ($_SESSION['login_orins'] == False) {
+        if (isset($_SESSION['login'])) {
+            if ($_SESSION['login'] == False) {
                 $this->logout();
             }
         } else {

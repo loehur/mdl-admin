@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Orins | LOGIN</title>
+    <title>P2P Lending | Login</title>
     <link href="<?= $this->ASSETS_URL ?>css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="<?= $this->ASSETS_URL ?>assets/img/favicon.png" />
     <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" crossorigin="anonymous"></script>
@@ -54,16 +54,15 @@
 </head>
 <?php
 $failed = "";
-$user = "";
+
 if (is_array($data)) {
-    $user = $data['user'];
     if (isset($data['failed'])) {
         $failed = $data['failed'];
     }
 }
 ?>
 
-<body class="bg-primary">
+<body class="bg-info">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main>
@@ -73,22 +72,28 @@ if (is_array($data)) {
                             <!-- Basic login form-->
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-body login-card-body">
-                                    <p class="login-box-msg">ORINS LOGIN</p>
+                                    <p class="login-box-msg text-center">P2P Lending Login</p>
                                     <div id="info" class="text-danger pb-2 float-end"><?= $failed ?></div>
                                     <form action="<?= $this->BASE_URL ?>Login_99/cek_login" method="post">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
-                                            <input type="text" name="HP" readonly value="<?= $user ?>" class="form-control" placeholder="User Login" required autocomplete="off">
+                                            <input type="text" name="user" class="form-control" placeholder="Nomor HP" required autocomplete="off">
                                         </div>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
                                             <input type="password" name="PASS" class="form-control" placeholder="Password" required autocomplete="off">
                                         </div>
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="c_" class="form-control" placeholder="Captcha Code" required autocomplete="off">
+                                            <span class="input-group-text" id="basic-addon2"> <img class="rounded" src="<?= $this->BASE_URL ?>Login/captcha" alt="captcha" /></span>
+                                        </div>
 
                                         <div class="row">
                                             <div class="col">
-                                                <span id="span_loader" class="loader d-none"></span>
                                                 <button type="submit" id="btnSubmit" onclick="hide()" class="btn btn-success btn-block">Log In</button>
+                                            </div>
+                                            <div class="col mt-auto">
+                                                <a href='#' id="btnSubmit" class="float-end"><small>Register</small></a>
                                             </div>
                                         </div>
                                     </form>
@@ -101,24 +106,6 @@ if (is_array($data)) {
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="<?= $this->ASSETS_URL ?>js/scripts.js"></script>
 </body>
 
 </html>
-
-<script>
-    function hide() {
-        var input = document.querySelector('[name="HP"]').value;
-        var pass = document.querySelector('[name="PASS"]').value;
-        var cap = document.querySelector('[name="c_"]').value;
-
-        if (input.length < 1 || pass.length < 1 || cap.length < 1) {
-            return;
-        }
-
-        var element = document.getElementById("span_loader");
-        element.classList.remove("d-none");
-
-        document.getElementById('btnSubmit').style.visibility = 'hidden';
-    }
-</script>
