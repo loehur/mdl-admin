@@ -1,20 +1,7 @@
-<style>
-    .selectize-control {
-        padding: 0;
-    }
-
-    .selectize-input {
-        border: none;
-    }
-
-    .selectize-input::after {
-        visibility: hidden;
-    }
-</style>
 <main>
     <div class="row ms-1 me-2 mt-3">
         <div class="col pe-0" style="min-width: 250px; max-width: 300px">
-            <select class="form-select tize" name="id_pelanggan" required>
+            <select class="border tize" name="id_pelanggan" required>
                 <option></option>
                 <?php foreach ($data['pelanggan'] as $p) { ?>
                     <option value="<?= $p['id_pelanggan'] ?>" <?= ($data['parse'] == $p['id_pelanggan'] ? "selected" : "") ?>><?= strtoupper($p['nama']) ?></option>
@@ -23,7 +10,7 @@
         </div>
         <?php if ($data['parse_2'] <> 0) { ?>
             <div class="col pe-0" style="min-width: 90px; max-width: 100px">
-                <select class="form-select tize" name="y" required>
+                <select class="border tize" name="y" required>
                     <?php
                     $yNow = date("Y");
                     for ($x = 2023; $x <= $yNow; $x++) { ?>
@@ -33,7 +20,7 @@
             </div>
         <?php } ?>
         <div class="col pt-auto mt-auto pe-0">
-            <button type="submit" class="cek pt-3 btn btn-sm btn-primary">Cek</button>
+            <button type="submit" class="cek btn btn-sm btn-primary">Cek</button>
         </div>
     </div>
 

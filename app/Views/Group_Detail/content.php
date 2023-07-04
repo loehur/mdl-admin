@@ -101,7 +101,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Link Kelompok Detail</label>
-                        <select class="form-select tize" name="id_detail_group" required>
+                        <select class="border tize" name="id_detail_group" required>
                             <option></option>
                             <?php foreach ($data as $d) { ?>
                                 <option value="<?= $d['id_detail_group'] ?>"><?= $d['detail_group'] ?></option>

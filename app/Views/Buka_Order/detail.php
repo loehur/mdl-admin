@@ -4,7 +4,7 @@
         ?>
             <div class="col-md-6 pb-2">
                 <label class="form-label mb-0 pb-0"><?= $d['name'] ?></label>
-                <select class="form-select tize" name="f-<?= $key ?>" required>
+                <select class="border tize" name="f-<?= $key ?>" required>
                     <option></option>
                     <?php foreach ($d['item'] as $i) { ?>
                         <option value="<?= $i['id_detail_item'] ?>"><?= strtoupper($i['detail_item']) ?></option>

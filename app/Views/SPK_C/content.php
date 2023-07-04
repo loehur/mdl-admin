@@ -7,7 +7,7 @@
             </div>
 
             <div class="col pt-auto mt-auto pe-0">
-                <button type="submit" class="cek pt-3 btn btn-sm btn-primary">Cek Order</button>
+                <button type="submit" class="cek pt-2 btn btn-sm btn-primary">Cek Order</button>
             </div>
         </div>
 

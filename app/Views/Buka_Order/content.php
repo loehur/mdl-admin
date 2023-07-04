@@ -46,7 +46,7 @@ if ($id_pelanggan_jenis == 1) {
                     <div class="row pb-2">
                         <div class="col">
                             <label class="form-label">Pelanggan <?= $pelanggan_jenis ?></label>
-                            <select class="form-select tize" name="id_pelanggan" required>
+                            <select class="border tize" name="id_pelanggan" required>
                                 <option></option>
                                 <?php foreach ($data['pelanggan'] as $p) { ?>
                                     <option value="<?= $p['id_pelanggan'] ?>"><?= strtoupper($p['nama']) ?></option>
@@ -55,7 +55,7 @@ if ($id_pelanggan_jenis == 1) {
                         </div>
                         <div class="col">
                             <label class="form-label">Customer Service</label>
-                            <select class="form-select tize" name="id_karyawan" required>
+                            <select class="border tize" name="id_karyawan" required>
                                 <option></option>
                                 <?php foreach ($data['karyawan'] as $k) { ?>
                                     <option value="<?= $k['id_karyawan'] ?>"><?= strtoupper($k['nama']) ?></option>
@@ -68,7 +68,7 @@ if ($id_pelanggan_jenis == 1) {
                     </div>
                 </form>
             </div>
-            <table class="table table-sm table-hover">
+            <table class="table table-sm table-hover mb-0">
                 <thead>
                     <tr>
                         <td class="text-purple text-end">No</td>
@@ -157,7 +157,7 @@ if ($id_pelanggan_jenis == 1) {
             <form action="<?= $this->BASE_URL ?>Buka_Order/add" method="POST">
                 <div class="modal-body">
                     <div class="mb-3 border border-success rounded">
-                        <select class="form-select tize" name="id_produk" required>
+                        <select class="border tize" name="id_produk" required>
                             <option></option>
                             <?php foreach ($this->dProduk as $dp) { ?>
                                 <option value="<?= $dp['id_produk'] ?>"><?= $dp['produk'] ?></option>

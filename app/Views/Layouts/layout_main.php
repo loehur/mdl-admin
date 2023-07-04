@@ -10,6 +10,7 @@
 	<title>Orins | <?= $data['title'] ?></title>
 	<link href="<?= $this->ASSETS_URL ?>css/styles.css" rel="stylesheet" />
 	<link rel="stylesheet" href="<?= $this->ASSETS_URL ?>css/selectize.bootstrap3.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.min.css" rel="stylesheet" />
 	<link rel="icon" type="image/x-icon" href="<?= $this->ASSETS_URL ?>assets/img/favicon.png" />
 	<script src="<?= $this->ASSETS_URL ?>js/feather.min.js" crossorigin="anonymous"></script>
 
@@ -24,6 +25,10 @@
 	<?php $fontStyle = "'Titillium Web', sans-serif;" ?>
 
 	<style>
+		html {
+			height: 100%;
+		}
+
 		html .table {
 			font-family: <?= $fontStyle ?>;
 		}
@@ -34,18 +39,6 @@
 
 		html body {
 			font-family: <?= $fontStyle ?>;
-		}
-
-		@media print {
-			p div {
-				font-family: <?= $fontStyle ?>;
-				font-size: 14px;
-			}
-		}
-
-		html {
-			height: 100%;
-			background-color: #F4F4F4;
 		}
 
 		body {

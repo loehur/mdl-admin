@@ -33,7 +33,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <table class="table table-sm table-borderless mb-2 ms-2">
+                <table class="table table-sm mb-2 ms-2">
                     <?php foreach ($data['setor_done'] as $set) {
                         $st_setor = "";
                         switch ($set['status_setoran']) {
