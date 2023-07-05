@@ -72,7 +72,14 @@ if (is_array($data)) {
                             <!-- Basic login form-->
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-body login-card-body">
-                                    <p class="login-box-msg text-center">Bantu Pinjam Login</p>
+                                    <p class="login-box-msg text-center">Bantu Pinjam Login [
+                                        <?php if (isset($_SESSION['secure']['encryption'])) {
+                                            echo 1;
+                                        } else {
+                                            echo 0;
+                                        } ?>
+                                        ]
+                                    </p>
                                     <div id="info" class="text-danger pb-2 float-end"><?= $failed ?></div>
                                     <form action="<?= $this->BASE_URL ?>Login/cek_login" method="post">
                                         <div class="input-group mb-3">

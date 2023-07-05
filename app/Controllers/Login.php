@@ -17,9 +17,9 @@ class Login extends Controller
          if ($_SESSION['login'] == TRUE) {
             header('Location: ' . $this->BASE_URL . "Home");
          }
+      } else {
+         $this->view('Login/login');
       }
-
-      $this->view('Login/login');
    }
 
    public function cek_login()
