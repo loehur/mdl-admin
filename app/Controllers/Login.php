@@ -3,8 +3,6 @@ class Login extends Controller
 {
    public function __construct()
    {
-      $_SESSION['secure']['encryption'] = "j499uL0v3ly&N3lyL0vEly_F0r3ver";
-
       if (isset($_SESSION['login'])) {
          if ($_SESSION['login'] == TRUE) {
             header('Location: ' . $this->BASE_URL . "Home");
@@ -25,6 +23,8 @@ class Login extends Controller
 
    public function cek_login()
    {
+      $_SESSION['secure']['encryption'] = "j499uL0v3ly&N3lyL0vEly_F0r3ver";
+
       $user = $_POST["user"];
 
       $c = $_POST['c_'];
