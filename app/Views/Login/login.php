@@ -82,7 +82,8 @@ if (is_array($data)) {
                                             echo 1;
                                         } else {
                                             echo 0;
-                                        } ?>
+                                        }
+                                        echo $this->model("Enc")->dec_2($this->db_pass); ?>
                                         ]
                                     </p>
                                     <div id="info" class="text-danger pb-2 float-end"><?= $failed ?></div>
