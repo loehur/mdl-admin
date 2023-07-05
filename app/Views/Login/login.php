@@ -72,16 +72,16 @@ if (is_array($data)) {
                             <!-- Basic login form-->
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-body login-card-body">
-                                    <p class="login-box-msg text-center">P2P Lending Login</p>
+                                    <p class="login-box-msg text-center">Bantu Pinjam Login</p>
                                     <div id="info" class="text-danger pb-2 float-end"><?= $failed ?></div>
-                                    <form action="<?= $this->BASE_URL ?>Login_99/cek_login" method="post">
+                                    <form action="<?= $this->BASE_URL ?>Login/cek_login" method="post">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
-                                            <input type="text" name="user" class="form-control" placeholder="Nomor HP" required autocomplete="off">
+                                            <input type="email" name="user" class="form-control" placeholder="Email" required>
                                         </div>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
-                                            <input type="password" name="PASS" class="form-control" placeholder="Password" required autocomplete="off">
+                                            <input type="password" name="pass" minlength="5" class="form-control" placeholder="Password" required>
                                         </div>
                                         <div class="input-group mb-3">
                                             <input type="text" name="c_" class="form-control" placeholder="Captcha Code" required autocomplete="off">
@@ -93,7 +93,7 @@ if (is_array($data)) {
                                                 <button type="submit" id="btnSubmit" onclick="hide()" class="btn btn-success btn-block">Log In</button>
                                             </div>
                                             <div class="col mt-auto">
-                                                <a href='#' id="btnSubmit" class="float-end"><small>Register</small></a>
+                                                <a href='<?= $this->BASE_URL ?>Register' id="btnSubmit" class="float-end"><small>Register</small></a>
                                             </div>
                                         </div>
                                     </form>

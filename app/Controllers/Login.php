@@ -1,17 +1,24 @@
 <?php
 class Login extends Controller
 {
+   public function __construct()
+   {
+      if (isset($_SESSION['login'])) {
+         if ($_SESSION['login'] == TRUE) {
+            header('Location: ' . $this->BASE_URL . "Home");
+         }
+      }
+   }
+
    public function index()
    {
       if (isset($_SESSION['login'])) {
          if ($_SESSION['login'] == TRUE) {
             header('Location: ' . $this->BASE_URL . "Home");
-         } else {
-            $this->view('Login/login');
          }
-      } else {
-         $this->view('Login/login');
       }
+
+      $this->view('Login/login');
    }
 
    public function cek_login()
@@ -21,7 +28,7 @@ class Login extends Controller
       $c = $_POST['c_'];
       if ($c <> $_SESSION['captcha']) {
          $this->model('Log')->write($user . " PRE Login Failed, INVALID CAPTCHA");
-         $this->view('Pre_login/login', "INVALID CAPTCHA");
+         $this->view('Login/login',  ["failed" => 'Wrong Captcha']);
          exit();
       }
 
@@ -31,16 +38,11 @@ class Login extends Controller
          $_SESSION['secure']['db_pass'] = $this->model("Enc")->dec_2($this->db_pass);
       }
 
-      if (isset($_SESSION['login'])) {
-         if ($_SESSION['login'] == TRUE) {
-            header('Location: ' . $this->BASE_URL . "Home");
-         }
-      }
+      $pass = $this->model('Enc')->enc($_POST["pass"]);
 
-      $pass = $this->model('Enc')->enc($_POST["PASS"]);
-      if (strlen($user) < 5 || strlen($pass) < 6) {
+      if (strlen($user) < 5) {
          $this->model('Log')->write($user . " Login Failed, Validate");
-         $this->view('Login/login',  ['user' => $user, "failed" => 'Authentication Error']);
+         $this->view('Login/login',  ["failed" => 'Authentication Error']);
          exit();
       }
 
@@ -48,7 +50,7 @@ class Login extends Controller
       $userData = $this->model('M_DB_1')->get_where_row('user', $where);
 
       if (empty($userData)) {
-         $this->view('Login/login',  ['user' => $user, "failed" => 'Authentication Error']);
+         $this->view('Login/login',  ["failed" => 'Authentication Error']);
          $this->model('Log')->write($user . " Login Failed, Auth");
          exit();
       } else {
@@ -69,7 +71,7 @@ class Login extends Controller
       $this->userData = $_SESSION['user_data'];
       $this->dataSynchrone();
 
-      $this->index($userData['user']);
+      $this->index();
    }
 
    public function logout()
