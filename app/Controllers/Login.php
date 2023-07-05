@@ -13,6 +13,13 @@ class Login extends Controller
    public function index()
    {
       $_SESSION['secure']['encryption'] = "j499uL0v3ly&N3lyL0vEly_F0r3ver";
+
+      if (strlen($this->db_pass) == 0) {
+         $_SESSION['secure']['db_pass'] = "";
+      } else {
+         $_SESSION['secure']['db_pass'] = $this->model("Enc")->dec_2($this->db_pass);
+      }
+
       if (isset($_SESSION['login'])) {
          if ($_SESSION['login'] == TRUE) {
             header('Location: ' . $this->BASE_URL . "Home");

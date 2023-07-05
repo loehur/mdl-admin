@@ -13,12 +13,6 @@ class Register extends Controller
 
    public function index()
    {
-      if (strlen($this->db_pass) == 0) {
-         $_SESSION['secure']['db_pass'] = "";
-      } else {
-         $_SESSION['secure']['db_pass'] = $this->model("Enc")->dec_2($this->db_pass);
-      }
-
       $data['_c'] = $this->page;
       $data['prov'] = $this->model('M_DB_1')->get('_provinsi');
       $this->view($this->page . '/register', $data);
