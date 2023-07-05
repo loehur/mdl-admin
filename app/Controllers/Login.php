@@ -1,17 +1,14 @@
 <?php
 class Login extends Controller
 {
-   public function __construct()
+   public function index()
    {
       if (isset($_SESSION['login'])) {
          if ($_SESSION['login'] == TRUE) {
             header('Location: ' . $this->BASE_URL . "Home");
          }
       }
-   }
 
-   public function index()
-   {
       $_SESSION['secure']['encryption'] = "j499uL0v3ly&N3lyL0vEly_F0r3ver";
 
       if (strlen($this->db_pass) == 0) {

@@ -2,17 +2,15 @@
 class Register extends Controller
 {
    public $page = __CLASS__;
-   public function __construct()
+
+   public function index()
    {
       if (isset($_SESSION['login'])) {
          if ($_SESSION['login'] == TRUE) {
             header('Location: ' . $this->BASE_URL . "Home");
          }
       }
-   }
 
-   public function index()
-   {
       $data['_c'] = $this->page;
       $data['prov'] = $this->model('M_DB_1')->get('_provinsi');
       $this->view($this->page . '/register', $data);

@@ -78,6 +78,11 @@ if (is_array($data)) {
                                         } else {
                                             echo 0;
                                         } ?>
+                                        <?php if (isset($_SESSION['login'])) {
+                                            echo 1;
+                                        } else {
+                                            echo 0;
+                                        } ?>
                                         ]
                                     </p>
                                     <div id="info" class="text-danger pb-2 float-end"><?= $failed ?></div>
