@@ -81,7 +81,7 @@ if (is_array($data)) {
                                         </div>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
-                                            <input type="password" name="pass" minlength="5" class="form-control" placeholder="Password" required>
+                                            <input type="password" name="pass" minlength="4" class="form-control" placeholder="Password" required>
                                         </div>
                                         <div class="input-group mb-3">
                                             <input type="text" name="c_" class="form-control" placeholder="Captcha Code" required autocomplete="off">
