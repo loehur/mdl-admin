@@ -21,7 +21,7 @@
                 <div class="row mb-2">
                     <div class="col">
                         <label>Password Baru</label>
-                        <input type="password" class="form-control form-control-sm" name="pass_" required>
+                        <input type="password" minlength="4" class="form-control form-control-sm" name="pass_" required>
                     </div>
                 </div>
                 <div class="row mb-2">
