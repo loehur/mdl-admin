@@ -59,13 +59,15 @@
 
 		main {
 			margin-bottom: 20px;
+			margin-left: 5px;
+			margin-right: 5px;
 		}
 	</style>
 </head>
 
 <?php $t = $data['title']; ?>
 
-<body class="nav-fixed">
+<body class="nav-fixed" style="background-color: aliceblue;">
 	<nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
 		<button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0 pt-3" id="sidebarToggle"><i data-feather="menu"></i></button>
 		<ul class="navbar-nav align-items-center ms-auto ms">
@@ -81,10 +83,6 @@
 						</div>
 					</h6>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="<?= $this->BASE_URL ?>Akun">
-						<div class="dropdown-item-icon"><i data-feather="settings"></i></div>
-						Account
-					</a>
 					<a class="dropdown-item" href="<?= $this->BASE_URL ?>Login/logout">
 						<div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
 						Logout
@@ -134,6 +132,18 @@
 								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 									<a class="nav-link <?= ($t == "Pendanaan - Portfolio") ? 'active' : '' ?>" href="#">Portfolio</a>
 									<a class="nav-link <?= ($t == "Pendanaan - Riwayat Pendanaan") ? 'active' : '' ?>" href="#">Riwayat Pendanaan</a>
+								</nav>
+							</div>
+							<a class="nav-link <?= (str_contains($t, "Profil")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseProfil" aria-expanded="true" aria-controls="collapseProfil">
+								<div class="nav-link-icon"><i data-feather="user"></i></div>
+								Profil
+								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							</a>
+							<div class="collapse <?= (str_contains($t, "Profil")) ? 'show' : '' ?>" id="collapseProfil" data-bs-parent="#accordionSidenav">
+								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
+									<a class="nav-link <?= ($t == "Profil - Data Pribadi") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Data_Pribadi">Data Pribadi</a>
+									<a class="nav-link <?= ($t == "Profil - Rekening") ? 'active' : '' ?>" href="#">Rekening</a>
+									<a class="nav-link <?= ($t == "Profil - Keamanan") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Keamanan">Keamanan</a>
 								</nav>
 							</div>
 						<?php } ?>

@@ -1,14 +1,15 @@
 <header class="py-5 mb-4 bg-gradient-primary-to-secondary">
     <div class="container-xl px-4">
         <div class="text-center">
-            <h1 class="text-white">Account Setting</h1>
+            <h1 class="text-white">Profil - <?= $data['_c'] ?></h1>
         </div>
     </div>
 </header>
 <!-- Main page content-->
-<div class="row ms-2">
+<div class="row ms-2 bg-white py-3">
     <div class="col-auto me-auto">
-        <form id="form" action="<?= $this->BASE_URL ?>Akun/updatePass" method="post">
+        <label class="form-label"><b>Ubah Password</b></label>
+        <form id="form" action="<?= $this->BASE_URL . $data['_c'] ?>/updatePass" method="post">
             <div class="row mb-2">
                 <div class="col">
                     <label>Password Lama</label>

@@ -1,6 +1,6 @@
 <?php
 
-class Akun extends Controller
+class Keamanan extends Controller
 {
    public $page = __CLASS__;
 
@@ -17,7 +17,7 @@ class Akun extends Controller
    {
       $this->view("Layouts/layout_main", [
          "content" => $this->v_content,
-         "title" => $this->page
+         "title" => "Profil - Keamanan"
       ]);
 
       $this->viewer();
@@ -30,7 +30,8 @@ class Akun extends Controller
 
    public function content()
    {
-      $this->view($this->v_content);
+      $data['_c'] = __CLASS__;
+      $this->view($this->v_content, $data);
    }
 
    public function updatePass()

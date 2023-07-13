@@ -57,20 +57,25 @@ class Register extends Controller
          exit();
       }
 
+      if (!isset($_POST['kelurahan'])) {
+         echo "Lengkapi Data terlebih dahulu!";
+         exit();
+      }
+
       $user = $_POST['user'];
       $nama = $_POST['nama'];
       $penghasilan = $_POST['penghasilan'];
       $provinsi = $_POST['prov'];
       $kota = $_POST['kota'];
       $kec = $_POST['kecamatan'];
-      $kel = (isset($_POST['kelurahan'])) ? $_POST['kelurahan'] : 0;
+      $kel = $_POST['kelurahan'];
       $alamat = $_POST['alamat'];
       $hp = $_POST['hp'];
 
       $pass_enc = $this->model('Enc')->enc($pass);
 
       $cols = 'user, nama, penghasilan, provinsi, kota, kecamatan, kelurahan, alamat, password, hp, user_tipe';
-      $vals = "'" . $user . "','" . $nama . "'," . $penghasilan . "," . $provinsi . "," . $kota . "," . $kec . "," . $kel . ",'" . $alamat . "','" . $pass_enc . "','" . $hp . "',2";
+      $vals = "'" . $user . "','" . $nama . "'," . $penghasilan . "," . $provinsi . "," . $kota . "," . $kec . ",'" . $kel . "','" . $alamat . "','" . $pass_enc . "','" . $hp . "',2";
 
       $do = $this->model('M_DB_1')->insertCols('user', $cols, $vals);
       if ($do['errno'] == 0) {
