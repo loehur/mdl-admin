@@ -1,41 +1,44 @@
-<header class="py-5 mb-4 bg-gradient-primary-to-secondary">
-    <div class="container-xl px-4">
+<header class="py-4 mb-3 bg-gradient-primary-to-secondary">
+    <div class="container-xl">
         <div class="text-center">
             <h1 class="text-white">Profil - <?= $data['_c'] ?></h1>
         </div>
     </div>
 </header>
+
 <!-- Main page content-->
-<div class="row ms-2 bg-white py-3">
-    <div class="col-auto me-auto">
-        <label class="form-label"><b>Ubah Password</b></label>
-        <form id="form" action="<?= $this->BASE_URL . $data['_c'] ?>/updatePass" method="post">
-            <div class="row mb-2">
-                <div class="col">
-                    <label>Password Lama</label>
-                    <input type="password" class="form-control form-control-sm" name="pass" required>
+<div class="konten">
+    <div class="row m-0">
+        <div class="col-auto bg-white py-2">
+            <label class="form-label"><b>Ubah Password</b></label>
+            <form id="form" action="<?= $this->BASE_URL . $data['_c'] ?>/updatePass" method="post">
+                <div class="row mb-2">
+                    <div class="col">
+                        <label>Password Lama</label>
+                        <input type="password" class="form-control form-control-sm" name="pass" required>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col">
-                    <label>Password Baru</label>
-                    <input type="password" class="form-control form-control-sm" name="pass_" required>
+                <div class="row mb-2">
+                    <div class="col">
+                        <label>Password Baru</label>
+                        <input type="password" class="form-control form-control-sm" name="pass_" required>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col">
-                    <label>Ulangi Password Baru</label>
-                    <input type="password" class="form-control form-control-sm" name="pass__">
+                <div class="row mb-2">
+                    <div class="col">
+                        <label>Ulangi Password Baru</label>
+                        <input type="password" class="form-control form-control-sm" name="pass__">
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col">
-                    <button type="submit" class="btn btn-primary">
-                        Update Password
-                    </button>
+                <div class="row mb-2">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">
+                            Update Password
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 

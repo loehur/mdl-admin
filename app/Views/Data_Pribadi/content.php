@@ -1,16 +1,16 @@
-<header class="py-5 mb-4 bg-gradient-primary-to-secondary">
-    <div class="container-xl px-4">
+<header class="py-4 mb-3 bg-gradient-primary-to-secondary">
+    <div class="container-xl">
         <div class="text-center">
             <h1 class="text-white">Profil - <?= $data['_c'] ?></h1>
         </div>
     </div>
 </header>
-<!-- Main page content-->
 
-<main>
+<!-- Main page content-->
+<div class="konten">
     <div class="row">
         <div class="col-auto">
-            <table class="table table-sm bg-white">
+            <table class="table table-sm bg-white mb-2">
                 <tr>
                     <td>NIK</td>
                     <td>:</td>
@@ -62,25 +62,25 @@
             </table>
         </div>
     </div>
-</main>
+    </main>
 
-<script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
+    <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
 
-<script>
-    $("form").on("submit", function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            type: $(this).attr("method"),
-            success: function(res) {
-                if (res == 0) {
-                    alert("Success! New Password Updated!")
-                    location.reload(true);
-                } else {
-                    alert(res);
+    <script>
+        $("form").on("submit", function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                type: $(this).attr("method"),
+                success: function(res) {
+                    if (res == 0) {
+                        alert("Success! New Password Updated!")
+                        location.reload(true);
+                    } else {
+                        alert(res);
+                    }
                 }
-            }
+            });
         });
-    });
-</script>
+    </script>

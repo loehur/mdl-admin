@@ -57,10 +57,9 @@
 			visibility: hidden;
 		}
 
-		main {
-			margin-bottom: 20px;
-			margin-left: 5px;
-			margin-right: 5px;
+		.konten {
+			margin-bottom: 15px;
+			margin-left: 7px;
 		}
 	</style>
 </head>
@@ -93,7 +92,7 @@
 	</nav>
 	<div id="layoutSidenav">
 		<div id="layoutSidenav_nav">
-			<nav class="sidenav shadow-right sidenav-light">
+			<nav class="sidenav sidenav-light">
 				<div class="sidenav-menu">
 					<div class="nav accordion" id="accordionSidenav">
 						<?php if (in_array($this->userData['user_tipe'], $this->pClient)) { ?>
