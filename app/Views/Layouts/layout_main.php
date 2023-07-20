@@ -61,6 +61,10 @@
 			margin-bottom: 15px;
 			margin-left: 7px;
 		}
+
+		.line100 {
+			line-height: 100%;
+		}
 	</style>
 </head>
 

@@ -1,4 +1,4 @@
-<header class="py-4 mb-3 bg-gradient-primary-to-secondary">
+<header class="py-4 mb-2 bg-gradient-primary-to-secondary">
     <div class="container-xl">
         <div class="text-center">
             <h1 class="text-white">Profil - <?= $data['_c'] ?></h1>
@@ -7,80 +7,124 @@
 </header>
 
 <!-- Main page content-->
-<div class="konten">
-    <div class="row">
-        <div class="col-auto">
-            <table class="table table-sm bg-white mb-2">
-                <tr>
-                    <td>NIK</td>
-                    <td>:</td>
-                </tr>
-                <tr>
-                    <td>Nama</td>
-                    <td>:</td>
-                    <td><?= $this->userData['nama'] ?></td>
-                </tr>
-                <tr>
-                    <td>Status</td>
-                    <td>:</td>
-                    <td class="text-danger">Belum Terverifikasi<br><a href="#" class="">Lengkapi Data</a></td>
-                </tr>
-            </table>
-
-            <table class="table table-sm bg-white">
-                <tr>
-                    <td>No. Handphone</td>
-                    <td>:</td>
-                    <td><?= $this->userData['hp'] ?></td>
-                </tr>
-                <tr>
-                    <td class="pe-2">Penghasilan/Bulan</td>
-                    <td>:</td>
-                    <td>Rp<?= number_format($this->userData['penghasilan']) ?></td>
-                </tr>
-                <tr>
-                    <td>Alamat</td>
-                    <td>:</td>
-                    <td><?= strtoupper($this->userData['alamat']) ?></td>
-                </tr>
-                <tr>
-                    <td>Provinsi</td>
-                    <td>:</td>
-                </tr>
-                <tr>
-                    <td>Kota/Kabupaten</td>
-                    <td>:</td>
-                </tr>
-                <tr>
-                    <td>Kecamatan</td>
-                    <td>:</td>
-                </tr>
-                <tr>
-                    <td>Kelurahan</td>
-                    <td>:</td>
-                </tr>
-            </table>
+<div class="row ms-1">
+    <div class="col-auto bg-white">
+        <div class="row">
+            <div class="col py-1 line100"><small><u>Status</u></small><br>
+                <?php
+                switch ($this->userData['v_profil']) {
+                    case 0: ?>
+                        <span class="text-danger">Belum Terverifikasi</span><br>
+                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#modal_ktp"><small>Lengkapi Data</small></a>
+                    <?php break;
+                    case 1: ?>
+                        <span class="text-primary">Dalam pengecekan 1x24jam</span><br>
+                <?php break;
+                } ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col py-1 line100 text-success"><small><u>KTP:</u></small><br>
+                <img style="max-width: 300px;" src="<?= $this->BASE_URL . $this->userData['ktp_path'] ?>" class="img-fluid" alt="...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col py-1 line100 text-success"><small><u>NIK:</u></small><br><b><?= $this->userData['nik'] ?></b></div>
+        </div>
+        <div class="row">
+            <div class="col py-1 line100"><small><u>Nama</u></small><br><?= $this->userData['nama'] ?></div>
+        </div>
+        <div class="row">
+            <div class="col py-1 line100"><small><u>No. Handphone</u></small><br><?= $this->userData['hp'] ?></div>
+        </div>
+        <div class="row">
+            <div class="col py-1 line100"><small><u>Penghasilan/Bulan</u></small><br>Rp<?= number_format($this->userData['penghasilan']) ?></div>
+        </div>
+        <div class="row">
+            <div class="col py-1 line100"><small><u>Alamat</u></small><br><?= strtoupper($this->userData['alamat']) ?></div>
+        </div>
+        <div class="row">
+            <div class="col py-1 line100"><small><u>Provinsi</u></small><br><?= strtoupper($this->userData['provinsi']) ?></div>
+        </div>
+        <div class="row">
+            <div class="col py-1 line100"><small><u>Kota/Kabupaten</u></small><br><?= strtoupper($this->userData['kota']) ?></div>
+        </div>
+        <div class="row">
+            <div class="col py-1 line100"><small><u>Kecamatan</u></small><br><?= strtoupper($this->userData['kecamatan']) ?></div>
+        </div>
+        <div class="row">
+            <div class="col py-1 line100"><small><u>Kelurahan</u></small><br><?= strtoupper($this->userData['kelurahan']) ?></div>
         </div>
     </div>
-    </main>
+</div>
 
-    <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
+<form action="<?= $this->BASE_URL . $data['_c'] ?>/ktp" class="upload" method="POST">
+    <div class="modal" id="modal_ktp">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Data KTP</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label class="form-label">NIK</label>
+                                <input type="text" class="form-control" name="nik">
+                            </div>
+                            <div class="col">
+                                <label for="formFileSm" class="form-label">KTP (<span class="text-danger">Max. 10mb</span>)</label>
+                                <input class="form-control form-control-sm" type="file" id="file" name="ktp" required /> [ <span id="persen"><b>0</b></span><b> %</b> ] Upload Progress
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <button type="submit" data-bs-dismiss="modal" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
-    <script>
-        $("form").on("submit", function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                type: $(this).attr("method"),
-                success: function(res) {
-                    if (res == 0) {
-                        alert("Success! New Password Updated!")
-                        location.reload(true);
-                    } else {
-                        alert(res);
+<script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
+
+<script>
+    $("form.upload").on("submit", function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        var file = $('#file')[0].files[0];
+        formData.append('file', file);
+
+        $.ajax({
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = (evt.loaded / evt.total) * 100;
+                        $('#persen').html('<b>' + Math.round(percentComplete) + '</b>');
                     }
+                }, false);
+                return xhr;
+            },
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            contentType: "application/octet-stream",
+            enctype: 'multipart/form-data',
+
+            contentType: false,
+            processData: false,
+
+            success: function(res) {
+                if (res == 0) {
+                    content();
+                } else {
+                    alert(res);
                 }
-            });
+            },
         });
-    </script>
+    });
+</script>
