@@ -64,28 +64,29 @@
 
 		.line100 {
 			line-height: 100%;
+			margin-bottom: 5px;
 		}
 	</style>
 </head>
 
 <?php $t = $data['title']; ?>
 
+<?php
+$count_vp = 0;
+$where = "v_profil = 1";
+$count_vp = $this->model('M_DB_1')->count_where('user', $where);
+?>
+
 <body class="nav-fixed" style="background-color: aliceblue;">
 	<nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
-		<button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0 pt-3" id="sidebarToggle"><i data-feather="menu"></i></button>
+		<button class="border rounded bg-white order-lg-0 mx-2 pt-2 px-2" id="sidebarToggle"><i data-feather="menu"></i></button>
 		<ul class="navbar-nav align-items-center ms-auto ms">
 			<!-- User Dropdown-->
-			<li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
-				<a class="btn rounded btn-transparent-dark dropdown-toggle border" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<b><small><?= strtoupper($this->userData['nama']) ?></small></b>
+			<li class="nav-item dropdown no-caret dropdown-user">
+				<a class="border bg-light rounded dropdown-toggle border p-0 px-2 me-2 text-decoration-none" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<b><small><?= strtoupper(strtok($this->userData['nama'], " ")) ?></small></b>
 				</a>
-				<div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
-					<h6 class="dropdown-header d-flex align-items-center">
-						<div class="dropdown-user-details">
-							<div class="dropdown-user-details-name"><?= $this->userData['nama'] ?></div>
-						</div>
-					</h6>
-					<div class="dropdown-divider"></div>
+				<div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up p-1" aria-labelledby="navbarDropdownUserImage">
 					<a class="dropdown-item" href="<?= $this->BASE_URL ?>Login/logout">
 						<div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
 						Logout
@@ -153,13 +154,15 @@
 						<?php if (in_array($this->userData['user_tipe'], $this->pAdmin)) { ?>
 							<div class="sidenav-menu-heading pb-0">Admin Panel</div>
 							<a class="nav-link <?= (str_contains($t, "Admin")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseA" aria-expanded="true" aria-controls="collapseNewOrder">
-								<div class="nav-link-icon"><i data-feather="user"></i></div>
+								<div class="nav-link-icon"><i data-feather="user-check"></i></div>
 								Approval
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 							</a>
 							<div class="collapse <?= (str_contains($t, "Admin")) ? 'show' : '' ?>" id="collapseA" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
-									<a class="nav-link <?= ($t == "Admin - Verify") ? 'active' : '' ?>" href="#">User Verification</a>
+									<a class="nav-link <?= ($t == "Admin - User Verify") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>User_Verify">
+										User Verification <span class="badge bg-danger-soft text-danger ms-auto"><?= $count_vp ?></span>
+									</a>
 									<a class="nav-link <?= ($t == "Admin - Pengajuan") ? 'active' : '' ?>" href="#">Pengajuan Pinjaman</a>
 									<a class="nav-link <?= ($t == "Admin - Pendanaan") ? 'active' : '' ?>" href="#">Pencairan Pendanaan</a>
 								</nav>

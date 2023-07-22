@@ -1,50 +1,63 @@
 <header class="py-4 mb-2 bg-gradient-primary-to-secondary">
     <div class="container-xl">
         <div class="text-center">
-            <h1 class="text-white">Profil - <?= $data['_c'] ?></h1>
+            <h1 class="text-white"><?= $data['_c'] ?></h1>
         </div>
     </div>
 </header>
 
 <!-- Main page content-->
-<div class="row ms-1">
-    <div class="col bg-white">
+<div class="row mx-1">
+    <div class="col bg-white py-1 px-1">
         <div class="row">
-            <div class="col py-1 line100"><small><u>Status</u></small><br>
+            <div class="col line100 border-bottom pb-1"><small><u>Status</u></small><br>
                 <?php
                 switch ($this->userData['v_profil']) {
                     case 0: ?>
                         <span class="text-danger">Belum Terverifikasi</span><br>
-                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#modal_ktp"><small>Lengkapi Data</small></a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal_ktp"><small>Upload KTP</small></a>
+                    <?php break;
+                    case 3: ?>
+                        <span class="text-danger">DATA DI TOLAK</span> :
+                        <span><small><?= strtoupper($this->userData['v_note_profil']) ?></small></span>
+                        <br>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal_ktp"><small>Upload KTP</small></a>
+                    <?php break;
+                    case 2: ?>
+                        <span class="text-success"><b>TERVERIFIKASI</b></span>
                     <?php break;
                     case 1: ?>
-                        <span class="text-primary">Dalam pengecekan 1x24jam</span><br>
+                        <span class="text-primary">DALAM PENGECEKAN 1X24 JAM</span><br>
                 <?php break;
                 } ?>
             </div>
         </div>
-        <div class="col py-1 line100 text-success"><small><u>KTP:</u></small><br>
+        <div class="col py-1 line100 text-success">
             <img style="max-width: 270px;" src="<?= $this->BASE_URL . $this->userData['ktp_path'] ?>" class="img-fluid" alt="...">
         </div>
 
         <div class="row">
-            <div class="col-md-6 py-1 line100 text-success"><small><u>NIK:</u></small><br><b><?= $this->userData['nik'] ?></b></div>
-
+            <div class="col-md-6 py-1 line100"><small><u>NIK:</u></small><br><?= $this->userData['nik'] ?></div>
             <div class="col-md-6 py-1 line100"><small><u>Nama</u></small><br><?= $this->userData['nama'] ?></div>
-
             <div class="col-md-6 py-1 line100"><small><u>No. Handphone</u></small><br><?= $this->userData['hp'] ?></div>
-
             <div class="col-md-6 py-1 line100"><small><u>Penghasilan/Bulan</u></small><br>Rp<?= number_format($this->userData['penghasilan']) ?></div>
-
             <div class="col-md-6 py-1 line100"><small><u>Alamat</u></small><br><?= strtoupper($this->userData['alamat']) ?></div>
-
-            <div class="col-md-6 py-1 line100"><small><u>Provinsi</u></small><br><?= strtoupper($this->userData['provinsi']) ?></div>
-
-            <div class="col-md-6 py-1 line100"><small><u>Kota/Kabupaten</u></small><br><?= strtoupper($this->userData['kota']) ?></div>
-
-            <div class="col-md-6 py-1 line100"><small><u>Kecamatan</u></small><br><?= strtoupper($this->userData['kecamatan']) ?></div>
-
-            <div class="col-md-6 py-1 line100"><small><u>Kelurahan</u></small><br><?= strtoupper($this->userData['kelurahan']) ?></div>
+            <div class="col-md-6 py-1 line100">
+                <small><u>Provinsi</u></small><br>
+                <?= strtoupper($this->model("M_DB_1")->get_cols_where("_provinsi", "provinsi", "id_provinsi = '" . $this->userData['provinsi'] . "'", 0)['provinsi']) ?>
+            </div>
+            <div class="col-md-6 py-1 line100">
+                <small><u>Kota/Kabupaten</u></small><br>
+                <?= strtoupper($this->model("M_DB_1")->get_cols_where("_kota", "kota", "id_kota = '" . $this->userData['kota'] . "'", 0)['kota']) ?>
+            </div>
+            <div class="col-md-6 py-1 line100">
+                <small><u>Kecamatan</u></small><br>
+                <?= strtoupper($this->model("M_DB_1")->get_cols_where("_kecamatan", "kecamatan", "id_kecamatan = '" . $this->userData['kecamatan'] . "'", 0)['kecamatan']) ?>
+            </div>
+            <div class="col-md-6 py-1 line100">
+                <small><u>Kelurahan</u></small><br>
+                <?= strtoupper($this->model("M_DB_1")->get_cols_where("_kelurahan", "kelurahan", "id_kelurahan = '" . $this->userData['kelurahan'] . "'", 0)['kelurahan']) ?>
+            </div>
 
         </div>
     </div>
@@ -79,43 +92,44 @@
             </div>
         </div>
     </form>
+</div>
 
-    <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
+<script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
 
-    <script>
-        $("form.upload").on("submit", function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            var file = $('#file')[0].files[0];
-            formData.append('file', file);
+<script>
+    $("form.upload").on("submit", function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        var file = $('#file')[0].files[0];
+        formData.append('file', file);
 
-            $.ajax({
-                xhr: function() {
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener("progress", function(evt) {
-                        if (evt.lengthComputable) {
-                            var percentComplete = (evt.loaded / evt.total) * 100;
-                            $('#persen').html('<b>' + Math.round(percentComplete) + '</b>');
-                        }
-                    }, false);
-                    return xhr;
-                },
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: formData,
-                contentType: "application/octet-stream",
-                enctype: 'multipart/form-data',
-
-                contentType: false,
-                processData: false,
-
-                success: function(res) {
-                    if (res == 0) {
-                        content();
-                    } else {
-                        alert(res);
+        $.ajax({
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = (evt.loaded / evt.total) * 100;
+                        $('#persen').html('<b>' + Math.round(percentComplete) + '</b>');
                     }
-                },
-            });
+                }, false);
+                return xhr;
+            },
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            contentType: "application/octet-stream",
+            enctype: 'multipart/form-data',
+
+            contentType: false,
+            processData: false,
+
+            success: function(res) {
+                if (res == 0) {
+                    content();
+                } else {
+                    alert(res);
+                }
+            },
         });
-    </script>
+    });
+</script>
