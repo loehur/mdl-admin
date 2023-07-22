@@ -10,7 +10,7 @@
 <div class="row mx-1">
     <div class="col py-1 px-1 bg-white">
         <?php foreach ($data['user'] as $du) { ?>
-            <div class="row border mx-1 rounded border">
+            <div class="row border mx-1 mb-1 rounded border">
                 <div class="col text-nowrap">
                     <span><a href="#" data-id="<?= $du['user'] ?>" class="text-success verifyData">Verify</a></span>
                 </div>
