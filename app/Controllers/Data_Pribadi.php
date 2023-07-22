@@ -31,6 +31,7 @@ class Data_Pribadi extends Controller
    public function content()
    {
       $this->dataSynchrone();
+      $this->data();
       $data['_c'] = __CLASS__;
       $this->view($this->v_content, $data);
    }

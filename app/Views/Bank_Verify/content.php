@@ -12,33 +12,19 @@
         <?php foreach ($data['user'] as $du) { ?>
             <div class="row border mx-1 mb-1 rounded border">
                 <div class="col text-nowrap">
-                    <span><a href="#" data-id="<?= $du['user'] ?>" class="text-success verifyData">Verify</a></span>
-                </div>
-                <div class="col text-nowrap">
                     <?= $du['nama'] ?>
+                    <br>
+                    <?= $this->model("M_DB_1")->get_cols_where("_bank", "name", "code = '" . $du['bank'] . "'", 0)['name'] ?>
+                    <br>
+                    <?= $du['rekening'] ?>
                 </div>
                 <div class="col">
-                    <?= $du['hp'] ?>
-                </div>
-                <div class="col text-nowrap">
-                    <span><a href="#" class="cek_" data-id="<?= $du['user'] ?>" data-bs-target="#modal_cek" data-bs-toggle="modal">Cek</a></span>
-                </div>
-                <div class="col text-nowrap">
-                    <span><a href="#" class="text-danger reject_" data-id="<?= $du['user'] ?>" data-bs-target="#modal_reject" data-bs-toggle="modal">Reject</a></span>
+                    <a href="#" data-id="<?= $du['user'] ?>" class="text-success verifyData">Verify</a>
+                    <a href="#" class="text-danger reject_ float-end mt-auto" data-id="<?= $du['user'] ?>" data-bs-target="#modal_reject" data-bs-toggle="modal">Reject</a>
                 </div>
             </div>
         <?php } ?>
     </div>
-
-    <form action="<?= $this->BASE_URL . $data['_c'] ?>/cek" method="POST">
-        <div class="modal" id="modal_cek">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body p-0" id="cek"></div>
-                </div>
-            </div>
-        </div>
-    </form>
 
     <form action="<?= $this->BASE_URL . $data['_c'] ?>/reject" method="POST">
         <div class="modal" id="modal_reject">

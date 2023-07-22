@@ -1,4 +1,4 @@
-<header class="py-4 mb-2 bg-gradient-primary-to-secondary">
+<header class="py-1 mb-2 bg-gradient-primary-to-secondary">
     <div class="container-xl">
         <div class="text-center">
             <h1 class="text-white"><?= $data['_c'] ?></h1>
@@ -18,7 +18,7 @@
                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal_ktp"><small>Upload KTP</small></a>
                     <?php break;
                     case 3: ?>
-                        <span class="text-danger">DATA DI TOLAK</span> :
+                        <span class="text-danger">DATA DI TOLAK</span><br>
                         <span><small><?= strtoupper($this->userData['v_note_profil']) ?></small></span>
                         <br>
                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal_ktp"><small>Upload KTP</small></a>

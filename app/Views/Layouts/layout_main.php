@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 	<title>Bantu Pinjam | <?= $data['title'] ?></title>
@@ -57,6 +57,10 @@
 			visibility: hidden;
 		}
 
+		.selectize-dropdown-content {
+			max-height: 100px;
+		}
+
 		.konten {
 			margin-bottom: 15px;
 			margin-left: 7px;
@@ -70,12 +74,6 @@
 </head>
 
 <?php $t = $data['title']; ?>
-
-<?php
-$count_vp = 0;
-$where = "v_profil = 1";
-$count_vp = $this->model('M_DB_1')->count_where('user', $where);
-?>
 
 <body class="nav-fixed" style="background-color: aliceblue;">
 	<nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
@@ -116,14 +114,13 @@ $count_vp = $this->model('M_DB_1')->count_where('user', $where);
 
 							<div class="sidenav-menu-heading pb-0">Client Menu</div>
 							<a class="nav-link <?= (str_contains($t, "Pinjaman")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapseNewOrder">
-								<div class="nav-link-icon"><i data-feather="user"></i></div>
+								<div class="nav-link-icon"><i data-feather="credit-card"></i></div>
 								Pinjaman
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 							</a>
 							<div class="collapse <?= (str_contains($t, "Pinjaman")) ? 'show' : '' ?>" id="collapse1" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
-									<a class="nav-link <?= ($t == "Pinjaman - Pengajuan") ? 'active' : '' ?>" href="#">Pengajuan</a>
-									<a class="nav-link <?= ($t == "Pinjaman - Riwayat Pengajuan") ? 'active' : '' ?>" href="#">Riwayat Pengajuan</a>
+									<a class="nav-link <?= ($t == "Pinjaman - Pengajuan") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Pengajuan">Pengajuan / Aktif</a>
 									<a class="nav-link <?= ($t == "Pinjaman - Riwayat Pinjaman") ? 'active' : '' ?>" href="#">Riwayat Pinjaman</a>
 								</nav>
 							</div>
@@ -146,12 +143,23 @@ $count_vp = $this->model('M_DB_1')->count_where('user', $where);
 							<div class="collapse <?= (str_contains($t, "Profil")) ? 'show' : '' ?>" id="collapseProfil" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 									<a class="nav-link <?= ($t == "Profil - Data Pribadi") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Data_Pribadi">Data Pribadi</a>
-									<a class="nav-link <?= ($t == "Profil - Rekening") ? 'active' : '' ?>" href="#">Rekening</a>
+									<a class="nav-link <?= ($t == "Profil - Rekening") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Rekening">Rekening</a>
 									<a class="nav-link <?= ($t == "Profil - Keamanan") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Keamanan">Keamanan</a>
 								</nav>
 							</div>
 						<?php } ?>
 						<?php if (in_array($this->userData['user_tipe'], $this->pAdmin)) { ?>
+
+
+							<?php
+							$count_vp = 0;
+							$where = "v_profil = 1";
+							$count_vp = $this->model('M_DB_1')->count_where('user', $where);
+							$count_vb = 0;
+							$where = "v_bank = 1";
+							$count_vb = $this->model('M_DB_1')->count_where('user', $where);
+							?>
+
 							<div class="sidenav-menu-heading pb-0">Admin Panel</div>
 							<a class="nav-link <?= (str_contains($t, "Admin")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseA" aria-expanded="true" aria-controls="collapseNewOrder">
 								<div class="nav-link-icon"><i data-feather="user-check"></i></div>
@@ -161,7 +169,10 @@ $count_vp = $this->model('M_DB_1')->count_where('user', $where);
 							<div class="collapse <?= (str_contains($t, "Admin")) ? 'show' : '' ?>" id="collapseA" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 									<a class="nav-link <?= ($t == "Admin - User Verify") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>User_Verify">
-										User Verification <span class="badge bg-danger-soft text-danger ms-auto"><?= $count_vp ?></span>
+										KTP Verification <span class="badge <?= ($count_vp == 0) ? " bg-success-soft text-success" : "bg-danger-soft text-danger" ?> ms-auto"><?= $count_vp ?></span>
+									</a>
+									<a class="nav-link <?= ($t == "Admin - Bank Verify") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Bank_Verify">
+										Rekening Verification <span class="badge <?= ($count_vb == 0) ? " bg-success-soft text-success" : "bg-danger-soft text-danger" ?> ms-auto"><?= $count_vb ?></span>
 									</a>
 									<a class="nav-link <?= ($t == "Admin - Pengajuan") ? 'active' : '' ?>" href="#">Pengajuan Pinjaman</a>
 									<a class="nav-link <?= ($t == "Admin - Pendanaan") ? 'active' : '' ?>" href="#">Pencairan Pendanaan</a>
