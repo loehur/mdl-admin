@@ -13,6 +13,7 @@ class Register extends Controller
 
       $data['_c'] = $this->page;
       $data['prov'] = $this->model('M_DB_1')->get('_provinsi');
+      $data['bank'] = $this->model("M_DB_1")->get("_bank");
       $this->view($this->page . '/register', $data);
    }
 
@@ -71,11 +72,92 @@ class Register extends Controller
       $kel = $_POST['kelurahan'];
       $alamat = $_POST['alamat'];
       $hp = $_POST['hp'];
-
+      $nik = $_POST['nik'];
+      $bank = $_POST['bank'];
+      $rek = $_POST['rek'];
       $pass_enc = $this->model('Enc')->enc($pass);
 
-      $cols = 'user, nama, penghasilan, provinsi, kota, kecamatan, kelurahan, alamat, password, hp, user_tipe';
-      $vals = "'" . $user . "','" . $nama . "'," . $penghasilan . "," . $provinsi . "," . $kota . "," . $kec . ",'" . $kel . "','" . $alamat . "','" . $pass_enc . "','" . $hp . "',2";
+      function compressImage($source, $destination, $quality)
+      {
+         $imgInfo = getimagesize($source);
+         $mime = $imgInfo['mime'];
+         switch ($mime) {
+            case 'image/jpeg':
+               $image = imagecreatefromjpeg($source);
+               break;
+            case 'image/png':
+               $image = imagecreatefrompng($source);
+               break;
+            case 'image/gif':
+               $image = imagecreatefromgif($source);
+               break;
+            default:
+               $image = imagecreatefromjpeg($source);
+         }
+
+         imagejpeg($image, $destination, $quality);
+         return $destination;
+      }
+
+      $file_inputName = "ktp";
+      $uploads_dir = "files/" . $file_inputName . "/" . $nik . "/";
+      $file_name = date('His') . "_" . basename($_FILES[$file_inputName]['name']);
+      if (!file_exists($uploads_dir)) {
+         mkdir($uploads_dir, 0777, TRUE);
+      }
+      $imageUploadPath =  $uploads_dir . '/' . $file_name;
+      $allowExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG');
+      $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+      $imageTemp = $_FILES[$file_inputName]['tmp_name'];
+      $fileSize   = $_FILES[$file_inputName]['size'];
+      $path_upload[$file_inputName] = $uploads_dir . $file_name;
+      if (in_array($fileType, $allowExt) === true) {
+         if ($fileSize < 10000000) {
+            if ($fileSize > 1000000) {
+               compressImage($imageTemp, $imageUploadPath, 20);
+            } else {
+               move_uploaded_file($imageTemp, $imageUploadPath);
+            }
+         } else {
+            echo "FILE BIGGER THAN 10MB FORBIDDEN";
+            exit();
+         }
+      } else {
+         echo "FILE EXT/TYPE FORBIDDEN";
+         exit();
+      }
+
+      $file_inputName = "kk";
+      $uploads_dir = "files/" . $file_inputName . "/" . $nik . "/";
+      $file_name = date('His') . "_" . basename($_FILES[$file_inputName]['name']);
+      if (!file_exists($uploads_dir)) {
+         mkdir($uploads_dir, 0777, TRUE);
+      }
+      $imageUploadPath =  $uploads_dir . '/' . $file_name;
+      $allowExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG');
+      $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+      $imageTemp = $_FILES[$file_inputName]['tmp_name'];
+      $fileSize   = $_FILES[$file_inputName]['size'];
+      $path_upload[$file_inputName] = $uploads_dir . $file_name;
+      if (in_array($fileType, $allowExt) === true) {
+         if ($fileSize < 10000000) {
+            if ($fileSize > 1000000) {
+               compressImage($imageTemp, $imageUploadPath, 20);
+            } else {
+               move_uploaded_file($imageTemp, $imageUploadPath);
+            }
+         } else {
+            echo "FILE BIGGER THAN 10MB FORBIDDEN";
+            exit();
+         }
+      } else {
+         echo "FILE EXT/TYPE FORBIDDEN";
+         exit();
+      }
+
+
+      $cols = 'user, nama, penghasilan, provinsi, kota, kecamatan, kelurahan, alamat, password, hp, user_tipe, nik, v_profil, v_bank, ktp_path, kk_path, bank, rekening';
+      $vals = "'" . $user . "','" . $nama . "'," . $penghasilan . "," . $provinsi . "," . $kota . "," . $kec . ",'" . $kel . "','" . $alamat . "','" . $pass_enc . "','" . $hp . "',2,'" . $nik . "',1,1,'" . $path_upload['ktp'] . "','" . $path_upload['kk'] . "','" . $bank . "','" . $rek . "'";
 
       $do = $this->model('M_DB_1')->insertCols('user', $cols, $vals);
       if ($do['errno'] == 0) {

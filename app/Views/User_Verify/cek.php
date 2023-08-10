@@ -4,6 +4,9 @@
         <div class="col py-1">
             <img src="<?= $this->BASE_URL . $du['ktp_path'] ?>" class="img-fluid" alt="...">
         </div>
+        <div class="col py-1">
+            <img src="<?= $this->BASE_URL . $du['kk_path'] ?>" class="img-fluid" alt="...">
+        </div>
     </div>
     <div class="row border m-1 rounded border">
         <div class="col-md-4 line100">

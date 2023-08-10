@@ -60,40 +60,68 @@ class Data_Pribadi extends Controller
          return $destination;
       }
 
-      $nik = $_POST['nik'];
+      $allowExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG');
       $uploads_dir = "files/ktp/" . $this->userData['id_user'] . "/";
+      $uploads_dir_kk = "files/kk/" . $this->userData['id_user'] . "/";
       $file_name = date('His') . "_" . basename($_FILES['ktp']['name']);
+      $file_name_kk = date('His') . "_" . basename($_FILES['kk']['name']);
 
       if (!file_exists($uploads_dir)) {
          mkdir($uploads_dir, 0777, TRUE);
       }
 
       $imageUploadPath =  $uploads_dir . '/' . $file_name;
-      $allowExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG');
       $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+
       $imageTemp = $_FILES['ktp']['tmp_name'];
       $fileSize   = $_FILES['ktp']['size'];
-
-      $set = "nik = '" . $nik . "', v_profil = 1, ktp_path = '" . $uploads_dir . $file_name . "'";
-      $where = "id_user = " . $this->userData['id_user'];
 
       if (in_array($fileType, $allowExt) === true) {
          if ($fileSize < 10000000) {
             if ($fileSize > 1000000) {
                compressImage($imageTemp, $imageUploadPath, 20);
-               $query = $this->model('M_DB_1')->Update("user", $set, $where);
-               echo $query['errno'];
             } else {
                move_uploaded_file($imageTemp, $imageUploadPath);
-               $query = $this->model('M_DB_1')->Update("user", $set, $where);
-               echo $query['errno'];
             }
          } else {
             echo "FILE BIGGER THAN 10MB FORBIDDEN";
+            exit();
          }
       } else {
          echo "FILE EXT/TYPE FORBIDDEN";
+         exit();
       }
+
+      if (!file_exists($uploads_dir_kk)) {
+         mkdir($uploads_dir_kk, 0777, TRUE);
+      }
+
+      $imageUploadPath_kk =  $uploads_dir_kk . '/' . $file_name_kk;
+      $fileType_kk = pathinfo($imageUploadPath_kk, PATHINFO_EXTENSION);
+
+      $imageTemp_kk = $_FILES['kk']['tmp_name'];
+      $fileSize_kk   = $_FILES['kk']['size'];
+
+      if (in_array($fileType_kk, $allowExt) === true) {
+         if ($fileSize_kk < 10000000) {
+            if ($fileSize_kk > 1000000) {
+               compressImage($imageTemp_kk, $imageUploadPath_kk, 20);
+            } else {
+               move_uploaded_file($imageTemp_kk, $imageUploadPath_kk);
+            }
+         } else {
+            echo "FILE BIGGER THAN 10MB FORBIDDEN";
+            exit();
+         }
+      } else {
+         echo "FILE EXT/TYPE FORBIDDEN";
+         exit();
+      }
+
+      $set = "v_profil = 1, ktp_path = '" . $uploads_dir . $file_name . "', kk_path = '" . $uploads_dir_kk . $file_name_kk . "'";
+      $where = "id_user = " . $this->userData['id_user'];
+      $query = $this->model('M_DB_1')->Update("user", $set, $where);
+      echo $query['errno'];
 
       $this->dataSynchrone();
    }

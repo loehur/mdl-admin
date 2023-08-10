@@ -79,11 +79,11 @@ if (is_array($data)) {
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main>
-                <div class="container-xl px-4">
+                <div class="container-xl px-1 pt-2">
                     <div class="row justify-content-center">
                         <div class="col-lg-5">
                             <!-- Basic login form-->
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-1">
                                 <div class="card-body login-card-body">
                                     <p class="login-box-msg text-center">Bantu Pinjam Register</p>
                                     <div id="info" class="text-danger pb-2 float-end"><?= $failed ?></div>
@@ -106,13 +106,19 @@ if (is_array($data)) {
                                                 Nama Lengkap
                                                 <input type="text" name="nama" class="form-control" required>
                                             </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col pe-0">
+                                                Nomor Induk KTP (NIK)
+                                                <input type="text" name="nik" class="form-control" required>
+                                            </div>
                                             <div class="col">
                                                 Penghasilan Perbulan
                                                 <input type="number" name="penghasilan" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <div class="col">
+                                            <div class="col pe-0">
                                                 <label class="form-label mb-0 pb-0">Provinsi</label>
                                                 <select class="border tize" id="selProv" name="prov" required>
                                                     <option></option>
@@ -129,7 +135,7 @@ if (is_array($data)) {
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <div class="col">
+                                            <div class="col pe-0">
                                                 <label class="form-label mb-0 pb-0">Kecamatan</label>
                                                 <div id="opKec"></div>
                                             </div>
@@ -138,9 +144,9 @@ if (is_array($data)) {
                                                 <div id="opKel"></div>
                                             </div>
                                         </div>
-                                        <div class="row mb-4">
-                                            <div class="col">
-                                                Jalan/Perumahan/No.Rumah
+                                        <div class="row mb-2">
+                                            <div class="col pe-0">
+                                                Alamat
                                                 <input type="text" name="alamat" class="form-control" required>
                                             </div>
                                             <div class="col">
@@ -149,9 +155,39 @@ if (is_array($data)) {
                                             </div>
                                         </div>
 
+                                        <div class="row mb-2">
+                                            <div class="col">
+                                                <label class="form-label mb-0 pb-0">Bank</label>
+                                                <select class="border tize" name="bank" required>
+                                                    <option></option>
+                                                    <div>
+                                                        <?php foreach ($data['bank'] as $pr) { ?>
+                                                            <option value="<?= $pr['code'] ?>"><?= $pr['name'] ?></option>
+                                                        <?php } ?>
+                                                    </div>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <label class="form-label mb-0 pb-0">No. Rekening</label>
+                                                <input type="text" class="form-control" name="rek" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-2">
+                                            <div class="col">
+                                                <label for="formFileSm" class="form-label mb-0 pb-0">KTP (<span class="text-danger">Max. 10mb</span>)</label>
+                                                <input class="form-control form-control-sm" type="file" id="file" name="ktp" required />
+                                            </div>
+                                            <div class="col">
+                                                <label for="formFileSm" class="form-label mb-0 pb-0">KK (<span class="text-danger">Max. 10mb</span>)</label>
+                                                <input class="form-control form-control-sm" type="file" id="file_kk" name="kk" required />
+                                            </div>
+                                        </div>
+
                                         <div class="row border-top pt-2">
                                             <div class="col">
                                                 <button type="submit" id="btnSubmit" onclick="hide()" class="btn btn-success btn-block">Submit Register</button>
+                                                <span id="persen"><b>0</b></span><b> %</b>
                                             </div>
                                             <div class="col mt-auto">
                                                 <a href='<?= $this->BASE_URL ?>Login' id="btnSubmit" class="float-end"><small>Login</small></a>
@@ -190,10 +226,33 @@ if (is_array($data)) {
 
     $("form").on("submit", function(e) {
         e.preventDefault();
+        var formData = new FormData(this);
+
+        var file = $('#file')[0].files[0];
+        formData.append('file', file);
+        var file_kk = $('#file_kk')[0].files[0];
+        formData.append('file', file_kk);
+
         $.ajax({
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = (evt.loaded / evt.total) * 100;
+                        $('#persen').html('<b>' + Math.round(percentComplete) + '</b>');
+                    }
+                }, false);
+                return xhr;
+            },
             url: $(this).attr('action'),
-            data: $(this).serialize(),
-            type: $(this).attr("method"),
+            type: 'POST',
+            data: formData,
+            contentType: "application/octet-stream",
+            enctype: 'multipart/form-data',
+
+            contentType: false,
+            processData: false,
+
             success: function(res) {
                 if (res == 0) {
                     alert("Register Success! Redirect to Login Page")
@@ -201,7 +260,7 @@ if (is_array($data)) {
                 } else {
                     alert(res);
                 }
-            }
+            },
         });
     });
 </script>
