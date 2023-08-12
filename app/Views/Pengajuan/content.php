@@ -19,13 +19,31 @@
                         <?php foreach ($data['run'] as $dr) { ?>
                             <div class="row">
                                 <div class="col">
-                                    <?= $dr['tujuan'] ?>
+                                    Tujuan:<br>
+                                    <?= strtoupper($dr['tujuan']) ?>
                                 </div>
                                 <div class="col">
+                                    Jumlah:<br>
                                     <?= $dr['jumlah'] ?>
                                 </div>
                                 <div class="col">
-                                    <?= $dr['tenor'] ?>
+                                    Tenor:<br>
+                                    <?= $dr['tenor'] ?> Bulan
+                                </div>
+                                <div class="col">
+                                    Status:<br>
+                                    <?php
+                                    $st = "";
+                                    switch ($dr['st_pinjaman']) {
+                                        case 0:
+                                            $st = "Admin Checking";
+                                            break;
+                                        case 1:
+                                            $st = "Listing";
+                                            break;
+                                    }
+                                    ?>
+                                    <?= $st ?>
                                 </div>
                             </div>
                         <?php } ?>

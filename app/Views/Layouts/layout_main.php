@@ -158,12 +158,14 @@
 							$count_vb = 0;
 							$where = "v_bank = 1";
 							$count_vb = $this->model('M_DB_1')->count_where('user', $where);
+							$where = "st_pinjaman = 0";
+							$count_pg = $this->model('M_DB_1')->count_where('pengajuan', $where);
 							?>
 
 							<div class="sidenav-menu-heading pb-0">Admin Panel</div>
 							<a class="nav-link <?= (str_contains($t, "Admin")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseA" aria-expanded="true" aria-controls="collapseNewOrder">
 								<div class="nav-link-icon"><i data-feather="user-check"></i></div>
-								Approval
+								Admin
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 							</a>
 							<div class="collapse <?= (str_contains($t, "Admin")) ? 'show' : '' ?>" id="collapseA" data-bs-parent="#accordionSidenav">
@@ -174,7 +176,9 @@
 									<a class="nav-link <?= ($t == "Admin - Bank Verify") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Bank_Verify">
 										Rekening Verification <span class="badge <?= ($count_vb == 0) ? " bg-success-soft text-success" : "bg-danger-soft text-danger" ?> ms-auto"><?= $count_vb ?></span>
 									</a>
-									<a class="nav-link <?= ($t == "Admin - Pengajuan") ? 'active' : '' ?>" href="#">Pengajuan Pinjaman</a>
+									<a class="nav-link <?= ($t == "Admin - Pengajuan") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Pengajuan_Verify">
+										Pengajuan Pinjaman <span class="badge <?= ($count_pg == 0) ? " bg-success-soft text-success" : "bg-danger-soft text-danger" ?> ms-auto"><?= $count_pg ?></span>
+									</a>
 									<a class="nav-link <?= ($t == "Admin - Pendanaan") ? 'active' : '' ?>" href="#">Pencairan Pendanaan</a>
 								</nav>
 							</div>
