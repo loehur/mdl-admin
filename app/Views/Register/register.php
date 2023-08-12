@@ -113,8 +113,8 @@ if (is_array($data)) {
                                                 <input type="text" name="nik" class="form-control" required>
                                             </div>
                                             <div class="col">
-                                                Penghasilan Perbulan
-                                                <input type="number" name="penghasilan" class="form-control" required>
+                                                Kontak Darurat
+                                                <input type="text" name="darurat" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="row mb-2">

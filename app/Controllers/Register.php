@@ -65,7 +65,7 @@ class Register extends Controller
 
       $user = $_POST['user'];
       $nama = $_POST['nama'];
-      $penghasilan = $_POST['penghasilan'];
+      $darurat = $_POST['darurat'];
       $provinsi = $_POST['prov'];
       $kota = $_POST['kota'];
       $kec = $_POST['kecamatan'];
@@ -156,8 +156,8 @@ class Register extends Controller
       }
 
 
-      $cols = 'user, nama, penghasilan, provinsi, kota, kecamatan, kelurahan, alamat, password, hp, user_tipe, nik, v_profil, v_bank, ktp_path, kk_path, bank, rekening';
-      $vals = "'" . $user . "','" . $nama . "'," . $penghasilan . "," . $provinsi . "," . $kota . "," . $kec . ",'" . $kel . "','" . $alamat . "','" . $pass_enc . "','" . $hp . "',2,'" . $nik . "',1,1,'" . $path_upload['ktp'] . "','" . $path_upload['kk'] . "','" . $bank . "','" . $rek . "'";
+      $cols = 'user, nama, darurat, provinsi, kota, kecamatan, kelurahan, alamat, password, hp, user_tipe, nik, v_profil, v_bank, ktp_path, kk_path, bank, rekening';
+      $vals = "'" . $user . "','" . $nama . "'," . $darurat . "," . $provinsi . "," . $kota . "," . $kec . ",'" . $kel . "','" . $alamat . "','" . $pass_enc . "','" . $hp . "',2,'" . $nik . "',1,1,'" . $path_upload['ktp'] . "','" . $path_upload['kk'] . "','" . $bank . "','" . $rek . "'";
 
       $do = $this->model('M_DB_1')->insertCols('user', $cols, $vals);
       if ($do['errno'] == 0) {
