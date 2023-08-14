@@ -12,7 +12,7 @@
                 <?php if ($this->userData['v_profil'] <> 2 || $this->userData['v_bank'] <> 2) { ?>
                     <span class="text-danger">Belum dapat mengajukan pinjaman, sampai KTP dan Rekening Bank terverifikasi</span>
                 <?php } else { ?>
-                    <?php if (count($data['run']) == 0) { ?>
+                    <?php if (!is_array($data['run'])) { ?>
                         <span><a href="#" class="text-primary reject_" data-bs-target="#modal_reject" data-bs-toggle="modal">Ajukan Pinjaman</a></span>
                     <?php } else { ?>
                         <?php $dr = $data['run'] ?>
