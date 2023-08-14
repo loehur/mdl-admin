@@ -34,13 +34,15 @@
                                 <small>Status</small><br>
                                 <?php
                                 $st = "";
-                                switch ($dr['st_pinjaman']) {
-                                    case 0:
-                                        $st = "Admin Checking";
-                                        break;
-                                    case 1:
-                                        $st = "Listing";
-                                        break;
+                                if (is_array($dr)) {
+                                    switch ($dr['st_pinjaman']) {
+                                        case 0:
+                                            $st = "Admin Checking";
+                                            break;
+                                        case 1:
+                                            $st = "Listing";
+                                            break;
+                                    }
                                 }
                                 ?>
                                 <?= $st ?>
