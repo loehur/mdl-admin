@@ -45,7 +45,7 @@
             <div class="col-md-6 py-1 line100"><small><u>NIK:</u></small><br><?= $this->userData['nik'] ?></div>
             <div class="col-md-6 py-1 line100"><small><u>Nama</u></small><br><?= $this->userData['nama'] ?></div>
             <div class="col-md-6 py-1 line100"><small><u>No. Handphone</u></small><br><?= $this->userData['hp'] ?></div>
-            <div class="col-md-6 py-1 line100"><small><u>Kontak Darurat</u></small><br>Rp<?= number_format($this->userData['darurat']) ?></div>
+            <div class="col-md-6 py-1 line100"><small><u>Kontak Darurat</u></small><br><?= $this->userData['darurat'] ?></div>
             <div class="col-md-6 py-1 line100"><small><u>Alamat</u></small><br><?= strtoupper($this->userData['alamat']) ?></div>
             <div class="col-md-6 py-1 line100">
                 <small><u>Provinsi</u></small><br>

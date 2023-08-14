@@ -55,7 +55,7 @@
                             <div class="col">
                                 <label class="form-label">Catatan (Opsional)</label>
                                 <input name="user" value="" type="hidden">
-                                <input type="text" name="note" class="form-control" required />
+                                <input type="text" name="note" class="form-control" />
                                 <input type="hidden" name="note" class="form-control" />
                             </div>
                         </div>

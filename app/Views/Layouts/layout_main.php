@@ -100,14 +100,14 @@
 					<div class="nav accordion" id="accordionSidenav">
 						<?php if (in_array($this->userData['user_tipe'], $this->pClient)) { ?>
 							<div class="sidenav-menu-heading pb-0">Marketplace</div>
-							<a class="nav-link <?= (str_contains($t, "Pinjaman")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapse0" aria-expanded="true" aria-controls="collapseNewOrder">
+							<a class="nav-link <?= (str_contains($t, "Marketplace")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapse0" aria-expanded="true" aria-controls="collapseNewOrder">
 								<div class="nav-link-icon"><i data-feather="user"></i></div>
 								Marketplace
 								<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 							</a>
 							<div class="collapse <?= (str_contains($t, "Marketplace")) ? 'show' : '' ?>" id="collapse0" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
-									<a class="nav-link <?= ($t == "Marketplace - Penawaran") ? 'active' : '' ?>" href="#">Dalam Penawaran</a>
+									<a class="nav-link <?= ($t == "Marketplace - Penawaran") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Listing/index/0">Dalam Penawaran</a>
 									<a class="nav-link <?= ($t == "Marketplace - Terpenuhi") ? 'active' : '' ?>" href="#">Terpenuhi</a>
 								</nav>
 							</div>
@@ -120,8 +120,9 @@
 							</a>
 							<div class="collapse <?= (str_contains($t, "Pinjaman")) ? 'show' : '' ?>" id="collapse1" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
-									<a class="nav-link <?= ($t == "Pinjaman - Pengajuan") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Pengajuan">Pengajuan / Aktif</a>
-									<a class="nav-link <?= ($t == "Pinjaman - Riwayat Pinjaman") ? 'active' : '' ?>" href="#">Riwayat Pinjaman</a>
+									<a class="nav-link <?= ($t == "Pinjaman - Pengajuan") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Pengajuan">Pengajuan</a>
+									<a class="nav-link <?= ($t == "Pinjaman - Aktif") ? 'active' : '' ?>" href="#">Aktif</a>
+									<a class="nav-link <?= ($t == "Pinjaman - Riwayat") ? 'active' : '' ?>" href="#">Riwayat</a>
 								</nav>
 							</div>
 							<a class="nav-link <?= (str_contains($t, "Pendanaan")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="true" aria-controls="collapseNewOrder">

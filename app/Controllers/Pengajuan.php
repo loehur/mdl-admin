@@ -32,18 +32,12 @@ class Pengajuan extends Controller
    {
       $data['_c'] = __CLASS__;
       $where = "user = '" . $this->userData['user'] . "' AND (st_pinjaman BETWEEN 0 AND 2)";
-      $data['run'] = $this->model("M_DB_1")->get_where("pengajuan", $where);
-      $this->view($this->v_content, $data);
-   }
+      $data['run'] = $this->model("M_DB_1")->get_where_row("pengajuan", $where);
 
-   public function cancel()
-   {
-      $user = $_POST['user'];
-      $set = "v_profil = 2, v_note_profil = 'VERIFIED'";
-      $where = "user = '" . $user . "'";
-      $update = $this->model('M_DB_1')->update("user", $set, $where);
-      echo $update['errno'];
-      $this->dataSynchrone();
+      $where = "id_pengajuan = '" . $data['run']['id_pengajuan'] . "' ORDER BY bunga ASC";
+      $data['penawaran'] = $this->model("M_DB_1")->get_where("penawaran", $where);
+
+      $this->view($this->v_content, $data);
    }
 
    public function add()
@@ -62,5 +56,17 @@ class Pengajuan extends Controller
       } else {
          print_r($do['error']);
       }
+   }
+
+   public function terima()
+   {
+      $id = $_POST['id'];
+      $id_ = $_POST['id_'];
+
+      $set = "offer_id = " . $id_;
+      $where = "id_pengajuan = " . $id;
+      $update = $this->model('M_DB_1')->update("pengajuan", $set, $where);
+      echo $update['errno'];
+      $this->dataSynchrone();
    }
 }

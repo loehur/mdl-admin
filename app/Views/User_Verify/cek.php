@@ -18,7 +18,7 @@
             <?= $du['hp'] ?>
         </div>
         <div class="col-md-4 line100">
-            <small><u>Kontak Darurat</u></small><br>Rp<?= number_format($this->userData['darurat']) ?>
+            <small><u>Kontak Darurat</u></small><br><?= $this->userData['darurat'] ?>
         </div>
         <div class="col-md-4 line100">
             <small><u>NIK</u></small><br>

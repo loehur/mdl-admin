@@ -12,42 +12,69 @@
                 <?php if ($this->userData['v_profil'] <> 2 || $this->userData['v_bank'] <> 2) { ?>
                     <span class="text-danger">Belum dapat mengajukan pinjaman, sampai KTP dan Rekening Bank terverifikasi</span>
                 <?php } else { ?>
-
-                    <?php if (count($data['run']) == 0) { ?>
+                    <?php if (!isset($data['run']['id_pengajuan'])) { ?>
                         <span><a href="#" class="text-primary reject_" data-bs-target="#modal_reject" data-bs-toggle="modal">Ajukan Pinjaman</a></span>
                     <?php } else { ?>
-                        <?php foreach ($data['run'] as $dr) { ?>
-                            <div class="row">
-                                <div class="col">
-                                    Tujuan:<br>
-                                    <?= strtoupper($dr['tujuan']) ?>
-                                </div>
-                                <div class="col">
-                                    Jumlah:<br>
-                                    <?= $dr['jumlah'] ?>
-                                </div>
-                                <div class="col">
-                                    Tenor:<br>
-                                    <?= $dr['tenor'] ?> Bulan
-                                </div>
-                                <div class="col">
-                                    Status:<br>
+                        <?php $dr = $data['run'] ?>
+                        <b>Dalam Pengajuan</b>
+                        <div class="row mb-1">
+                            <div class="col-auto">
+                                <small>Tujuan</small><br>
+                                <?= strtoupper($dr['tujuan']) ?>
+                            </div>
+                            <div class="col-auto text-end">
+                                <small>Jumlah</small><br>
+                                Rp<?= number_format($dr['jumlah']) ?>
+                            </div>
+                            <div class="col-auto text-end">
+                                <small>Tenor</small><br>
+                                <?= $dr['tenor'] ?> Bulan
+                            </div>
+                            <div class="col">
+                                <small>Status</small><br>
+                                <?php
+                                $st = "";
+                                switch ($dr['st_pinjaman']) {
+                                    case 0:
+                                        $st = "Admin Checking";
+                                        break;
+                                    case 1:
+                                        $st = "Listing";
+                                        break;
+                                }
+                                ?>
+                                <?= $st ?>
+                            </div>
+                        </div>
+                        <?php if ($dr['offer_id'] == 0) { ?>
+                            <div class="row border-top pt-2">
+                                <div class="col text-end">
+                                    <b>Penawaran Pendanaan</b>
                                     <?php
-                                    $st = "";
-                                    switch ($dr['st_pinjaman']) {
-                                        case 0:
-                                            $st = "Admin Checking";
-                                            break;
-                                        case 1:
-                                            $st = "Listing";
-                                            break;
-                                    }
+                                    $no = 0;
+                                    foreach ($data['penawaran'] as $dp) {
+                                        $no += 1;
+                                        $rate = $dp['bunga'] * $dr['jumlah'] / 100;
                                     ?>
-                                    <?= $st ?>
+                                        <div class="row">
+                                            <div class="col text-end"><?= $no ?>.</div>
+                                            <div class="col-auto text-end">Bunga <?= $dp['bunga'] ?>%</div>
+                                            <div class="col-auto text-end">Rp <?= number_format($rate) ?></div>
+                                            <div class="col-auto text-end"><a href="#" class="terima" data-id="<?= $dp['id_pengajuan'] ?>" data-id_="<?= $dp['id_penawaran'] ?>" data-bunga="<?= $dp['bunga'] ?>">Terima</a></div>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div>
-                        <?php } ?>
-                    <?php } ?>
+                        <?php } else { ?>
+                            <div class="row border-top">
+                                <div class="col pt-2">
+                                    <b class="text-success">Dalam Proses Pencairan <i class="fa-solid fa-circle-check"></i></b><br>
+                                    <?php $rate = $this->model("M_DB_1")->get_where_row("penawaran", "id_pengajuan = '" . $dr['id_pengajuan'] . "'") ?>
+                                    Pendana akan melakukan Transfer dalam 1x24 Jam, pinjaman akan aktif dengan Bunga <b class="text-success"><?= $rate['bunga'] ?>%</b>
+                                </div>
+                            </div>
+                    <?php }
+                    } ?>
                 <?php } ?>
             </div>
         </div>
@@ -120,4 +147,29 @@
             }
         });
     });
+
+    $("a.terima").click(function() {
+        var bunga = $(this).attr("data-bunga");
+        if (confirm("Yakin menerima Pendanaan dengan bunga " + bunga + "% ?")) {
+            var id = $(this).attr("data-id");
+            var id_ = $(this).attr("data-id_");
+            $.ajax({
+                url: "<?= $this->BASE_URL . $data['_c']  ?>/terima",
+                data: {
+                    id: id,
+                    id_: id_
+                },
+                type: "POST",
+                success: function(res) {
+                    if (res == 0) {
+                        content();
+                    } else {
+                        alert(res);
+                    }
+                },
+            });
+        } else {
+            return false;
+        }
+    })
 </script>
