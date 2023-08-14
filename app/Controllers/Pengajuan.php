@@ -34,8 +34,12 @@ class Pengajuan extends Controller
       $where = "user = '" . $this->userData['user'] . "' AND (st_pinjaman BETWEEN 0 AND 2)";
       $data['run'] = $this->model("M_DB_1")->get_where_row("pengajuan", $where);
 
-      $where = "id_pengajuan = '" . $data['run']['id_pengajuan'] . "' ORDER BY bunga ASC";
-      $data['penawaran'] = $this->model("M_DB_1")->get_where("penawaran", $where);
+      if (is_array($data['run'])) {
+         $where = "id_pengajuan = '" . $data['run']['id_pengajuan'] . "' ORDER BY bunga ASC";
+         $data['penawaran'] = $this->model("M_DB_1")->get_where("penawaran", $where);
+      } else {
+         $data['penawaran'] = [];
+      }
 
       $this->view($this->v_content, $data);
    }
