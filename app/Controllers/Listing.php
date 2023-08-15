@@ -40,7 +40,9 @@ class Listing extends Controller
    {
       $data['_c'] = __CLASS__;
       if ($p1 == 0) {
-         $data['pengajuan'] = $this->model("M_DB_1")->get_where("pengajuan", "st_pinjaman = 1");
+         $data['pengajuan'] = $this->model("M_DB_1")->get_where("pengajuan", "st_pinjaman = 1 AND offer_id = 0 ORDER by id_pengajuan DESC");
+      } else {
+         $data['pengajuan'] = $this->model("M_DB_1")->get_where("pengajuan", "offer_id <> 0 ORDER BY id_pengajuan DESC LIMIT 10");
       }
 
       $this->view($this->v_content, $data);

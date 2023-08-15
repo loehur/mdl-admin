@@ -108,7 +108,7 @@
 							<div class="collapse <?= (str_contains($t, "Marketplace")) ? 'show' : '' ?>" id="collapse0" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 									<a class="nav-link <?= ($t == "Marketplace - Penawaran") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Listing/index/0">Dalam Penawaran</a>
-									<a class="nav-link <?= ($t == "Marketplace - Terpenuhi") ? 'active' : '' ?>" href="#">Terpenuhi</a>
+									<a class="nav-link <?= ($t == "Marketplace - Terpenuhi") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Listing/index/1">Terpenuhi</a>
 								</nav>
 							</div>
 
@@ -132,6 +132,7 @@
 							</a>
 							<div class="collapse <?= (str_contains($t, "Pendanaan")) ? 'show' : '' ?>" id="collapse2" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
+									<a class="nav-link <?= ($t == "Pendanaan - Penawaran") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Penawaran">Upload Resi</a>
 									<a class="nav-link <?= ($t == "Pendanaan - Portfolio") ? 'active' : '' ?>" href="#">Portfolio</a>
 									<a class="nav-link <?= ($t == "Pendanaan - Riwayat Pendanaan") ? 'active' : '' ?>" href="#">Riwayat Pendanaan</a>
 								</nav>

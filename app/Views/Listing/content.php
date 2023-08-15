@@ -11,6 +11,7 @@
     <div class="col py-1 px-1">
         <div class="row mx-1 mb-1">
             <?php foreach ($data['pengajuan'] as $du) {
+                $cek = 0;
                 $id = $du['id_pengajuan'] ?>
                 <div class="col text-nowrap border me-1 bg-white" style="max-width: 350px;">
                     <div class="row border-bottom bg-light">
@@ -64,33 +65,31 @@
                             </small>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col py-1 pe-1">
-
-                            <?php
-                            $penawaran = 0;
-                            $penawaran = $this->model("M_DB_1")->count_where("penawaran", "id_pengajuan = '" . $du['id_pengajuan'] . "'") ?>
-
-                            <?= $penawaran ?> Penawaran
-                            <?php
-                            if ($du['user'] <> $this->userData['user']) { ?>
-                                <button class="float-end btn btn-sm btn-success tawarkan" data-id="<?= $du['id_pengajuan'] ?>" data-bs-toggle="modal" data-bs-target="#tawar">Tawarkan</button>
-                            <?php }
-                            ?>
-                        </div>
-                    </div>
                     <?php
                     $cek = $this->model("M_DB_1")->count_where("penawaran", "id_pengajuan = " . $id . " AND user = '" . $this->userData['user'] . "'");
                     if ($cek > 0) { ?>
                         <div class="row border-top">
                             <div class="col py-1 pe-1">
                                 <?php
-                                $bungaAnda = $this->model("M_DB_1")->get_cols_where("penawaran", "bunga", "user = '" . $this->userData['user'] . "'", 0)['bunga'] ?>
+                                $bungaAnda = $this->model("M_DB_1")->get_cols_where("penawaran", "bunga", "id_pengajuan = " . $id . " AND user = '" . $this->userData['user'] . "'", 0)['bunga'] ?>
                                 Penawaran Anda
                                 <span class="float-end">Bunga <?= $bungaAnda ?>%</span>
                             </div>
                         </div>
                     <?php } ?>
+                    <div class="row border-top">
+                        <div class="col py-1 pe-1">
+                            <?php
+                            $penawaran = 0;
+                            $penawaran = $this->model("M_DB_1")->count_where("penawaran", "id_pengajuan = '" . $du['id_pengajuan'] . "'") ?>
+                            <?= $penawaran ?> Penawaran
+                            <?php
+                            if ($du['user'] <> $this->userData['user'] && $cek == 0) { ?>
+                                <button class="float-end btn btn-sm btn-success tawarkan" data-id="<?= $du['id_pengajuan'] ?>" data-bs-toggle="modal" data-bs-target="#tawar">Tawarkan</button>
+                            <?php }
+                            ?>
+                        </div>
+                    </div>
                 </div>
             <?php } ?>
         </div>
