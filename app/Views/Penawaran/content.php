@@ -11,7 +11,9 @@
     <div class="col px-1">
         <?php foreach ($data['pinjaman'] as $dp) {
             foreach ($data['penawaran'] as $dw) {
-                if ($dw['id_penawaran'] == $dp['offer_id']) { ?>
+                if ($dw['id_penawaran'] == $dp['offer_id']) {
+                    $rek = "";
+                    $bank = ""; ?>
                     <div class="row py-1 ps-3">
                         <div class="col-auto bg-white border">
                             <div class="row pt-2">
@@ -25,8 +27,7 @@
                                 <div class="col-auto line100 pb-1">
                                     <div class="row">
                                         <div class="col text-nowrap pb-2">
-                                            <?php $nama = $this->model("M_DB_1")->get_cols_where("user", "nama", "user = '" . $dp['user'] . "'", 0)['nama'];
-                                            ?>
+                                            <?php $nama = $this->model("M_DB_1")->get_cols_where("user", "nama", "user = '" . $dp['user'] . "'", 0)['nama']; ?>
                                             <b><?= $nama ?></b>
                                         </div>
                                         <div class="col text-end">
@@ -46,6 +47,16 @@
                                     <div class="row border-bottom mb-2 pb-1">
                                         <div class="col">
                                             <small>Bunga</small><br><span class="text-primary"><?= $dw['bunga'] ?>% / Rp<?= number_format($dw['bunga'] * $dp['jumlah'] / 100) ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="row border-bottom mb-2 pb-1">
+                                        <div class="col">
+                                            <small>Peminjam telah menyetujui penawaran Anda, silahkan transfer ke Rekening berikut:</small><br>
+                                            <?php $rek = $this->model("M_DB_1")->get_where_row("user", "user = '" . $dp['user'] . "'");
+                                            $bank = $this->model("M_DB_1")->get_cols_where("_bank", "name", "code = '" . $rek['bank'] . "'", 0)['name'];
+                                            ?>
+                                            <b><span><?= $bank ?> - <?= $rek['rekening'] ?></span></b><br>
+                                            Pastikan Nama Rekening sesuai dengan Nama Peminjam
                                         </div>
                                     </div>
                                     <a href="#" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal_ktp"><small>Upload Resi Pencairan</small></a>
