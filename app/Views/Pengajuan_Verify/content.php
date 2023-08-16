@@ -11,7 +11,7 @@
     <div class="col py-1 px-1">
         <div class="row">
             <?php foreach ($data['pinjaman'] as $du) { ?>
-                <div class="col-auto bg-white border ms-2">
+                <div class="col-auto bg-white border ms-3">
                     <div class="row">
                         <div class="col text-nowrap line100">
                             <?php $nama = $this->model("M_DB_1")->get_cols_where("user", "nama", "user = '" . $du['user'] . "'", 0)['nama']; ?>
