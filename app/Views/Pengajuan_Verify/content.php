@@ -16,14 +16,20 @@
                     Peminjam:<br>
                     <?= strtoupper($nama) ?>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col text-nowrap line100">
                     Jumlah Pinjaman:<br>
                     Rp<?= number_format($du['jumlah']) ?>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col line100">
                     Tujuan:<br>
                     <?= strtoupper($du['tujuan']) ?>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col text-nowrap">
                     <span><a href="#" class="text-danger user" data-id="<?= $du['user'] ?>" data-bs-target="#modal_user" data-bs-toggle="modal">Opsi</a></span>
                 </div>
