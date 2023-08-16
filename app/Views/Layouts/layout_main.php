@@ -121,7 +121,7 @@
 							<div class="collapse <?= (str_contains($t, "Pinjaman")) ? 'show' : '' ?>" id="collapse1" data-bs-parent="#accordionSidenav">
 								<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 									<a class="nav-link <?= ($t == "Pinjaman - Pengajuan") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Pengajuan">Pengajuan</a>
-									<a class="nav-link <?= ($t == "Pinjaman - Aktif") ? 'active' : '' ?>" href="#">Aktif</a>
+									<a class="nav-link <?= ($t == "Pinjaman - Aktif") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Pinjaman_Aktif">Aktif</a>
 									<a class="nav-link <?= ($t == "Pinjaman - Riwayat") ? 'active' : '' ?>" href="#">Riwayat</a>
 								</nav>
 							</div>

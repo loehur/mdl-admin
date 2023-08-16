@@ -31,7 +31,7 @@ class Pengajuan extends Controller
    public function content()
    {
       $data['_c'] = __CLASS__;
-      $where = "user = '" . $this->userData['user'] . "' AND (st_pinjaman BETWEEN 0 AND 2)";
+      $where = "user = '" . $this->userData['user'] . "' AND (st_pinjaman BETWEEN 0 AND 1)";
       $data['run'] = $this->model("M_DB_1")->get_where_row("pengajuan", $where);
 
       if (is_array($data['run'])) {
@@ -69,6 +69,19 @@ class Pengajuan extends Controller
 
       $set = "offer_id = " . $id_;
       $where = "id_pengajuan = " . $id;
+      $update = $this->model('M_DB_1')->update("pengajuan", $set, $where);
+      echo $update['errno'];
+      $this->dataSynchrone();
+   }
+
+   public function terimaDana()
+   {
+      $id = $_POST['id'];
+      $today = date("Y-m-d H:i:s");
+
+      $set = "st_pinjaman = 2, activeDate = '" . $today . "'";
+
+      $where = "id_pengajuan = '" . $id . "'";
       $update = $this->model('M_DB_1')->update("pengajuan", $set, $where);
       echo $update['errno'];
       $this->dataSynchrone();

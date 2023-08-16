@@ -65,14 +65,25 @@
                                     <?php } ?>
                                 </div>
                             </div>
-                        <?php } else { ?>
-                            <div class="row border-top">
-                                <div class="col pt-2">
-                                    <b class="text-success">Dalam Proses Pencairan <i class="fa-solid fa-circle-check"></i></b><br>
-                                    <?php $rate = $this->model("M_DB_1")->get_where_row("penawaran", "id_pengajuan = '" . $dr['id_pengajuan'] . "'") ?>
-                                    Pendana akan melakukan Transfer dalam 1x24 Jam, pinjaman akan aktif dengan Bunga <b class="text-success"><?= $rate['bunga'] ?>%</b>
+                            <?php } else {
+                            if (strlen($dr['struk_path']) == 0) { ?>
+                                <div class="row border-top">
+                                    <div class="col pt-2">
+                                        <b class="text-success">Dalam Proses Pencairan <i class="fa-solid fa-circle-check"></i></b><br>
+                                        <?php $rate = $this->model("M_DB_1")->get_where_row("penawaran", "id_pengajuan = '" . $dr['id_pengajuan'] . "'") ?>
+                                        Pendana akan melakukan Transfer dalam 1x24 Jam, pinjaman akan aktif dengan Bunga <b class="text-success"><?= $rate['bunga'] ?>%</b>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php } else { ?>
+                                <div class="col-auto">
+                                    <img style="max-width: 280px;" src="<?= $this->BASE_URL . $dr['struk_path'] ?>" class="img-fluid" alt="...">
+                                </div>
+                                <div class="col-auto text-success">
+                                    Pendana telah melakukan Transfer pencairan. Silahkan cek, lalu klik <b>Terima</b> jika pencairan sudah benar-benar di terima.<br>
+                                    <span data-id="<?= $dr['id_pengajuan'] ?>" class="btn btn-sm btn-outline-success terimaDana">Terima</span>
+                                </div>
+                            <?php }
+                            ?>
                     <?php }
                     } ?>
                 <?php } ?>
@@ -158,6 +169,28 @@
                 data: {
                     id: id,
                     id_: id_
+                },
+                type: "POST",
+                success: function(res) {
+                    if (res == 0) {
+                        content();
+                    } else {
+                        alert(res);
+                    }
+                },
+            });
+        } else {
+            return false;
+        }
+    })
+
+    $("span.terimaDana").click(function() {
+        if (confirm("Yakin pencairan telah diterima?")) {
+            var id = $(this).attr("data-id");
+            $.ajax({
+                url: "<?= $this->BASE_URL . $data['_c']  ?>/terimaDana",
+                data: {
+                    id: id,
                 },
                 type: "POST",
                 success: function(res) {
