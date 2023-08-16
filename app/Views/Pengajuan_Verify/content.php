@@ -8,33 +8,37 @@
 
 <!-- Main page content-->
 <div class="row mx-1">
-    <div class="col py-1 px-1 bg-white">
-        <?php foreach ($data['pinjaman'] as $du) { ?>
-            <div class="row border mx-1 mb-1 rounded border">
-                <div class="col text-nowrap line100">
-                    <?php $nama = $this->model("M_DB_1")->get_cols_where("user", "nama", "user = '" . $du['user'] . "'", 0)['nama']; ?>
-                    Peminjam:<br>
-                    <?= strtoupper($nama) ?>
+    <div class="col py-1 px-1">
+        <div class="row">
+            <?php foreach ($data['pinjaman'] as $du) { ?>
+                <div class="col bg-white border">
+                    <div class="row mx-1 mb-1">
+                        <div class="col text-nowrap line100">
+                            <?php $nama = $this->model("M_DB_1")->get_cols_where("user", "nama", "user = '" . $du['user'] . "'", 0)['nama']; ?>
+                            Peminjam:<br>
+                            <?= strtoupper($nama) ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-nowrap line100">
+                            Jumlah Pinjaman:<br>
+                            Rp<?= number_format($du['jumlah']) ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col line100">
+                            Tujuan:<br>
+                            <?= strtoupper($du['tujuan']) ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-nowrap">
+                            <span><a href="#" class="text-danger user" data-id="<?= $du['user'] ?>" data-bs-target="#modal_user" data-bs-toggle="modal">Opsi</a></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col text-nowrap line100">
-                    Jumlah Pinjaman:<br>
-                    Rp<?= number_format($du['jumlah']) ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col line100">
-                    Tujuan:<br>
-                    <?= strtoupper($du['tujuan']) ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col text-nowrap">
-                    <span><a href="#" class="text-danger user" data-id="<?= $du['user'] ?>" data-bs-target="#modal_user" data-bs-toggle="modal">Opsi</a></span>
-                </div>
-            </div>
-        <?php } ?>
+            <?php } ?>
+        </div>
     </div>
 
     <form action="<?= $this->BASE_URL . $data['_c'] ?>/cek" method="POST">
