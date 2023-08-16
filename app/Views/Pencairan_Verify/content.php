@@ -83,7 +83,7 @@
                                                     <input type="hidden" value="<?= $dp['id_pengajuan']  ?>" name="id_pengajuan" />
                                                 </div>
                                                 <div class="col-auto text-success line100 text-end">
-                                                    <button type="submit" data-bs-dismiss="modal" class="btn btn-sm btn-success">Submit</button>
+                                                    <button type="submit" data-bs-dismiss="modal" class="btn btn-sm btn-success" disabled>Submit (Sore ini)</button>
                                                 </div>
                                             </form>
                                         </div>
