@@ -162,6 +162,8 @@
 							$count_vb = $this->model('M_DB_1')->count_where('user', $where);
 							$where = "st_pinjaman = 0";
 							$count_pg = $this->model('M_DB_1')->count_where('pengajuan', $where);
+							$where = "offer_id <> 0 AND st_pinjaman = 1";
+							$count_pc = $this->model("M_DB_1")->count_where("pengajuan", $where);
 							?>
 
 							<div class="sidenav-menu-heading pb-0">Admin Panel</div>
@@ -181,7 +183,9 @@
 									<a class="nav-link <?= ($t == "Admin - Pengajuan") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Pengajuan_Verify">
 										Pengajuan Pinjaman <span class="badge <?= ($count_pg == 0) ? " bg-success-soft text-success" : "bg-danger-soft text-danger" ?> ms-auto"><?= $count_pg ?></span>
 									</a>
-									<a class="nav-link <?= ($t == "Admin - Pendanaan") ? 'active' : '' ?>" href="#">Pencairan Pendanaan</a>
+									<a class="nav-link <?= ($t == "Admin - Pencairan") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Pencairan_Verify">
+										Pencairan <span class="badge <?= ($count_pc == 0) ? " bg-success-soft text-success" : "bg-danger-soft text-danger" ?> ms-auto"><?= $count_pc ?></span>
+									</a>
 								</nav>
 							</div>
 						<?php } ?>

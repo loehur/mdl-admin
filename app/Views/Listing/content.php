@@ -26,12 +26,17 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col text-end">
+                        <div class="col text-end line100">
                             <small>Jumlah Pinjaman</small><br><b class="text-success">Rp<?= number_format($du['jumlah']) ?></b>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col line100">
+                            <small>Tenor</small><br><span class="text-primary"><?= $du['tenor'] ?> Bulan</span>
+                        </div>
+                    </div>
                     <div class="row border-bottom">
-                        <div class="col">
+                        <div class="col line100">
                             <small>Keperluan</small><br><span class="text-primary"><?= strtoupper($du['tujuan']) ?></span>
                         </div>
                     </div>
@@ -45,7 +50,6 @@
                                     0 Lunas Dipercepat<br>
                                     0 Lunas Tepat Waktu<br>
                                     0 Lunas Terlambat<br>
-                                    0 Reschedule
                             </div>
                             </small>
                         </div>

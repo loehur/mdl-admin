@@ -1,6 +1,6 @@
 <?php
 
-class Penawaran extends Controller
+class Pencairan_Verify extends Controller
 {
    public $page = __CLASS__;
 
@@ -17,7 +17,7 @@ class Penawaran extends Controller
    {
       $this->view("Layouts/layout_main", [
          "content" => $this->v_content,
-         "title" => "Pendanaan - Penawaran"
+         "title" => "Admin - Pencairan"
       ]);
 
       $this->viewer();
@@ -38,7 +38,7 @@ class Penawaran extends Controller
          $min_oi = min($offer_id);
          $max_oi = max($offer_id);
 
-         $where = "user = '" . $this->userData['user'] . "' AND id_penawaran BETWEEN " . $min_oi . " AND " . $max_oi;
+         $where = "id_penawaran BETWEEN " . $min_oi . " AND " . $max_oi;
          $data['penawaran'] = $this->model("M_DB_1")->get_where("penawaran", $where);
       }
       $data['_c'] = __CLASS__;
@@ -104,6 +104,23 @@ class Penawaran extends Controller
       $query = $this->model('M_DB_1')->Update("pengajuan", $set, $where);
       echo $query['errno'];
 
+      $this->dataSynchrone();
+   }
+
+   public function opsi()
+   {
+      $opsi = $_POST['opsi'];
+      $today = date("Y-m-d H:i:s");
+      $id_pengajuan = $_POST['id_pengajuan'];
+
+      if ($opsi == 2) {
+         $set = "st_pinjaman = '" . $opsi . "', activeDate = '" . $today . "'";
+      } else {
+         $set = "st_pinjaman = '" . $opsi . "', endDate = '" . $today . "'";
+      }
+      $where = "id_pengajuan = '" . $id_pengajuan . "'";
+      $update = $this->model('M_DB_1')->update("pengajuan", $set, $where);
+      echo $update['errno'];
       $this->dataSynchrone();
    }
 }

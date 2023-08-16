@@ -57,20 +57,35 @@
                                     <?php if (strlen($dp['struk_path']) == 0) { ?>
                                         <div class="row border-bottom mb-2 pb-1">
                                             <div class="col">
-                                                <small>Peminjam telah menyetujui penawaran Anda, silahkan transfer ke Rekening berikut:</small><br>
+                                                <small>Peminjam telah menyetujui penawaran, menunggu pendana memberikan bukti transfer ke:</small><br>
                                                 <?php $rek = $this->model("M_DB_1")->get_where_row("user", "user = '" . $dp['user'] . "'");
                                                 $bank = $this->model("M_DB_1")->get_cols_where("_bank", "name", "code = '" . $rek['bank'] . "'", 0)['name'];
                                                 ?>
-                                                <b><span><?= $bank ?> - <?= $rek['rekening'] ?></span></b><br>
-                                                Pastikan Nama Rekening sesuai dengan Nama Peminjam
+                                                <b><span><?= $bank ?> - <?= $rek['rekening'] ?></span></b>
                                             </div>
                                         </div>
-                                        <a href="#" class="btn btn-sm btn-outline-danger upload" data-id="<?= $dp['id_pengajuan'] ?>" data-bs-toggle="modal" data-bs-target="#modal_ktp"><small>Upload Struk Pencairan</small></a>
                                     <?php } else { ?>
-                                        <div class="row border-bottom mb-2 pb-1">
+                                        <div class="row pb-1">
                                             <div class="col text-success">
-                                                <small>Terimakasih. Pinjaman sedang dalam pengecekan admin dan akan segera Aktif</small>
+                                                <a href="#" class="btn btn-sm btn-outline-primary upload" data-id="<?= $dp['id_pengajuan'] ?>" data-bs-toggle="modal" data-bs-target="#modal_ktp"><small>Ubah Bukti Transfer</small></a>
                                             </div>
+                                        </div>
+                                        <div class="row border-bottom mb-2 pb-1">
+                                            <form action="<?= $this->BASE_URL . $data['_c'] ?>/opsi" class="ajax" method="POST">
+                                                <div class="col text-success line100">
+                                                    <select class="form-select form-select-sm" name="opsi">
+                                                        <option selected>Opsi</option>
+                                                        <?php if (strlen($dp['struk_path']) <> 0) { ?>
+                                                            <option value="2">Aktifkan</option>
+                                                        <?php } ?>
+                                                        <option value="6">Batalkan</option>
+                                                    </select>
+                                                    <input type="hidden" value="<?= $dp['id_pengajuan']  ?>" name="id_pengajuan" />
+                                                </div>
+                                                <div class="col-auto text-success line100 text-end">
+                                                    <button type="submit" data-bs-dismiss="modal" class="btn btn-sm btn-success">Submit</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     <?php } ?>
                                 </div>
@@ -87,7 +102,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Upload Bukti Pencairan</h5>
+                        <h5 class="modal-title">Ubah Bukti Pencairan</h5>
                     </div>
                     <div class="modal-body">
                         <div class="container">
@@ -151,6 +166,23 @@
             },
         });
     });
+
+    $("form.ajax").on("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            type: $(this).attr("method"),
+            success: function(res) {
+                if (res == 0) {
+                    content();
+                } else {
+                    alert(res);
+                }
+            }
+        });
+    });
+
 
     $("a.upload").click(function() {
         var id = $(this).attr("data-id");
