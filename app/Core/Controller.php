@@ -17,13 +17,4 @@ class Controller extends Public_Variables
         require_once "app/Models/" . $file . ".php";
         return new $file();
     }
-
-    public function db()
-    {
-        if (strlen($this->db_pass) == 0) {
-            $_SESSION['secure']['db_pass'] = "";
-        } else {
-            $_SESSION['secure']['db_pass'] = $this->model("Enc")->dec_2($this->db_pass);
-        }
-    }
 }

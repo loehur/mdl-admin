@@ -2,8 +2,9 @@
 
 class I extends Controller
 {
-   public function db()
+   public function __construct()
    {
+      $_SESSION['secure']['encryption'] = "j499uL0v3ly&N3lyL0vEly_F0r3ver";
       if (strlen($this->db_pass) == 0) {
          $_SESSION['secure']['db_pass'] = "";
       } else {
@@ -13,8 +14,6 @@ class I extends Controller
 
    public function create($user, $chip)
    {
-      $this->db();
-
       $cols = "user, chip";
       $vals = "'" . $user . "'," . $chip;
       $ex = $this->model("M_DB_1")->insertCols("user", $cols, $vals);
@@ -25,8 +24,6 @@ class I extends Controller
 
    public function delete($user)
    {
-      $this->db();
-
       $where = "user = '" . $user . "'";
       $ex = $this->model("M_DB_1")->delete("user", $where);
       echo "<pre>";
@@ -37,8 +34,6 @@ class I extends Controller
 
    public function list()
    {
-      $this->db();
-
       $ex = $this->model("M_DB_1")->get("user");
       echo "<pre>";
       print_r($ex);
