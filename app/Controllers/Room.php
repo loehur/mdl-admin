@@ -12,17 +12,20 @@ class Room extends Controller
 
    public function i($user)
    {
+      $this->db();
       $_SESSION['user'] = $user;
       $this->viewer();
    }
 
    public function viewer()
    {
+      $this->db();
       $this->view($this->v_viewer, ["page" => $this->page]);
    }
 
    public function saldo()
    {
+      $this->db();
       $where = "user = '" . $_SESSION['user'] . "'";
       $awal =  $this->model("M_DB_1")->get_cols_where("user", "chip", $where, 0)['chip'];
 
@@ -47,6 +50,7 @@ class Room extends Controller
 
    public function saldo_f($user)
    {
+      $this->db();
       $where = "user = '" . $user . "'";
       $awal =  $this->model("M_DB_1")->get_cols_where("user", "chip", $where, 0)['chip'];
 
@@ -71,6 +75,7 @@ class Room extends Controller
 
    public function content()
    {
+      $this->db();
       $data['chip'] = $this->saldo();
       $data['friend'] = $this->model("M_DB_1")->get_where("user", "user <> '" . $_SESSION['user'] . "'");
       foreach ($data['friend'] as $k => $df) {
@@ -81,6 +86,7 @@ class Room extends Controller
 
    public function transfer()
    {
+      $this->db();
       $c = $_POST['c'];
       $t = $_POST['t'];
       $f = $_SESSION['user'];
