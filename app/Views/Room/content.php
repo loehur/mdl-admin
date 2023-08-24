@@ -1,15 +1,14 @@
 <!-- Main page content-->
-<div class="row m-2 border rounded">
+<div class="row m-2 py-3 bg-light">
     <div class="col">
         <div class="row">
             <div class="col text-center">
-                <h3>
+                <h2>
                     <b><?= $_SESSION['user'] ?></b><br>
                     <div class="text-success"><b><?= $data['chip'] ?></b></div>
-                </h3>
+                </h2>
             </div>
         </div>
-
     </div>
 </div>
 <?php foreach ($data['friend'] as $df) { ?>
