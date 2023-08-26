@@ -24,7 +24,7 @@ class Room extends Controller
 
    public function i($user)
    {
-      $_SESSION['user'] = $user;
+      $_SESSION['user'] = strtolower($user);
       $this->viewer();
    }
 
