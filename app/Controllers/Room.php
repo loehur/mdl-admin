@@ -109,7 +109,7 @@ class Room extends Controller
    function cek()
    {
       $data['chip'] = $this->saldo();
-      $data['mutasi'] = $this->model("M_DB_1")->get_where("mutasi", "f = '" . $_SESSION['user'] . "' OR T = '" . $_SESSION['user'] . "' ORDER by id DESC");
+      $data['mutasi'] = $this->model("M_DB_1")->get_where("mutasi", "f = '" . $_SESSION['user'] . "' OR T = '" . $_SESSION['user'] . "' ORDER by id DESC LIMIT 7");
       $this->view("Room/cek", $data);
    }
 }
