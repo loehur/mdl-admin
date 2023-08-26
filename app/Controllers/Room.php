@@ -17,6 +17,11 @@ class Room extends Controller
       }
    }
 
+   public function index()
+   {
+      $this->view("Room/index");
+   }
+
    public function i($user)
    {
       $_SESSION['user'] = $user;
@@ -78,10 +83,14 @@ class Room extends Controller
 
    public function content()
    {
-      $data['chip'] = $this->saldo();
-      $data['friend'] = $this->model("M_DB_1")->get_where("user", "user <> '" . $_SESSION['user'] . "'");
-      foreach ($data['friend'] as $k => $df) {
-         $data['friend'][$k]['chip'] = $this->saldo_f($df['user']);
+      $data = [];
+      $cek = $this->model("M_DB_1")->count_where("user", "user = '" . $_SESSION['user'] . "'");
+      if ($cek <> 0) {
+         $data['chip'] = $this->saldo();
+         $data['friend'] = $this->model("M_DB_1")->get_where("user", "user <> '" . $_SESSION['user'] . "'");
+         foreach ($data['friend'] as $k => $df) {
+            $data['friend'][$k]['chip'] = $this->saldo_f($df['user']);
+         }
       }
       $this->view($this->v_content, $data);
    }
@@ -95,5 +104,12 @@ class Room extends Controller
       $vals = "'" . $f . "','" . $t . "'," . $c;
       $ex = $this->model("M_DB_1")->insertCols("mutasi", $cols, $vals);
       echo $ex['errno'];
+   }
+
+   function cek()
+   {
+      $data['chip'] = $this->saldo();
+      $data['mutasi'] = $this->model("M_DB_1")->get_where("mutasi", "f = '" . $_SESSION['user'] . "' OR T = '" . $_SESSION['user'] . "' ORDER by id DESC");
+      $this->view("Room/cek", $data);
    }
 }

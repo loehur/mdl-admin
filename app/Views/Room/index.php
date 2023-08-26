@@ -1,3 +1,5 @@
+<!-- Main page content-->
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -69,43 +71,13 @@
         }
     </style>
 </head>
-<div id="content"></div>
-
-<!-- Modal -->
-<div class="modal" id="exampleModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="<?= $this->BASE_URL ?>Room/transfer" method="POST">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Transfer Chip <i class="fa-solid fa-angles-right"></i> <b id="target"></b></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input name="c" type="number" class="form-control text-center">
-                    <input name="t" type="hidden">
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success w-100" data-bs-dismiss="modal">Proses</button>
-                </div>
-            </form>
+<div class="row p-2 mt-4 m-auto" style="max-width: 500px;">
+    <div class="col">
+        <div class="mb-2">
+            <label class="form-label">User Login</label>
+            <input type="text" class="form-control" id="user">
         </div>
-    </div>
-</div>
-
-<div class="modal" id="exampleModal2">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="<?= $this->BASE_URL ?>Room/transfer" method="POST">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Riwayat Chip</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="mutasi"></div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary w-100" data-bs-dismiss="modal">Tutup</button>
-                </div>
-            </form>
-        </div>
+        <button type="submit" class="btn btn-primary w-100 login">Login</button>
     </div>
 </div>
 
@@ -114,32 +86,8 @@
 <script src="<?= $this->ASSETS_URL ?>js/scripts.js"></script>
 
 <script>
-    $(document).ready(function() {
-        content();
+    $(".login").on("click", function(e) {
+        var user = $("input#user").val();
+        window.location.href = "<?= $this->BASE_URL ?>Room/i/" + user;
     });
-
-    function content() {
-        $("div#content").load('<?= $this->BASE_URL ?><?= $data['page'] ?>/content');
-    }
-
-    $("form").on("submit", function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            type: $(this).attr("method"),
-            success: function(res) {
-                if (res == 0) {
-                    $("input").val("");
-                    content();
-                } else {
-                    alert(res);
-                }
-            }
-        });
-    });
-
-    const interval = setInterval(function() {
-        content();
-    }, 3000);
 </script>
