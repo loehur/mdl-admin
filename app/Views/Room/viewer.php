@@ -67,6 +67,10 @@
             line-height: 100%;
             margin-bottom: 5px;
         }
+
+        .modal-backdrop {
+            opacity: 0.1 !important;
+        }
     </style>
 </head>
 <div id="content"></div>
