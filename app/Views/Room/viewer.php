@@ -102,7 +102,7 @@
                 </div>
                 <div class="modal-body" id="mutasi"></div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary w-100" data-bs-dismiss="modal">Tutup</button>
+                    <span class="btn btn-secondary w-100" data-bs-dismiss="modal">Tutup</span>
                 </div>
             </form>
         </div>
