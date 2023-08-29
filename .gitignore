@@ -1,4 +1,5 @@
 .htaccess
+.zip
 app/Config/
 *copy*
 error_log

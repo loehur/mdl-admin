@@ -1,11 +1,10 @@
 <?php
-require_once 'app/Config/DB_Config.php';
 
-class Route extends DB_Config
+class Route
 {
     protected $method       = 'index';
     protected $param        = [];
-
+    public $controller = 'Home';
 
     public function __construct()
     {
