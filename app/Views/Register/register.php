@@ -126,7 +126,7 @@
             $.post("<?= $this->BASE_URL . $data["_c"] ?>/otp", {
                     hp: no,
                 },
-                function() {
+                function(res) {
                     location.reload(true);
                 });
         }

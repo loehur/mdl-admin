@@ -50,11 +50,13 @@ class Register extends Controller
    {
       $no = $_POST['hp'];
       $m = date('i');
-      $_SESSION['otp_log'] = array(
+      $_SESSION['otp'] = array(
          "v" => $m,
          "hp" => $no,
          "code" =>  rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9),
          "send" => false
       );
+
+      print_r($_SESSION['otp']);
    }
 }
