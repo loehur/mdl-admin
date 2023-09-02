@@ -4,6 +4,7 @@ class Dec_2 extends Controller
 {
    public function __construct()
    {
+      $this->session_cek();
       $this->v_load = __CLASS__ . "/load";
       $this->v_content = __CLASS__ . "/content";
       $this->v_viewer = __CLASS__ . "/viewer";

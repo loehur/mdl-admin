@@ -6,24 +6,10 @@ class Home extends Controller
 
    public function __construct()
    {
+      $this->session_cek();
       $this->v_load = $this->page . "/load";
       $this->v_content = $this->page . "/content";
       $this->v_viewer = $this->page . "/viewer";
-   }
-
-   function login()
-   {
-      if ($_POST['pin'] == "456987") {
-         $_SESSION['secure']['encryption'] = "j499uL0v3ly&N3lyL0vEly_F0r3ver";
-         echo "Login Success!";
-      } else {
-         echo "Login Failed!";
-      }
-   }
-
-   function logout()
-   {
-      session_destroy();
    }
 
    public function index()
@@ -32,7 +18,6 @@ class Home extends Controller
          "content" => $this->v_content,
          "title" => $this->page
       ]);
-
       $this->viewer();
    }
 

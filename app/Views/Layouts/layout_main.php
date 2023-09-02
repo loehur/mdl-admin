@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description" content="" />
 	<meta name="author" content="" />
-	<title>MDL Encrypt | <?= $data['title'] ?></title>
+	<title>MDL Admin | <?= $data['title'] ?></title>
 	<link href="<?= $this->ASSETS_URL ?>css/styles.css" rel="stylesheet" />
 	<link rel="stylesheet" href="<?= $this->ASSETS_URL ?>css/selectize.bootstrap3.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.min.css" rel="stylesheet" />
@@ -78,18 +78,27 @@
 <body class="nav-fixed" style="background-color: aliceblue;">
 	<nav class="topnav navbar navbar-expand border-bottom bg-light justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
 		<button class="border rounded bg-white order-lg-0 mx-2 pt-2 px-2" id="sidebarToggle"><i data-feather="menu"></i></button>
-		<?php
-		if (!isset($_SESSION['secure']['encryption'])) { ?>
-			<button class="border rounded ms-auto bg-white order-lg-0 mx-2 pt-2 px-2 login1">Login</button>
-		<?php } else { ?>
-			<button class="border rounded ms-auto bg-white order-lg-0 mx-2 pt-2 px-2 logout1">Logout</button>
-		<?php } ?>
+		<span><?= $_SESSION['user']['nama'] ?></span>
+		<button class="border rounded ms-auto bg-white order-lg-0 mx-2 pt-2 px-2 logout1">Logout</button>
 	</nav>
 	<div id="layoutSidenav">
 		<div id="layoutSidenav_nav">
 			<nav class="sidenav sidenav-light">
 				<div class="sidenav-menu">
 					<div class="nav accordion" id="accordionSidenav">
+						<a class="nav-link <?= (str_contains($t, "Cash -")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapse0" aria-expanded="true" aria-controls="collapseNewOrder">
+							<div class="nav-link-icon"><i data-feather="credit-card"></i></div>
+							Cash
+							<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+						</a>
+						<div class="collapse <?= (str_contains($t, "Cash -")) ? 'show' : '' ?>" id="collapse0" data-bs-parent="#accordionSidenav">
+							<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
+								<a class="nav-link <?= ($t == "Cash - Laundry") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Cash_Laundry">Laundry</a>
+								<a class="nav-link <?= ($t == "Cash - Sale") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Cash_Sale">Sale</a>
+								<a class="nav-link <?= ($t == "Cash - Payment") ? 'active' : '' ?>" href="#">Payment</a>
+							</nav>
+						</div>
+
 						<a class="nav-link <?= (str_contains($t, "E -")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapse0" aria-expanded="true" aria-controls="collapseNewOrder">
 							<div class="nav-link-icon"><i data-feather="key"></i></div>
 							MDL Encryption
@@ -119,19 +128,6 @@
 </html>
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
 <script>
-	$(".login1").click(function() {
-		var pin = prompt("Masukkan PIN");
-		$.post("<?= $this->BASE_URL ?>Home/login/", {
-				pin: pin,
-			},
-			function(res) {
-				alert(res);
-				location.reload(true);
-			}).fail(function() {
-			alert("error");
-		});
-	})
-
 	$(".logout1").click(function() {
 		$.post("<?= $this->BASE_URL ?>Home/logout",
 			function(res) {
