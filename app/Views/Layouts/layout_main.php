@@ -95,7 +95,7 @@
 							<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 								<a class="nav-link <?= ($t == "Cash - Laundry") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Cash_Laundry">Laundry</a>
 								<a class="nav-link <?= ($t == "Cash - Sale") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Cash_Sale">Sale</a>
-								<a class="nav-link <?= ($t == "Cash - Payment") ? 'active' : '' ?>" href="#">Payment</a>
+								<a class="nav-link <?= ($t == "Cash - Payment") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Cash_Payment">Payment</a>
 							</nav>
 						</div>
 

@@ -123,6 +123,7 @@
     $("#otp").click(function() {
         var no = $("input[name=hp]").val();
         if (no.length > 0) {
+            $("#otp").hide();
             $.post("<?= $this->BASE_URL . $data["_c"] ?>/otp", {
                     hp: no,
                 },
