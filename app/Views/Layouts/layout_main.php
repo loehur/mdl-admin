@@ -134,4 +134,17 @@
 				location.reload(true);
 			})
 	})
+
+	var time = new Date().getTime();
+	$(document.body).bind("mousemove keypress", function(e) {
+		time = new Date().getTime();
+	});
+
+	function logout() {
+		if (new Date().getTime() - time >= 300000)
+			window.location.href = "<?= $this->BASE_URL ?>Login/logout";
+		else
+			setTimeout(logout, 10000);
+	}
+	setTimeout(logout, 10000);
 </script>
