@@ -99,12 +99,12 @@
 							</nav>
 						</div>
 
-						<a class="nav-link <?= (str_contains($t, "E -")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapse0" aria-expanded="true" aria-controls="collapseNewOrder">
+						<a class="nav-link <?= (str_contains($t, "E -")) ? 'active' : 'collapsed' ?> mt-2" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapseNewOrder">
 							<div class="nav-link-icon"><i data-feather="key"></i></div>
 							MDL Encryption
 							<div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 						</a>
-						<div class="collapse <?= (str_contains($t, "E -")) ? 'show' : '' ?>" id="collapse0" data-bs-parent="#accordionSidenav">
+						<div class="collapse <?= (str_contains($t, "E -")) ? 'show' : '' ?>" id="collapse1" data-bs-parent="#accordionSidenav">
 							<nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 								<a class="nav-link <?= ($t == "E - 1 Way") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Enc">1 Way</a>
 								<a class="nav-link <?= ($t == "E - Enc") ? 'active' : '' ?>" href="<?= $this->BASE_URL ?>Enc_2">Encrypt</a>

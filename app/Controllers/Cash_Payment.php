@@ -57,6 +57,20 @@ class Cash_Payment extends Controller
          }
       }
 
+      $arr_manual_wd = array();
+      $data['manual'] = $this->model('M_DB_1')->get_where('manual', "no_user = '" . $id . "' ORDER BY updateTime DESC");
+      foreach ($data['manual'] as $a) {
+         if ($a['tr_status'] <> 3) {
+            if ($id == $a['no_user']) {
+               if ($a['id_manual_jenis'] == 1 || $a['id_manual_jenis'] == 2 || $a['id_manual_jenis'] == 5) {
+                  array_push($arr_success_kas, $a['jumlah'] + $a['biaya']);
+               } else {
+                  array_push($arr_manual_wd, $a['jumlah'] - $a['biaya']);
+               }
+            }
+         }
+      }
+
       $total_success_kas = array_sum($arr_success_kas);
 
       $total_penarikan_success = 0;
@@ -70,7 +84,7 @@ class Cash_Payment extends Controller
       $total_penarikan_success = array_sum($arr_success_tarik);
 
       $data['debit_list'] = $data['tarik'];
-      $data['saldo'] = $total_success_kas - $total_penarikan_success;
+      $data['saldo'] = $total_success_kas - $total_penarikan_success - array_sum($arr_manual_wd);
 
       $this->view(__CLASS__ . "/load", $data);
    }
