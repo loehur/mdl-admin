@@ -58,7 +58,7 @@ class Cash_Payment extends Controller
       }
 
       $arr_manual_wd = array();
-      $data['manual'] = $this->model('M_DB_1')->get_where('manual', "no_user = '" . $id . "' ORDER BY updateTime DESC");
+      $data['manual'] = $this->db(3)->get_where('manual', "no_user = '" . $id . "' ORDER BY updateTime DESC");
       foreach ($data['manual'] as $a) {
          if ($a['tr_status'] <> 3) {
             if ($id == $a['no_user']) {
