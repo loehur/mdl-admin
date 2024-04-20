@@ -2,6 +2,11 @@
 
 class Laundry extends Controller
 {
+   public function __construct()
+   {
+      $this->session_cek();
+   }
+
    function transfer_cabang($cabang, $laundry_target)
    {
       //laundry target
