@@ -17,7 +17,7 @@ class Register extends Controller
          $otp = $_SESSION['otp'];
          if ($otp['v'] == $m && $otp['send'] == false) {
             $_SESSION['otp']['send'] = true;
-            $this->model("WA")->send($otp['hp'], $otp['code']);
+            //$this->model("WA")->send($otp['hp'], $otp['code']);
          }
       }
 
@@ -26,6 +26,8 @@ class Register extends Controller
 
    public function add()
    {
+      echo "Register ditutup!";
+      exit();
       $hp = $_POST['hp'];
       $nama = $_POST['nama'];
       $otp = $_POST['otp'];
